@@ -1,7 +1,5 @@
 #include "Header.h"
-
-constexpr int SCREEN_WIDTH = 640;
-constexpr int SCREEN_HEIGHT = 480;
+#include "WWindow.h"
 
 // Initialize SDL
 bool init()
@@ -51,8 +49,10 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	SDL_Window* window = SDL_CreateWindow("WLUW Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN & SDL_WINDOW_MOUSE_FOCUS);
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+	//Replace with WWindow
+	//SDL_Window* window = SDL_CreateWindow("WLUW Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN & SDL_WINDOW_MOUSE_FOCUS);
+	WWindow window;
+	SDL_Renderer* renderer = SDL_CreateRenderer(window.getWindow(), -1, 0);
 
 	SDL_Texture* texture = loadTexture("assets/loaded.png", renderer);
 
@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
 
 	// Cleanup
 	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
+	window.~WWindow();
 	IMG_Quit();
 	SDL_Quit();
 
