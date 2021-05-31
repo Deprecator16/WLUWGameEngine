@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
 		// Poll any user events
 		while (SDL_PollEvent(&e) != 0)
 		{
-			// User clicks 'X' button
+			// User clicks 'X' exit button
 			if (e.type == SDL_QUIT)
 			{
 				quit = true;
