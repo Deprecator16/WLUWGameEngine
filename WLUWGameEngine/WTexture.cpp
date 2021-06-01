@@ -1,6 +1,6 @@
 #include "WTexture.h"
 
-WTexture::WTexture(WWindow** window, SDL_Renderer** renderer)
+WTexture::WTexture(SDL_Window* window, SDL_Renderer* renderer)
 {
     this->window = window;
     this->renderer = renderer;
@@ -36,7 +36,7 @@ bool WTexture::loadFromFile(string path)
         SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
 
         //Create texture from surface pixels
-        newTexture = SDL_CreateTextureFromSurface(*renderer, loadedSurface);
+        newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
         if (newTexture == NULL)
         {
             printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
@@ -55,4 +55,48 @@ bool WTexture::loadFromFile(string path)
     //Return success
     texture = newTexture;
     return texture != NULL;
+}
+
+void WTexture::free()
+{
+    //Free texture if it exists
+    if (texture != NULL)
+    {
+        SDL_DestroyTexture(texture);
+        texture = NULL;
+        width = 0;
+        height = 0;
+    }
+}
+
+void WTexture::setAlpha(Uint8 alpha)
+{
+    //Modulate texture alpha
+    SDL_SetTextureAlphaMod(texture, alpha);
+}
+
+void WTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+{
+    //Set rendering space and render to screen
+    SDL_Rect renderQuad = { x, y, width, height };
+
+    //Set clip rendering dimensions
+    if (clip != NULL)
+    {
+        renderQuad.w = clip->w;
+        renderQuad.h = clip->h;
+    }
+
+    //Render to screen
+    SDL_RenderCopyEx(renderer, texture, clip, &renderQuad, angle, center, flip);
+}
+
+int WTexture::getWidth()
+{
+    return width;
+}
+
+int WTexture::getHeight()
+{
+    return height;
 }

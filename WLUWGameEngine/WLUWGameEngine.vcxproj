@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
+    <ClInclude Include="Vector2.h" />
     <ClInclude Include="WTexture.h" />
     <ClInclude Include="WWindow.h" />
   </ItemGroup>

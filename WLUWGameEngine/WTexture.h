@@ -1,17 +1,21 @@
 #pragma once
 #include "Header.h"
 
+using namespace std;
+
 class WTexture
 {
 public:
     // Constructor/Destructor functions
-    WTexture(WWindow** window, SDL_Renderer** renderer);
+    WTexture(SDL_Window* window, SDL_Renderer* renderer);
     ~WTexture();
 
     // Management functions
-    bool loadFromFile(string path);
+    bool loadFromFile(std::string path);
     void free();
     void render(int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+
+    void setAlpha(Uint8 alpha);
 
     // Information functions
     int getWidth();
@@ -26,7 +30,7 @@ private:
     int height;
 
     // Pointers
-    WWindow** window;
-    SDL_Renderer** renderer;
+    SDL_Window* window;
+    SDL_Renderer* renderer;
 };
 
