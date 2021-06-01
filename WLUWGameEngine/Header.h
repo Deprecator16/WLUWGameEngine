@@ -9,6 +9,6 @@
 
 #include "WTexture.h"
 #include "WWindow.h"
-#include "Vector2"
+#include "Vector2.h"
 
 using namespace std;
