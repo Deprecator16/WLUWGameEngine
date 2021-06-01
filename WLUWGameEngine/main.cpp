@@ -1,6 +1,7 @@
 #include "Header.h"
 #include "WWindow.h"
 
+
 // Initialize SDL
 bool init()
 {
@@ -17,6 +18,14 @@ bool init()
 	{
 		printf("SDL_image could not initialize! SDL Error: %s\n", SDL_GetError());
 		return false;
+	}
+
+	//Create renderer for window
+	rend = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (gRenderer == NULL)
+	{
+		printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+		success = false;
 	}
 
 	return true;
@@ -46,6 +55,7 @@ int main(int argc, char* argv[])
 {
 	if (!init())
 	{
+		cout << "Initialization failed!" << endl;
 		return 1;
 	}
 
