@@ -142,12 +142,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="WTexture.cpp" />
     <ClCompile Include="WWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="WTexture.h" />
     <ClInclude Include="WWindow.h" />
