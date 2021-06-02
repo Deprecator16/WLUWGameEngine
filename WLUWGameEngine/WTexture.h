@@ -1,4 +1,6 @@
 #pragma once
+
+#include "Vector2.h"
 #include "Header.h"
 
 using namespace std;
@@ -18,16 +20,14 @@ public:
     void setAlpha(Uint8 alpha);
 
     // Information functions
-    int getWidth();
-    int getHeight();
+    Vector2 getSize();
 
 private:
     // The actual hardware texture
     SDL_Texture* texture;
 
     // Image dimensions
-    int width;
-    int height;
+    Vector2 size;
 
     // Pointers
     SDL_Window* window;

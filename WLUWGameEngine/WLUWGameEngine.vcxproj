@@ -142,13 +142,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Hitbox.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="WAnimation.cpp" />
     <ClCompile Include="WTexture.cpp" />
     <ClCompile Include="WWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="Hitbox.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="WAnimation.h" />
     <ClInclude Include="WTexture.h" />
     <ClInclude Include="WWindow.h" />
   </ItemGroup>

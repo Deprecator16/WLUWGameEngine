@@ -1,5 +1,11 @@
-#include "Header.h"
+
+#include "Vector2.h"
+#include "WTexture.h"
 #include "WWindow.h"
+#include "WAnimation.h"
+#include "Hitbox.h"
+#include "Block.h"
+#include "Header.h"
 
 
 // Initialize SDL
