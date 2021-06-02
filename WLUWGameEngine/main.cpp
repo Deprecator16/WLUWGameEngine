@@ -63,13 +63,31 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
+	// Load media
 	SDL_Texture* texture = loadTexture("assets/loaded.png", renderer);
+	WTexture texPlayer(&window, renderer);
+	if (!texPlayer.loadFromFile("assets/texPlayer.png"))
+	{
+		cout << "Could not load player texture!" << endl;
+		return 1;
+	}
 
 	// Allows the program to exit
 	bool quit = false;
 
 	// For event handling
 	SDL_Event e;
+
+	// Player object
+	Vector2 hitboxPos;
+	hitboxPos.x = 0.0;
+	hitboxPos.y = 0.0;
+
+	Vector2 hitboxSize;
+	hitboxSize.x = 32.0;
+	hitboxSize.y = 32.0;
+
+	Player player(hitboxPos, hitboxSize, &texPlayer, &window, renderer);
 
 	// Main game loop
 	while (!quit)
@@ -95,6 +113,8 @@ int main(int argc, char* argv[])
 					break;
 				}
 			}
+
+			player.handleEvent(e);
 		}
 
 		SDL_RenderCopy(renderer, texture, NULL, NULL);

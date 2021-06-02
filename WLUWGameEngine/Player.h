@@ -10,8 +10,19 @@ class Player
 {
 public:
 	// Constructor
-	Player(Vector2 hBoxPos, Vector2 hBoxSize, SDL_Window* window, SDL_Renderer* renderer);
+	Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, WWindow* window, SDL_Renderer* renderer);
 
+	// State machine functions
+	void deadState(float deltaTime);
+	void idleState(float deltaTime);
+	void walkState(float deltaTime);
+	void runState(float deltaTime);
+	void jumpState(float deltaTime);
+	void crouchState(float deltaTime);
+
+	// Function for handling event
+	void handleEvent(SDL_Event& e);
+	
 	// Update functions
 	void updateAnimation(float deltaTime);
 	void update(float deltaTime);
@@ -42,5 +53,8 @@ private:
 
 	// State
 	playerState state;
+
+	// Keys
+	bool keyW, keyS, keyA, keyD;
 };
 

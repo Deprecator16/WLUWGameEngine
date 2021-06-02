@@ -1,6 +1,6 @@
 #include "WTexture.h"
 
-WTexture::WTexture(SDL_Window* window, SDL_Renderer* renderer)
+WTexture::WTexture(WWindow* window, SDL_Renderer* renderer)
 {
     this->window = window;
     this->renderer = renderer;

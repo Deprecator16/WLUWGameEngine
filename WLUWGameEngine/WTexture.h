@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector2.h"
+#include "WWindow.h"
 #include "Header.h"
 
 using namespace std;
@@ -9,7 +10,7 @@ class WTexture
 {
 public:
     // Constructor/Destructor
-    WTexture(SDL_Window* window, SDL_Renderer* renderer);
+    WTexture(WWindow* window, SDL_Renderer* renderer);
     ~WTexture();
 
     // Management functions
@@ -30,7 +31,7 @@ private:
     Vector2 size;
 
     // Pointers
-    SDL_Window* window;
+    WWindow* window;
     SDL_Renderer* renderer;
 };
 
