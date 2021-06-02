@@ -8,12 +8,15 @@
 class Block
 {
 public:
+	// Constructor
 	Block(Vector2 hBoxPos, Vector2 hBoxSize);
 
-	Hitbox* getHBox();
+	// Information functions
+	Hitbox* getHitbox();
 
 private:
-	Hitbox hBox;
+	// Associated hitbox
+	Hitbox hitbox;
 
 };
 

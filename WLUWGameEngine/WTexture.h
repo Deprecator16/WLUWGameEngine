@@ -8,7 +8,7 @@ using namespace std;
 class WTexture
 {
 public:
-    // Constructor/Destructor functions
+    // Constructor/Destructor
     WTexture(SDL_Window* window, SDL_Renderer* renderer);
     ~WTexture();
 

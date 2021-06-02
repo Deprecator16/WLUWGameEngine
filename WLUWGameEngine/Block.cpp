@@ -1,12 +1,12 @@
 #include "Block.h"
 
 Block::Block(Vector2 hBoxPos, Vector2 hBoxSize) :
-	hBox(hBoxPos, hBoxSize)
+	hitbox(hBoxPos, hBoxSize)
 {
 
 }
 
-Hitbox* Block::getHBox()
+Hitbox* Block::getHitbox()
 {
-	return &hBox;
+	return &hitbox;
 }

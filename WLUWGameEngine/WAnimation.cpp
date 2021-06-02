@@ -67,3 +67,8 @@ void WAnimation::setSwitchTime(float switchTime)
 {
     this->switchTime = switchTime;
 }
+
+SDL_Rect* WAnimation::getClip()
+{
+    return &uvRect;
+}

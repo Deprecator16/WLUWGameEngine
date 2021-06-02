@@ -5,6 +5,7 @@
 #include "WAnimation.h"
 #include "Hitbox.h"
 #include "Block.h"
+#include "Player.h"
 #include "Header.h"
 
 

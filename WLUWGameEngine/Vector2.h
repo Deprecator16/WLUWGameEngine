@@ -5,9 +5,11 @@
 class Vector2
 {
 public:
+	// Core variables
 	float x;
 	float y;
 
+	// Overloaded functions
 	friend Vector2 operator+(const Vector2 vec1, const Vector2 vec2)
 	{
 		Vector2 output;

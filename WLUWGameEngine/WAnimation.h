@@ -7,12 +7,18 @@
 class WAnimation
 {
 public:
+	// Constructor
 	WAnimation(WTexture* tex, Vector2 imageCount, float switchTime);
 
+	// Update animation
 	void update(int row, int colBegin, int colEnd, float deltaTime, bool faceRight);
 
+	// Manage information
 	void setTexture(WTexture* tex);
 	void setSwitchTime(float switchTime);
+
+	// Fetch texture rectangle
+	SDL_Rect* getClip();
 
 private:
 	SDL_Rect uvRect;
