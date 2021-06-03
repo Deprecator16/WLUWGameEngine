@@ -1,4 +1,7 @@
 #pragma once
+
+#include "Vector2.h"
+#include "WWindow.h"
 #include "Header.h"
 
 using namespace std;
@@ -6,8 +9,8 @@ using namespace std;
 class WTexture
 {
 public:
-    // Constructor/Destructor functions
-    WTexture(SDL_Window* window, SDL_Renderer* renderer);
+    // Constructor/Destructor
+    WTexture(WWindow* window, SDL_Renderer* renderer);
     ~WTexture();
 
     // Management functions
@@ -18,19 +21,17 @@ public:
     void setAlpha(Uint8 alpha);
 
     // Information functions
-    int getWidth();
-    int getHeight();
+    Vector2 getSize();
 
 private:
     // The actual hardware texture
     SDL_Texture* texture;
 
     // Image dimensions
-    int width;
-    int height;
+    Vector2 size;
 
     // Pointers
-    SDL_Window* window;
+    WWindow* window;
     SDL_Renderer* renderer;
 };
 

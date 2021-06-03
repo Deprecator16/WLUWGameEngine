@@ -143,17 +143,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Hitbox.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="WAnimation.cpp" />
     <ClCompile Include="WTexture.cpp" />
+    <ClCompile Include="WTimer.cpp" />
     <ClCompile Include="WWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
-    <ClInclude Include="Header.h" />
     <ClInclude Include="Slider.h" />
+    <ClInclude Include="Block.h" />
+    <ClInclude Include="Header.h" />
+    <ClInclude Include="Hitbox.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="WAnimation.h" />
     <ClInclude Include="WTexture.h" />
+    <ClInclude Include="WTimer.h" />
     <ClInclude Include="WWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
