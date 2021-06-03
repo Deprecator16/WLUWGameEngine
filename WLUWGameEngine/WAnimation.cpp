@@ -1,17 +1,18 @@
 #include "WAnimation.h"
 
-WAnimation::WAnimation(WTexture* tex, Vector2 imageCount, float switchTime)
+WAnimation::WAnimation(WTexture* tex, Vector2 imageCount, Uint32 switchTime)
 {
     this->imageCount = imageCount;
     this->switchTime = switchTime;
-    totalTime = 0.0f;
+    totalTime = 0;
     currentImage.x = 0;
 
-    uvRect.w = tex->getSize().x / static_cast<float>(imageCount.x);
-    uvRect.h = tex->getSize().y / static_cast<float>(imageCount.y);
+    // REQUIRES: tex->getSize is divisible by imageCount
+    uvRect.w = tex->getSize().x / imageCount.x;
+    uvRect.h = tex->getSize().y / imageCount.y;
 }
 
-void WAnimation::update(int row, int colBegin, int colEnd, float deltaTime, bool faceRight)
+void WAnimation::update(int row, int colBegin, int colEnd, Uint32 deltaTime, bool faceRight)
 {
     currentImage.y = row;
     totalTime += deltaTime;
@@ -39,6 +40,7 @@ void WAnimation::update(int row, int colBegin, int colEnd, float deltaTime, bool
 
     uvRect.y = currentImage.y * uvRect.h;
 
+    /*
     if (faceRight)
     {
         uvRect.x = currentImage.x * uvRect.w;
@@ -49,6 +51,9 @@ void WAnimation::update(int row, int colBegin, int colEnd, float deltaTime, bool
         uvRect.x = (currentImage.x + 1) * abs(uvRect.w);
         uvRect.w = -abs(uvRect.w);
     }
+    */
+    uvRect.x = currentImage.x * uvRect.w;
+    uvRect.w = abs(uvRect.w);
 
     ///Provide information
     this->row = row;
@@ -63,7 +68,7 @@ void WAnimation::setTexture(WTexture* tex)
     uvRect.h = tex->getSize().y / static_cast<float>(imageCount.y);
 }
 
-void WAnimation::setSwitchTime(float switchTime)
+void WAnimation::setSwitchTime(Uint32 switchTime)
 {
     this->switchTime = switchTime;
 }

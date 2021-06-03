@@ -148,6 +148,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="WAnimation.cpp" />
     <ClCompile Include="WTexture.cpp" />
+    <ClCompile Include="WTimer.cpp" />
     <ClCompile Include="WWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,7 @@
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="WAnimation.h" />
     <ClInclude Include="WTexture.h" />
+    <ClInclude Include="WTimer.h" />
     <ClInclude Include="WWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

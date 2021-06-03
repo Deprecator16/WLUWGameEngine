@@ -1,8 +1,8 @@
 #include "Player.h"
 
-Player::Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, WWindow* window, SDL_Renderer* renderer) :
+Player::Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, Vector2 imageCount, WWindow* window, SDL_Renderer* renderer) :
 	hitbox(hitboxPos, hitboxSize),
-	animation(sprite, hitboxPos, 0)
+	animation(sprite, imageCount, 0)
 {
 	// Initialize graphics variables
 	this->sprite = sprite;
@@ -13,22 +13,87 @@ Player::Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, WWindow*
 	faceRight = false;
 
 	// Initialize movement variables
+	speed = 1.0;
 	vel.x = 0;
 	vel.y = 0;
+
+	// Initialize state machine
+	state = IDLE;
 }
 
 // State machine functions
-void Player::deadState(float deltaTime)
+void Player::deadState(Uint32 deltaTime)
 {
 
 }
 
-void Player::idleState(float deltaTime)
+void Player::idleState(Uint32 deltaTime)
 {
+	// Do physics
+	if (keyA || keyD)
+	{
+		vel.x *= 0.998;
+	}
+	else
+	{
+		vel.x *= 0.9;
+	}
+
+	// Gravity
+	// Limit gravity
+	if (vel.y > 1.0)
+	{
+		vel.y = 1.0;
+	}
+	else
+	{
+		vel.y += (1.0 / 256.0);
+	}
+
+	// Restrict maximum movement speed
+	if (vel.x > 1.0)
+	{
+		vel.x = 1.0;
+	}
+	if (vel.x < -1.0)
+	{
+		vel.x = -1.0;
+	}
+
+	// Set velocity to 0 when small enough
+	if (abs(vel.x) < (1.0 / 256.0))
+	{
+		vel.x = 0.0;
+	}
+	
+	// Detect input
+	// A, D
+	if (keyA)
+	{
+		vel.x -= (speed / 32.0);
+	}
+	if (keyD)
+	{
+		vel.x += (speed / 32.0);
+	}
+
+	// W
+	if (keyW && canJump)
+	{
+		vel.y = -1.0;
+		canJump = false;
+	}
+
+	// Do collision
+
+	// Move hitbox
+	hitbox.move(vel);
+
+	// Switch states if required
 
 }
 
-void Player::walkState(float deltaTime)
+void Player::walkState(Uint32 deltaTime)
 {
 	// Do physics
 
@@ -47,17 +112,17 @@ void Player::walkState(float deltaTime)
 	// Switch states if required
 }
 
-void Player::runState(float deltaTime)
+void Player::runState(Uint32 deltaTime)
 {
 
 }
 
-void Player::jumpState(float deltaTime)
+void Player::jumpState(Uint32 deltaTime)
 {
 
 }
 
-void Player::crouchState(float deltaTime)
+void Player::crouchState(Uint32 deltaTime)
 {
 
 }
@@ -97,21 +162,21 @@ void Player::handleEvent(SDL_Event& e)
 			break;
 
 		case SDLK_s:
-			keyW = false;
+			keyS = false;
 			break;
 
 		case SDLK_a:
-			keyW = false;
+			keyA = false;
 			break;
 
 		case SDLK_d:
-			keyW = false;
+			keyD = false;
 			break;
 		}
 	}
 }
 
-void Player::update(float deltaTime)
+void Player::update(Uint32 deltaTime)
 {
 	// State machine
 	switch (state)
@@ -145,8 +210,18 @@ void Player::update(float deltaTime)
 	updateAnimation(deltaTime);
 }
 
-void Player::updateAnimation(float deltaTime)
+void Player::updateAnimation(Uint32 deltaTime)
 {
+	// Update direction based on velocity
+	if (vel.x > 0.0)
+	{
+		faceRight = true;
+	}
+	else if (vel.x < 0.0)
+	{
+		faceRight = false;
+	}
+
 	// Update animation
 	switch (state)
 	{
@@ -199,6 +274,8 @@ void Player::updateAnimation(float deltaTime)
 
 void Player::render()
 {
+	//cout << animation.getClip()->w << " " << animation.getClip()->h << endl;
+
 	SDL_Point center;
 	center.x = hitbox.getPos().x;
 	center.y = hitbox.getPos().y;
@@ -234,4 +311,20 @@ Hitbox* Player::getHitbox()
 playerState Player::getState()
 {
 	return state;
+}
+
+void Player::setPos(Vector2 pos)
+{
+	hitbox.setPos(pos);
+}
+
+void Player::setVel(Vector2 vel)
+{
+	this->vel.x = vel.x;
+	this->vel.y = vel.y;
+}
+
+void Player::setCanJump(bool canJump)
+{
+	this->canJump = canJump;
 }

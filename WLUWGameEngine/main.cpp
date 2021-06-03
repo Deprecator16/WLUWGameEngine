@@ -1,7 +1,7 @@
-
 #include "Vector2.h"
 #include "WTexture.h"
 #include "WWindow.h"
+#include "WTimer.h"
 #include "WAnimation.h"
 #include "Hitbox.h"
 #include "Block.h"
@@ -82,16 +82,36 @@ int main(int argc, char* argv[])
 	Vector2 hitboxPos;
 	hitboxPos.x = 0.0;
 	hitboxPos.y = 0.0;
-
 	Vector2 hitboxSize;
 	hitboxSize.x = 32.0;
 	hitboxSize.y = 32.0;
+	Vector2 imageCount;
+	imageCount.x = 2;
+	imageCount.y = 6;
 
-	Player player(hitboxPos, hitboxSize, &texPlayer, &window, renderer);
+	// Initialize player object
+	Player player(hitboxPos, hitboxSize, &texPlayer, imageCount, &window, renderer);
+
+	// Ground block
+	hitboxPos.x = 0.0;
+	hitboxPos.y = 320.0;
+	hitboxSize.x = 640.0;
+	hitboxSize.y = 16.0;
+
+	Block ground(hitboxPos, hitboxSize);
+
+	// Initialize internal timer
+	WTimer timer;
+	Uint32 timeElapsed = 0;
 
 	// Main game loop
 	while (!quit)
 	{
+		// Restart timer at the beginning of frame
+		timeElapsed += timer.getTicks();
+		timer.stop();
+		timer.start();
+
 		// Fill the screen with a solid colour (white)
 		SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 		SDL_RenderClear(renderer);
@@ -117,7 +137,40 @@ int main(int argc, char* argv[])
 			player.handleEvent(e);
 		}
 
+		// Update player
+		player.update(timer.getTicks());
+
+		// Do collisions
+		if (player.getHitbox()->checkOverlap(ground.getHitbox()))
+		{
+			Vector2 correct;
+			correct.x = -player.getVel().x;
+			correct.y = -player.getVel().y;
+			player.getHitbox()->move(correct);
+
+			// Reset player velocity
+			correct.x = player.getVel().x;
+			correct.y = 0;
+			player.setVel(correct);
+
+			player.setCanJump(true);
+		}
+
 		SDL_RenderCopy(renderer, texture, NULL, NULL);
+		
+		// Draw ground block hitbox for testing
+		SDL_Rect fillRect =
+		{
+			ground.getHitbox()->getPos().x,
+			ground.getHitbox()->getPos().y,
+			ground.getHitbox()->getSize().x,
+			ground.getHitbox()->getSize().y
+		};
+		SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0x00);
+		SDL_RenderFillRect(renderer, &fillRect);
+
+		// Render player
+		player.render();
 
 		// Update the screen
 		SDL_RenderPresent(renderer);

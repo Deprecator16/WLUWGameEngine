@@ -5,27 +5,28 @@
 #include "WAnimation.h"
 #include "Hitbox.h"
 #include "WWindow.h"
+#include "Header.h"
 
 class Player
 {
 public:
 	// Constructor
-	Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, WWindow* window, SDL_Renderer* renderer);
+	Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, Vector2 imageCount, WWindow* window, SDL_Renderer* renderer);
 
 	// State machine functions
-	void deadState(float deltaTime);
-	void idleState(float deltaTime);
-	void walkState(float deltaTime);
-	void runState(float deltaTime);
-	void jumpState(float deltaTime);
-	void crouchState(float deltaTime);
+	void deadState(Uint32 deltaTime);
+	void idleState(Uint32 deltaTime);
+	void walkState(Uint32 deltaTime);
+	void runState(Uint32 deltaTime);
+	void jumpState(Uint32 deltaTime);
+	void crouchState(Uint32 deltaTime);
 
 	// Function for handling event
 	void handleEvent(SDL_Event& e);
 	
 	// Update functions
-	void updateAnimation(float deltaTime);
-	void update(float deltaTime);
+	void updateAnimation(Uint32 deltaTime);
+	void update(Uint32 deltaTime);
 	void render();
 
 	// Information functions
@@ -34,6 +35,11 @@ public:
 	Vector2 getVel();
 	Hitbox* getHitbox();
 	playerState getState();
+
+	// Management functions
+	void setPos(Vector2 pos);
+	void setVel(Vector2 vel);
+	void setCanJump(bool canJump);
 
 private:
 	// Associated hitbox
@@ -45,11 +51,13 @@ private:
 	int row;
 	int colBegin;
 	int colEnd;
-	float switchTime;
+	Uint32 switchTime;
 	bool faceRight;
 
 	// Movement
+	float speed;
 	Vector2 vel;
+	bool canJump;
 
 	// State
 	playerState state;
