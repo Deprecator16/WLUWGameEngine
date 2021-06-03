@@ -142,6 +142,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Hitbox.cpp" />
     <ClCompile Include="main.cpp" />
@@ -152,6 +154,8 @@
     <ClCompile Include="WWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="Hitbox.h" />
