@@ -4,11 +4,12 @@
 
 class Vector2
 {
-private:
+public:
+	// Core variables
 	float x;
 	float y;
 
-public:
+	// Overloaded functions
 	friend Vector2 operator+(const Vector2 vec1, const Vector2 vec2)
 	{
 		Vector2 output;
