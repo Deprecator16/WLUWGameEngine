@@ -1,6 +1,6 @@
 #include "WTexture.h"
 
-WTexture::WTexture(WWindow* window, SDL_Renderer* renderer)
+WTexture::WTexture(WWindow* window, SDL_Renderer* renderer, int layer = 0)
 {
     this->window = window;
     this->renderer = renderer;
@@ -8,6 +8,7 @@ WTexture::WTexture(WWindow* window, SDL_Renderer* renderer)
     texture = NULL;
     size.x = 0;
     size.y = 0;
+    this->layer = layer;
 }
 
 WTexture::~WTexture()
