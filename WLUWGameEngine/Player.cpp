@@ -5,7 +5,7 @@ Player::Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, Vector2 
 	animation(sprite, imageCount, 0)
 {
 	// Initialize graphics variables
-	this->sprite = sprite;
+	this->texture = sprite;
 	row = 1;
 	colBegin = 0;
 	colEnd = 1;
@@ -19,6 +19,11 @@ Player::Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, Vector2 
 
 	// Initialize state machine
 	state = IDLE;
+}
+
+Player::~Player()
+{
+	texture->free();
 }
 
 // State machine functions
@@ -280,11 +285,11 @@ void Player::render()
 	center.x = hitbox.getPos().x;
 	center.y = hitbox.getPos().y;
 	if (faceRight) {
-		sprite->render(hitbox.getPos().x, hitbox.getPos().y, animation.getClip(), 0, &center, SDL_FLIP_NONE);
+		texture->render(hitbox.getPos().x, hitbox.getPos().y, animation.getClip(), 0, &center, SDL_FLIP_NONE);
 	}
 	else
 	{
-		sprite->render(hitbox.getPos().x, hitbox.getPos().y, animation.getClip(), 0, &center, SDL_FLIP_HORIZONTAL);
+		texture->render(hitbox.getPos().x, hitbox.getPos().y, animation.getClip(), 0, &center, SDL_FLIP_HORIZONTAL);
 	}
 }
 

@@ -6,12 +6,14 @@
 #include "Hitbox.h"
 #include "WWindow.h"
 #include "Header.h"
+#include "WObject.h"
 
-class Player
+class Player : public WObject
 {
 public:
 	// Constructor
 	Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, Vector2 imageCount, WWindow* window, SDL_Renderer* renderer);
+	~Player();
 
 	// State machine functions
 	void deadState(Uint32 deltaTime);
@@ -41,12 +43,11 @@ public:
 	void setVel(Vector2 vel);
 	void setCanJump(bool canJump);
 
-private:
+protected:
 	// Associated hitbox
 	Hitbox hitbox;
 
 	// Graphics
-	WTexture* sprite;
 	WAnimation animation;
 	int row;
 	int colBegin;

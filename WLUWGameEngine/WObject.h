@@ -6,10 +6,12 @@
 
 class WObject
 {
-	WTexture* texture;
-	Vector2* pos;
-	
+public:
 	void virtual update();
 	void draw();
+
+protected:
+	WTexture* texture;
+	Vector2* pos;
 };
 

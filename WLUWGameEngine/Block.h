@@ -4,8 +4,9 @@
 #include "WTexture.h"
 #include "Hitbox.h"
 #include "Header.h"
+#include "WObject.h"
 
-class Block
+class Block : public WObject
 {
 public:
 	// Constructor
