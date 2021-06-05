@@ -7,6 +7,8 @@
 #include "Block.h"
 #include "Player.h"
 #include "Header.h"
+#include "WRenderer.h"
+#include "WLoader.h"
 
 
 // Initialize SDL
@@ -92,6 +94,15 @@ int main(int argc, char* argv[])
 	// Initialize player object
 	Player player(hitboxPos, hitboxSize, &texPlayer, imageCount, &window, renderer);
 
+	// Testing WRenderer
+	WRenderer rend(renderer);
+	WObject obj[2];
+	WLoader::init(&rend);
+	WLoader::loadTextureFromFile(obj[0].texture, "assets/character.png");
+	obj[0].texture->layer = 5;
+	WLoader::loadTextureFromFile(obj[1].texture, "assets/character2.png");
+	obj[1].texture->layer = 7;
+
 	// Ground block
 	hitboxPos.x = 0.0;
 	hitboxPos.y = 320.0;
@@ -171,6 +182,10 @@ int main(int argc, char* argv[])
 
 		// Render player
 		player.render();
+
+		rend.addObj(&obj[0]);
+		rend.addObj(&obj[1]);
+		rend.renderAll();
 
 		// Update the screen
 		SDL_RenderPresent(renderer);

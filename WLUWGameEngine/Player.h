@@ -54,6 +54,7 @@ protected:
 	int colEnd;
 	Uint32 switchTime;
 	bool faceRight;
+	SDL_Renderer* renderer;
 
 	// Movement
 	float speed;

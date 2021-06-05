@@ -1,44 +1,155 @@
 #pragma once
 
-#include "Header.h"
-
 class Vector2
 {
 public:
+
+	Vector2()
+	{
+		x = 0;
+		y = 0;
+	}
+
+	Vector2(float x, float y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+
 	// Core variables
 	float x;
 	float y;
 
 	// Overloaded functions
+	// Addition
 	friend Vector2 operator+(const Vector2 vec1, const Vector2 vec2)
 	{
-		Vector2 output;
+		Vector2 output(0.0, 0.0);
 		output.x = vec1.x + vec2.x;
 		output.y = vec1.y + vec2.y;
 		return output;
 	}
 
+	friend Vector2 operator+=(const Vector2 vec1, const Vector2 vec2)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x + vec2.x;
+		output.y = vec1.y + vec2.y;
+		return output;
+	}
+
+	friend Vector2 operator+(const Vector2 vec1, const float scalar)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x + scalar;
+		output.y = vec1.y + scalar;
+		return output;
+	}
+
+	friend Vector2 operator+=(const Vector2 vec1, const float scalar)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x + scalar;
+		output.y = vec1.y + scalar;
+		return output;
+	}
+
+	// Subtraction
 	friend Vector2 operator-(const Vector2 vec1, const Vector2 vec2)
 	{
-		Vector2 output;
+		Vector2 output(0.0, 0.0);
 		output.x = vec1.x - vec2.x;
 		output.y = vec1.y - vec2.y;
 		return output;
 	}
 
+	friend Vector2 operator-=(const Vector2 vec1, const Vector2 vec2)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x - vec2.x;
+		output.y = vec1.y - vec2.y;
+		return output;
+	}
+
+	friend Vector2 operator-(const Vector2 vec1, const float scalar)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x - scalar;
+		output.y = vec1.y - scalar;
+		return output;
+	}
+
+	friend Vector2 operator-=(const Vector2 vec1, const float scalar)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x - scalar;
+		output.y = vec1.y - scalar;
+		return output;
+	}
+
+	// Multiplication
 	friend Vector2 operator*(const Vector2 vec1, const Vector2 vec2)
 	{
-		Vector2 output;
+		Vector2 output(0.0, 0.0);
 		output.x = vec1.x * vec2.x;
 		output.y = vec1.y * vec2.y;
 		return output;
 	}
 
+	friend Vector2 operator*=(const Vector2 vec1, const Vector2 vec2)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x * vec2.x;
+		output.y = vec1.y * vec2.y;
+		return output;
+	}
+
+	friend Vector2 operator*(const Vector2 vec1, const float scalar)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x * scalar;
+		output.y = vec1.y * scalar;
+		return output;
+	}
+
+	friend Vector2 operator*=(const Vector2 vec1, const float scalar)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x * scalar;
+		output.y = vec1.y * scalar;
+		return output;
+	}
+
+	// Division
 	friend Vector2 operator/(const Vector2 vec1, const Vector2 vec2)
 	{
-		Vector2 output;
+		Vector2 output(0.0, 0.0);
 		output.x = vec1.x / vec2.x;
 		output.y = vec1.y / vec2.y;
+		return output;
+	}
+
+	friend Vector2 operator/=(const Vector2 vec1, const Vector2 vec2)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x / vec2.x;
+		output.y = vec1.y / vec2.y;
+		return output;
+	}
+
+	friend Vector2 operator/(const Vector2 vec1, const float scalar)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x / scalar;
+		output.y = vec1.y / scalar;
+		return output;
+	}
+
+	friend Vector2 operator/=(const Vector2 vec1, const float scalar)
+	{
+		Vector2 output(0.0, 0.0);
+		output.x = vec1.x / scalar;
+		output.y = vec1.y / scalar;
 		return output;
 	}
 
@@ -78,4 +189,3 @@ public:
 		}
 	}
 };
-

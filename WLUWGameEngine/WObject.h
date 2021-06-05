@@ -7,11 +7,13 @@
 class WObject
 {
 public:
+
+	WObject();
+
 	void virtual update();
 	void draw();
 
-protected:
 	WTexture* texture;
-	Vector2* pos;
+	Vector2 pos;
 };
 
