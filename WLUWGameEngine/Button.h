@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Header.h"
+#include "Vector2.h"
+#include "WTexture.h"
 
 class Button
 {
