@@ -148,6 +148,7 @@
     <ClCompile Include="Hitbox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="WAnimation.cpp" />
     <ClCompile Include="WObject.cpp" />
     <ClCompile Include="WTexture.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Header.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="WAnimation.h" />
     <ClInclude Include="WObject.h" />
