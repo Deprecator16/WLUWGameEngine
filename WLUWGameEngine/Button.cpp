@@ -1,11 +1,12 @@
 #include "Button.h"
 
-Button::Button(Vector2 &pos, Vector2 &size, WTexture& normal, WTexture& hovered, WTexture& pressed) : 
+Button::Button(Vector2 &pos, Vector2 &size, WTexture& normal, WTexture& hovered, WTexture& pressed, int menuID) :
 	pos(&pos), 
 	size(&size), 
 	normal(&normal), 
 	hovered(&hovered), 
-	pressed(&pressed)
+	pressed(&pressed),
+	menuID(menuID)
 {
 	state = ButtonStates::NORMAL;
 }
@@ -115,6 +116,11 @@ void Button::updateButton(SDL_Event* e)
 void Button::setState(ButtonStates state)
 {
 	this->state = state;
+}
+
+void Button::onClick(onClickFunc clickFunc)
+{
+	clickFunc();
 }
 
 /**

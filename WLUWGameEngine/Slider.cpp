@@ -1,12 +1,13 @@
 #include "Slider.h"
 
-Slider::Slider(WTexture& bar, WTexture& knob, Vector2 &barDims, Vector2 &knobDims, Vector2 &pos, float value) :
+Slider::Slider(WTexture& bar, WTexture& knob, Vector2& barDims, Vector2& knobDims, Vector2& pos, float value, int menuID) :
 	bar(&bar),
 	knob(&knob),
 	barDims(&barDims),
 	knobDims(&knobDims),
 	pos(&pos),
-	value(value)
+	value(value),
+	menuID(menuID)
 {
 
 }
