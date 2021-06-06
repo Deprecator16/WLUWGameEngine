@@ -12,12 +12,12 @@ WMenu::WMenu(vector<Button>& buttons, vector<Slider>& sliders) :
 
 	for (Button b : buttons)
 	{
-		b.menuID = this->menuIDCOunter++; //Assign id then increment id counter
+		b.menuID = this->menuIDCounter++; //Assign id then increment id counter
 	}
 
 	for (Slider s : sliders)
 	{
-		s.menuID = this->menuIDCOunter++; //Assign id then increment id counter
+		s.menuID = this->menuIDCounter++; //Assign id then increment id counter
 	}
 }
 
@@ -37,7 +37,7 @@ WMenu::~WMenu()
 */
 void WMenu::addButton(Button button)
 {
-	button.menuID = menuIDCOunter++; //Assign unique menu ID
+	button.menuID = menuIDCounter++; //Assign unique menu ID
 	buttons->push_back(button);
 }
 
@@ -48,7 +48,7 @@ void WMenu::addButton(Button button)
 */
 void WMenu::addSlider(Slider slider)
 {
-	slider.menuID = menuIDCOunter++; //Assign unique menu ID
+	slider.menuID = menuIDCounter++; //Assign unique menu ID
 	sliders->push_back(slider);
 }
 
