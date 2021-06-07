@@ -99,6 +99,7 @@ int main(int argc, char* argv[])
 	WObject obj[2];
 	WLoader::init(&rend);
 	WLoader::loadTextureFromFile(obj[0].texture, "assets/character.png");
+	obj[0].hitbox = Hitbox(Vector2(100, 0), Vector2(100, 100));
 	obj[0].texture->layer = 5;
 	WLoader::loadTextureFromFile(obj[1].texture, "assets/character2.png");
 	obj[1].texture->layer = 7;

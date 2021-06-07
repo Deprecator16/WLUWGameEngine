@@ -97,6 +97,12 @@ void WTexture::render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip, doub
     SDL_RenderCopyEx(renderer, texture, clip, &renderQuad, angle, center, flip);
 }
 
+void WTexture::renderToRect(SDL_Renderer* renderer, SDL_Rect* dstrect, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+{
+    //Render to screen
+    SDL_RenderCopyEx(renderer, texture, clip, dstrect, angle, center, flip);
+}
+
 Vector2 WTexture::getSize()
 {
     return size;

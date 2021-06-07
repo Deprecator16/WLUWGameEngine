@@ -31,6 +31,8 @@ private:
 	// Texture storage and sorting
 	//bool sortTexture(WObject* obj1, WObject* obj2);
 
+	
+	// Sort textures
 	struct sortTexture
 	{
 		bool operator()(WObject* obj1, WObject* obj2)
@@ -39,9 +41,10 @@ private:
 		}
 	};
 
+	// Store textures in order of layer
+	// Higher layers are rendered farther back
 	priority_queue<WObject*, vector<WObject*>, sortTexture> renderQueue;
 
 	// Render a single texture
 	void renderToScreen(WObject* obj);
 };
-

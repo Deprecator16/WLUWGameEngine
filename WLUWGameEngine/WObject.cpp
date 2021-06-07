@@ -1,15 +1,19 @@
 #include "WObject.h"
 
-WObject::WObject()
+WObject::WObject() :
+	hitbox(Vector2(0, 0), Vector2(0,0))
 {
 	texture = new WTexture();
-	pos = Vector2(0, 0);
+	shouldDraw = true;
+}
+
+WObject::WObject(WTexture* texture) :
+	hitbox(Vector2(0, 0), Vector2(0, 0))
+{
+	this->texture = texture;
+	shouldDraw = true;
 }
 
 void WObject::update()
-{
-}
-
-void WObject::draw()
 {
 }
