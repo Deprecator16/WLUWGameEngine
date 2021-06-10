@@ -31,8 +31,8 @@ Slider::~Slider()
 /**
 * Check if mouse is inside knob. Note that this does not check if mouse is inside the bar itself
 * 
-* @param x mouse x coord relative to window
-* @param y mouse y coord relative to window
+* @param x Mouse x coord relative to window
+* @param y Mouse y coord relative to window
 * @return True if mouse is inside knob
 */
 bool Slider::mouseIsInsideKnob(int x, int y)
@@ -76,8 +76,8 @@ bool Slider::mouseIsInsideKnob(int x, int y)
 /**
 * Check if mouse is inside bar. Note that this does not check if mouse is inside the knob
 *
-* @param x mouse x coord relative to window
-* @param y mouse y coord relative to window
+* @param x Mouse x coord relative to window
+* @param y Mouse y coord relative to window
 * @return True if mouse is inside bar
 */
 bool Slider::mouseIsInsideBar(int x, int y)
@@ -113,8 +113,8 @@ bool Slider::mouseIsInsideBar(int x, int y)
 /**
 * Check if mouse is inside slider. This includes the bar and the slider
 * 
-* @param x mouse x coord relative to window
-* @param y mouse y coord relative to window
+* @param x Mouse x coord relative to window
+* @param y Mouse y coord relative to window
 * @return True if mouse is inside slider
 */
 bool Slider::mouseIsInsideSlider(int x, int y)

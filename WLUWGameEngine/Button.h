@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Header.h"
+#include <vector>
+#include <SDL.h>
 #include "Vector2.h"
 #include "WTexture.h"
 

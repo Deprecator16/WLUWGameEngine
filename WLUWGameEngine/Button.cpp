@@ -31,8 +31,8 @@ Button::~Button()
 /**
 * Check if mouse is inside button
 * 
-* @param x mouse x coord relative to screen
-* @param y mouse y coord relative to screen
+* @param x Mouse x coord relative to screen
+* @param y Mouse y coord relative to screen
 * @return True if mouse is inside button
 */
 bool Button::mouseIsInside(int x, int y)
@@ -118,6 +118,11 @@ void Button::setState(ButtonStates state)
 	this->state = state;
 }
 
+/**
+* Callback function when button is clicked
+* 
+* @param clickFunc Function pointer to function
+*/
 void Button::onClick(onClickFunc clickFunc)
 {
 	clickFunc();
