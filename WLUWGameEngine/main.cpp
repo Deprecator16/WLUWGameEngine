@@ -111,25 +111,37 @@ void detectCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 				collisionAxis = Y;
 			}
 
-			if (!singleAxis)
-			{
-				// Check if any side is eclipsed
-				// X
-				if ((playerPos.x > blockPos.x) && (playerPos.x < (blockPos.x + blockSize.x)) || // Left side
+				// Check if any side of the player is eclipsed by the block
+				// Eclipsed on X axis, collision must occur on Y axis
+				if ((playerPos.x                  > blockPos.x) && (playerPos.x                  < (blockPos.x + blockSize.x)) || // Left side
 					((playerPos.x + playerSize.x) > blockPos.x) && ((playerPos.x + playerSize.x) < (blockPos.x + blockSize.x)))   // Right side
-				{
-					singleAxis = true;
-					collisionAxis = X;
-				}
-				// Y
-				if ((playerPos.y > blockPos.y) && (playerPos.y < (blockPos.y + blockSize.y)) || // Top side
-					((playerPos.y + playerSize.y) > blockPos.y) && ((playerPos.y + playerSize.y) < (blockPos.y + blockSize.y)))   // Bottom side
 				{
 					singleAxis = true;
 					collisionAxis = Y;
 				}
-			}
+				// Eclipsed on Y axis, collision must occur on X axis
+				if ((playerPos.y                  > blockPos.y) && (playerPos.y                  < (blockPos.y + blockSize.y)) || // Top side
+					((playerPos.y + playerSize.y) > blockPos.y) && ((playerPos.y + playerSize.y) < (blockPos.y + blockSize.y)))   // Bottom side
+				{
+					singleAxis = true;
+					collisionAxis = X;
+				}
 
+				// Check if any side of the block is eclipsed by the player
+				// Eclipsed on X axis, collision must occur on Y axis
+				if ((blockPos.x                 > playerPos.x) && (blockPos.x                 < (playerPos.x + playerSize.x)) || // Left side
+					((blockPos.x + blockSize.x) > playerPos.x) && ((blockPos.x + blockSize.x) < (playerPos.x + playerSize.x)))   // Right side
+				{
+					singleAxis = true;
+					collisionAxis = Y;
+				}
+				// Eclipsed on Y axis, collision must occur on X axis
+				if ((blockPos.y                 > playerPos.y) && (blockPos.y                 < (playerPos.y + playerSize.y)) || // Top side
+					((blockPos.y + blockSize.y) > playerPos.y) && ((blockPos.y + blockSize.y) < (playerPos.y + playerSize.y)))   // Bottom side
+				{
+					singleAxis = true;
+					collisionAxis = X;
+				}
 
 			// Resolve collision
 			// Single axis collision
@@ -138,20 +150,12 @@ void detectCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 				// X
 				if (collisionAxis == X)
 				{
-					if (dist.x != 0.0)
-					{
-						cout << "X" << " " << dist.x << endl;
-					}
 					player->setPos(Vector2(playerPos.x + dist.x, playerPos.y));
 					player->setVel(Vector2(0.0, vel.y));
 				}
 				// Y
 				else
 				{
-					if (dist.x != 0.0)
-					{
-						cout << "Y" << " " << dist.y << endl;
-					}
 					player->setPos(Vector2(playerPos.x, playerPos.y + dist.y));
 					player->setVel(Vector2(vel.x, 0.0));
 
