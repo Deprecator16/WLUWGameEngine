@@ -150,6 +150,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="WAnimation.cpp" />
+    <ClCompile Include="WAudioController.cpp" />
     <ClCompile Include="WObject.cpp" />
     <ClCompile Include="WTexture.cpp" />
     <ClCompile Include="WTimer.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="WAnimation.h" />
+    <ClInclude Include="WAudioController.h" />
     <ClInclude Include="WObject.h" />
     <ClInclude Include="WTexture.h" />
     <ClInclude Include="WTimer.h" />
