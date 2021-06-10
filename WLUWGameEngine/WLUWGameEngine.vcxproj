@@ -152,7 +152,6 @@
     <ClCompile Include="WAnimation.cpp" />
     <ClCompile Include="WObject.cpp" />
     <ClCompile Include="WTexture.cpp" />
-    <ClCompile Include="WTimer.cpp" />
     <ClCompile Include="WWindow.cpp" />
   </ItemGroup>
   <ItemGroup>

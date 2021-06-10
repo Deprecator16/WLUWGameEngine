@@ -1,13 +1,12 @@
 #include "WTexture.h"
 
-WTexture::WTexture(WWindow* window, SDL_Renderer* renderer)
+WTexture::WTexture(WWindow* window, SDL_Renderer* renderer) :
+    size(0.0, 0.0)
 {
     this->window = window;
     this->renderer = renderer;
 
     texture = NULL;
-    size.x = 0;
-    size.y = 0;
 }
 
 WTexture::~WTexture()
