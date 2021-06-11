@@ -18,7 +18,7 @@ Player::Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, Vector2 
 	jumpHeight = 1.0;
 
 	// Initialize state machine
-	state = IDLE;
+	state = PlayerState::IDLE;
 }
 
 Player::~Player()
@@ -187,27 +187,27 @@ void Player::update(float deltaTime)
 	// State machine
 	switch (state)
 	{
-	case DEAD:
+	case PlayerState::DEAD:
 		deadState(deltaTime);
 		break;
 
-	case IDLE:
+	case PlayerState::IDLE:
 		idleState(deltaTime);
 		break;
 
-	case WALK:
+	case PlayerState::WALK:
 		walkState(deltaTime);
 		break;
 
-	case RUN:
+	case PlayerState::RUN:
 		runState(deltaTime);
 		break;
 
-	case JUMP:
+	case PlayerState::JUMP:
 		jumpState(deltaTime);
 		break;
 
-	case CROUCH:
+	case PlayerState::CROUCH:
 		crouchState(deltaTime);
 		break;
 	}
@@ -231,42 +231,42 @@ void Player::updateAnimation(float deltaTime)
 	// Update animation
 	switch (state)
 	{
-	case DEAD:
+	case PlayerState::DEAD:
 		row = 0;
 		colBegin = 0;
 		colEnd = 0;
 		switchTime = 0.0;
 		break;
 
-	case IDLE:
+	case PlayerState::IDLE:
 		row = 1;
 		colBegin = 0;
 		colEnd = 1;
 		switchTime = 1.0;
 		break;
 
-	case WALK:
+	case PlayerState::WALK:
 		row = 2;
 		colBegin = 0;
 		colEnd = 1;
 		switchTime = 0.5;
 		break;
 
-	case RUN:
+	case PlayerState::RUN:
 		row = 3;
 		colBegin = 0;
 		colEnd = 1;
 		switchTime = 0.3;
 		break;
 
-	case JUMP:
+	case PlayerState::JUMP:
 		row = 4;
 		colBegin = 0;
 		colEnd = 0;
 		switchTime = 0.0;
 		break;
 
-	case CROUCH:
+	case PlayerState::CROUCH:
 		row = 5;
 		colBegin = 0;
 		colEnd = 0;
@@ -312,7 +312,7 @@ Hitbox* Player::getHitbox()
 	return &hitbox;
 }
 
-playerState Player::getState()
+PlayerState Player::getState()
 {
 	return state;
 }

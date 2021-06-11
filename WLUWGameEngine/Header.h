@@ -14,7 +14,7 @@
 
 using namespace std;
 
-enum playerState
+enum class PlayerState
 {
 	DEAD = 0,
 	IDLE = 1,
@@ -24,15 +24,7 @@ enum playerState
 	CROUCH = 5
 };
 
-enum direction
-{
-	TOP = 0,
-	BOT = 1,
-	LEFT = 2,
-	RIGHT = 3
-};
-
-enum axis
+enum class Axis
 {
 	X = 0,
 	Y = 1

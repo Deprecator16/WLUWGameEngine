@@ -36,7 +36,7 @@ public:
 	Vector2 getSize();
 	Vector2 getVel();
 	Hitbox* getHitbox();
-	playerState getState();
+	PlayerState getState();
 
 	// Management functions
 	void setPos(Vector2 pos);
@@ -62,7 +62,7 @@ protected:
 	bool canJump;
 
 	// State
-	playerState state;
+	PlayerState state;
 
 	// Keys
 	bool keyW, keyS, keyA, keyD;
