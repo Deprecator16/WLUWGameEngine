@@ -97,51 +97,37 @@ void detectCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 
 			// Check for single axis collision
 			bool singleAxis = false;
-			// Check if the player is only moving on one axis
-			// X
-			if (vel.y == 0.0 && vel.x != 0.0)
-			{
-				singleAxis = true;
-				collisionAxis = X;
-			}
-			// Y
-			if (vel.x == 0.0 && vel.y != 0.0)
+			// Check if any side of the player is eclipsed by the block
+			// Eclipsed on X axis, collision must occur on Y axis
+			if ((playerPos.x                  > blockPos.x) && (playerPos.x                  < (blockPos.x + blockSize.x)) || // Left side
+				((playerPos.x + playerSize.x) > blockPos.x) && ((playerPos.x + playerSize.x) < (blockPos.x + blockSize.x)))   // Right side
 			{
 				singleAxis = true;
 				collisionAxis = Y;
 			}
+			// Eclipsed on Y axis, collision must occur on X axis
+			if ((playerPos.y                  > blockPos.y) && (playerPos.y                  < (blockPos.y + blockSize.y)) || // Top side
+				((playerPos.y + playerSize.y) > blockPos.y) && ((playerPos.y + playerSize.y) < (blockPos.y + blockSize.y)))   // Bottom side
+			{
+				singleAxis = true;
+				collisionAxis = X;
+			}
 
-				// Check if any side of the player is eclipsed by the block
-				// Eclipsed on X axis, collision must occur on Y axis
-				if ((playerPos.x                  > blockPos.x) && (playerPos.x                  < (blockPos.x + blockSize.x)) || // Left side
-					((playerPos.x + playerSize.x) > blockPos.x) && ((playerPos.x + playerSize.x) < (blockPos.x + blockSize.x)))   // Right side
-				{
-					singleAxis = true;
-					collisionAxis = Y;
-				}
-				// Eclipsed on Y axis, collision must occur on X axis
-				if ((playerPos.y                  > blockPos.y) && (playerPos.y                  < (blockPos.y + blockSize.y)) || // Top side
-					((playerPos.y + playerSize.y) > blockPos.y) && ((playerPos.y + playerSize.y) < (blockPos.y + blockSize.y)))   // Bottom side
-				{
-					singleAxis = true;
-					collisionAxis = X;
-				}
-
-				// Check if any side of the block is eclipsed by the player
-				// Eclipsed on X axis, collision must occur on Y axis
-				if ((blockPos.x                 > playerPos.x) && (blockPos.x                 < (playerPos.x + playerSize.x)) || // Left side
-					((blockPos.x + blockSize.x) > playerPos.x) && ((blockPos.x + blockSize.x) < (playerPos.x + playerSize.x)))   // Right side
-				{
-					singleAxis = true;
-					collisionAxis = Y;
-				}
-				// Eclipsed on Y axis, collision must occur on X axis
-				if ((blockPos.y                 > playerPos.y) && (blockPos.y                 < (playerPos.y + playerSize.y)) || // Top side
-					((blockPos.y + blockSize.y) > playerPos.y) && ((blockPos.y + blockSize.y) < (playerPos.y + playerSize.y)))   // Bottom side
-				{
-					singleAxis = true;
-					collisionAxis = X;
-				}
+			// Check if any side of the block is eclipsed by the player
+			// Eclipsed on X axis, collision must occur on Y axis
+			if ((blockPos.x                 > playerPos.x) && (blockPos.x                 < (playerPos.x + playerSize.x)) || // Left side
+				((blockPos.x + blockSize.x) > playerPos.x) && ((blockPos.x + blockSize.x) < (playerPos.x + playerSize.x)))   // Right side
+			{
+				singleAxis = true;
+				collisionAxis = Y;
+			}
+			// Eclipsed on Y axis, collision must occur on X axis
+			if ((blockPos.y                 > playerPos.y) && (blockPos.y                 < (playerPos.y + playerSize.y)) || // Top side
+				((blockPos.y + blockSize.y) > playerPos.y) && ((blockPos.y + blockSize.y) < (playerPos.y + playerSize.y)))   // Bottom side
+			{
+				singleAxis = true;
+				collisionAxis = X;
+			}
 
 			// Resolve collision
 			// Single axis collision
@@ -150,13 +136,13 @@ void detectCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 				// X
 				if (collisionAxis == X)
 				{
-					player->setPos(Vector2(playerPos.x + dist.x, playerPos.y));
+					player->setPos(Vector2((int)(playerPos.x + dist.x), playerPos.y));
 					player->setVel(Vector2(0.0, vel.y));
 				}
 				// Y
 				else
 				{
-					player->setPos(Vector2(playerPos.x, playerPos.y + dist.y));
+					player->setPos(Vector2(playerPos.x, (int)(playerPos.y + dist.y)));
 					player->setVel(Vector2(vel.x, 0.0));
 
 					// Reset canJump
@@ -212,13 +198,13 @@ void detectCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 				// X
 				if (collisionAxis == X)
 				{
-					player->setPos(Vector2(playerPos.x + dist.x, playerPos.y));
+					player->setPos(Vector2((int)(playerPos.x + dist.x), playerPos.y));
 					player->setVel(Vector2(0.0, vel.y));
 				}
 				// Y
 				else
 				{
-					player->setPos(Vector2(playerPos.x, playerPos.y + dist.y));
+					player->setPos(Vector2(playerPos.x, (int)(playerPos.y + dist.y)));
 					player->setVel(Vector2(vel.x, 0.0));
 
 					// Reset canJump
@@ -228,336 +214,6 @@ void detectCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 					}
 				}
 			}
-
-
-
-
-
-
-
-
-			/*
-			// Determine direction of collision
-			direction dir = LEFT;
-
-			// Get time of collision on either axis
-			Vector2 dist = playerHitbox->getDistanceTo(blockHitbox);
-			Vector2 vel = playerHitbox->getVel();
-			Vector2 playerPos = playerHitbox->getPos();
-			Vector2 predictPos = playerHitbox->getPredictPos();
-			Vector2 blockPos = blockHitbox->getPos();
-			Vector2 axisCollisionTime = dist / (vel.x * deltaTime);
-
-			// Check for actual collision at the average collision time to see if there is actually a collision
-			float avgTime = (axisCollisionTime.x + axisCollisionTime.y) / 2;
-
-			// Check if already touching
-			bool touching = false;
-			// Already touching on Y axis
-			if (dist.y == 0.0)
-			{
-				touching = true;
-			}
-			// Already touching on X axis
-			if (dist.x == 0.0)
-			{
-				touching = true;
-			}
-
-			// Check if there is only collision on one axis
-			bool oneAxis = false;
-			// Only X axis
-			if (axisCollisionTime.y < 0.0)
-			{
-				oneAxis = true;
-				avgTime = axisCollisionTime.x;
-				axisCollisionTime.y = 0.0;
-			}
-			// Only Y axis
-			if (axisCollisionTime.x < 0.0)
-			{
-				oneAxis = true;
-				avgTime = axisCollisionTime.y;
-				axisCollisionTime.x = 0.0;
-			}
-
-			// Check for eclipse
-			bool xEclipse = false;
-			bool yEclipse = false;
-			// X
-			if (playerPos.x > blockPos.x &&
-				playerPos.x + playerHitbox->getSize().x < blockPos.x + blockHitbox->getSize().x)
-			{
-				xEclipse = true;
-				oneAxis = true;
-				avgTime = axisCollisionTime.y;
-				axisCollisionTime.x = 0.0;
-			}
-			// Y
-			if (playerPos.y > blockPos.y &&
-				playerPos.y + playerHitbox->getSize().y < blockPos.y + blockHitbox->getSize().y)
-			{
-				yEclipse = true;
-				oneAxis = true;
-				avgTime = axisCollisionTime.y;
-				axisCollisionTime.x = 0.0;
-			}
-
-			// Create rect to simulate player hitbox
-			SDL_Rect avgBox = *(playerHitbox->getBox());
-			avgBox.x += (vel.x * avgTime * deltaTime);
-			avgBox.y += (vel.y * avgTime * deltaTime);
-
-			// DRAW FOR TESTING
-			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-			SDL_RenderFillRect(renderer, &avgBox);
-
-			float trueCollisionTime = 0.0;
-			axis trueCollisionAxis = X;
-
-			// Already touching
-			if (touching)
-			{
-				// Touching on X axis
-				if (dist.x == 0.0 && !xEclipse)
-				{
-					// Left
-					if (predictPos.x < playerPos.x)
-					{
-						dir = LEFT;
-						cout << "touching left" << endl;
-					}
-					// Right
-					else if (predictPos.x > playerPos.x)
-					{
-						dir = RIGHT;
-						cout << "touching right" << endl;
-					}
-				}
-				// Touching on Y axis
-				else if (dist.y == 0.0 && !yEclipse)
-				{
-					// Top
-					if (predictPos.y < playerPos.y)
-					{
-						dir = TOP;
-						cout << "touching top" << endl;
-					}
-					// Bottom
-					else if (predictPos.y > playerPos.y)
-					{
-						dir = BOT;
-						cout << "touching bot" << endl;
-					}
-				}
-			}
-			// Collision on only one axis
-			else if (oneAxis)
-			{
-				// X
-				if (axisCollisionTime.x != 0.0)
-				{
-					// Left
-					if (predictPos.x < playerPos.x)
-					{
-						dir = LEFT;
-						cout << "oneAxis left" << endl;
-					}
-					// Right
-					else if (predictPos.x > playerPos.x)
-					{
-						dir = RIGHT;
-						cout << "oneAxis right" << endl;
-					}
-				}
-				// Y
-				else if (axisCollisionTime.y != 0.0)
-				{
-					// Top
-					if (predictPos.y < playerPos.y)
-					{
-						dir = TOP;
-						cout << "oneAxis top" << endl;
-					}
-					// Bottom
-					else if (predictPos.y > playerPos.y)
-					{
-						dir = BOT;
-						cout << "oneAxis bot" << endl;
-					}
-				}
-
-			}
-			// Collision on both axes
-			else
-			{
-				// Check for intersection
-				// Collision at smaller time value
-				if (blockHitbox->getPos().x + blockHitbox->getSize().x > avgBox.x                &&
-					avgBox.x                + avgBox.w                 > blockHitbox->getPos().x &&
-					blockHitbox->getPos().y + blockHitbox->getSize().y > avgBox.y                &&
-					avgBox.y                + avgBox.h                 > blockHitbox->getPos().y)
-				{
-					trueCollisionTime = min(axisCollisionTime.x, axisCollisionTime.y);
-
-					// Determine direction
-					// X
-					if (axisCollisionTime.x < axisCollisionTime.y)
-					{
-						// Left
-						if (dist.x < 0.0)
-						{
-							dir = LEFT;
-							cout << "smaller left" << endl;
-						}
-						// Right
-						else if (dist.x > 0.0)
-						{
-							dir = RIGHT;
-							cout << "smaller right" << endl;
-						}
-					}
-					// Y
-					else if (axisCollisionTime.x > axisCollisionTime.y)
-					{
-						// Top
-						if (dist.y < 0.0)
-						{
-							dir = TOP;
-							cout << "smaller top" << endl;
-						}
-						// Bottom
-						else if (dist.y > 0.0)
-						{
-							dir = BOT;
-							cout << "smaller bot" << endl;
-						}
-					}
-				}
-				// Collision at larger time value
-				else
-				{
-					trueCollisionTime = max(axisCollisionTime.x, axisCollisionTime.y);
-
-					// Determine direction
-					// X
-					if (axisCollisionTime.x > axisCollisionTime.y)
-					{
-						// Left
-						if (dist.x < 0.0)
-						{
-							dir = LEFT;
-							cout << "larger left " << trueCollisionTime << " " << axisCollisionTime.x << " " << axisCollisionTime.y << endl;
-						}
-						// Right
-						else if (dist.x > 0.0)
-						{
-							dir = RIGHT;
-							cout << "larger right" << endl;
-						}
-					}
-					// Y
-					else if (axisCollisionTime.x < axisCollisionTime.y)
-					{
-						// Top
-						if (dist.y < 0.0)
-						{
-							dir = TOP;
-							cout << "larger top" << endl;
-						}
-						// Bottom
-						else if (dist.y > 0.0)
-						{
-							dir = BOT;
-							cout << "larger bot" << endl;
-						}
-					}
-				}
-			}
-
-			// Resolve collision
-			if (dir == TOP)
-			{
-				// Set y vel to 0 if negative
-				if (vel.y < 0.0)
-				{
-					player->setVel(Vector2(vel.x, 1.0));
-				}
-
-				if (!touching)
-				{
-					if (abs(dist.y) > 0.0)
-					{
-						player->setPos(Vector2(player->getPos().x, player->getPos().y - abs(dist.y)));
-
-						dist = playerHitbox->getDistanceTo(blockHitbox);
-						cout << setw(6) << "TOP" << setw(3) << i << setw(12) << dist.y << endl;
-					}
-				}
-			}
-			else if (dir == BOT)
-			{
-				// Set y vel to 0 if positive
-				if (vel.y > 0.0)
-				{
-					player->setVel(Vector2(vel.x, 0.0));
-				}
-
-				if (!touching)
-				{
-					if (abs(dist.y) > 0.0)
-					{
-						player->setPos(Vector2(player->getPos().x, player->getPos().y + abs(dist.y)));
-
-						dist = playerHitbox->getDistanceTo(blockHitbox);
-						cout << setw(6) << "BOT" << setw(3) << i << setw(12) << dist.y << endl;
-					}
-				}
-
-				// Reset canJump
-				player->setCanJump(true);
-			}
-			else if (dir == LEFT)
-			{
-				// Set x vel to 0 if negative
-				if (vel.x < 0.0)
-				{
-					player->setVel(Vector2(0.0, vel.y));
-				}
-
-				if (!touching)
-				{
-					if (abs(dist.x) > 0.0)
-					{
-						player->setPos(Vector2(player->getPos().x - abs(dist.x), player->getPos().y));
-
-						dist = playerHitbox->getDistanceTo(blockHitbox);
-						cout << setw(6) << "LEFT" << setw(3) << i << setw(12) << dist.x << endl;
-					}
-				}
-			}
-			else if (dir == RIGHT)
-			{
-				// Set x vel to 0 if positive
-				if (vel.x > 0.0)
-				{
-					player->setVel(Vector2(0.0, vel.y));
-				}
-
-				if (!touching)
-				{
-					if (abs(dist.x) > 0.0)
-					{
-						player->setPos(Vector2(player->getPos().x + abs(dist.x), player->getPos().y));
-
-						dist = playerHitbox->getDistanceTo(blockHitbox);
-						cout << setw(6) << "RIGHT" << setw(3) << i << setw(12) << dist.x << endl;
-					}
-				}
-			}
-			*/
-
-
 		}
 	}
 }
