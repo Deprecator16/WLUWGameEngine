@@ -1,0 +1,500 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C26812",
+          "message": {
+            "text": "The enum type 'SDL_bool' is unscoped. Prefer 'enum class' over 'enum' (Enum.3)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/Deprecator16/Desktop/WLUWGameEngine/WLUWGameEngine/SDL2-2.0.14/include/SDL_rect.h"
+                },
+                "region": {
+                  "startLine": 102,
+                  "startColumn": 29
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "SDL_PointInRect",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.29.30037.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30037\\bin\\HostX86\\x64\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x0031C1C0 -il C:\\Users\\DEPREC~1\\AppData\\Local\\Temp\\_CL_9b12a691ast -typedil -f WTimer.cpp -Ze -D_MSC_EXTENSIONS -Zp16 -pc \\:/ -D_MSC_VER=1929 -D_MSC_FULL_VER=192930037 -D_MSC_BUILD=0 -D_M_AMD64=100 -ZILP448 -D_M_X64=100 -D_WIN64 -D_WIN32 -GR -D_CPPRTTI -I C:\\Users\\Deprecator16\\Desktop\\WLUWGameEngine\\WLUWGameEngine\\SDL2-2.0.14\\include -I C:\\Users\\Deprecator16\\Desktop\\WLUWGameEngine\\WLUWGameEngine\\SDL2_image-2.0.5\\include -I C:\\Users\\Deprecator16\\Desktop\\WLUWGameEngine\\WLUWGameEngine\\SDL2_mixer-2.0.4\\include -nologo -W 3 -diagnostics:column -D_GUARDOVERFLOW_CRT_ALLOCATORS=1 -Ot -DCODE_ANALYSIS -D_DEBUG -D_CONSOLE -D_UNICODE -DUNICODE -EHs -D_CPPUNWIND -EHc -D__MSVC_RUNTIME_CHECKS -RTCs -RTCu -MDd -D_DEBUG -D_MT -D_DLL -GS -D_M_FP_PRECISE -permissive- -Zc:wchar_t -Zc:forScope -Fox64\\Debug\\WTimer.obj -Fdx64\\Debug\\vc142.pdb -external:W 3 -Gd -analyze:projectdirectory C:\\Users\\Deprecator16\\Desktop\\WLUWGameEngine\\WLUWGameEngine -analyze:rulesetdirectory ;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:quiet -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30037\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -external:I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30037\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30037\\include -external:I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30037\\atlmfc\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30037\\atlmfc\\include -external:I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -external:I C:\\Users\\Deprecator16\\Desktop\\WLUWGameEngine\\WLUWGameEngine\\Include\\um -I C:\\Users\\Deprecator16\\Desktop\\WLUWGameEngine\\WLUWGameEngine\\Include\\um -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30037\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30037\\atlmfc\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I C:\\Users\\Deprecator16\\Desktop\\WLUWGameEngine\\WLUWGameEngine\\Include\\um",
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/Users/Deprecator16/Desktop/WLUWGameEngine/WLUWGameEngine/SDL2-2.0.14/include/SDL_rect.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "4ed07404246e6a822430fb079a725a93"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/wwindow.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "md5": "d51fc904474b04c6fcd38521e641447f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/wwindow.h"
+          },
+          "hashes": {
+            "md5": "8575044aa468c315673a18b966afcd73"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/header.h"
+          },
+          "hashes": {
+            "md5": "a100c212d2d4c2077208812a373d5835"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl.h"
+          },
+          "hashes": {
+            "md5": "0b90a35e13a945aa261a91c4e3e417ec"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_main.h"
+          },
+          "hashes": {
+            "md5": "8fb43228852648e21c0dee3148a8f5c8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_stdinc.h"
+          },
+          "hashes": {
+            "md5": "6d2421df032b39f2bc66631e68785a71"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_config.h"
+          },
+          "hashes": {
+            "md5": "0b90d690042ac71fa056c79c39e5a8b3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_platform.h"
+          },
+          "hashes": {
+            "md5": "2fcc739339664bf01441c66cb9cc92a4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/begin_code.h"
+          },
+          "hashes": {
+            "md5": "c31ccf797187ee193f2747bfd31a3f52"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/close_code.h"
+          },
+          "hashes": {
+            "md5": "8ae353fd23284be963d9c973e5a5b9dd"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_assert.h"
+          },
+          "hashes": {
+            "md5": "f0e790fc576838d17425d5e9f1cc4921"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_atomic.h"
+          },
+          "hashes": {
+            "md5": "71a5f0a57a60acfd61cb7b575671a116"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_audio.h"
+          },
+          "hashes": {
+            "md5": "99bf65b26b79acf20dc0a906b89f35b5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_error.h"
+          },
+          "hashes": {
+            "md5": "fafb9f7f35c2861d0fe5e51c58928340"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_endian.h"
+          },
+          "hashes": {
+            "md5": "4597e0dc649384cf642bc30c6ec90d21"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_mutex.h"
+          },
+          "hashes": {
+            "md5": "60dba2234a731f7a9704a837e73c5129"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_thread.h"
+          },
+          "hashes": {
+            "md5": "ae90e2bed818eebecb49f8b051382ca7"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_rwops.h"
+          },
+          "hashes": {
+            "md5": "7c388481b091a326f94eb52ea1baa935"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_clipboard.h"
+          },
+          "hashes": {
+            "md5": "826e3ca697abb4bd52a11378f53cab86"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_cpuinfo.h"
+          },
+          "hashes": {
+            "md5": "38bf4e44da72f9e240e9d805d5c1d576"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_events.h"
+          },
+          "hashes": {
+            "md5": "f08ec8b5c83f00b43cd22995e8af0183"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_video.h"
+          },
+          "hashes": {
+            "md5": "ca29e22554705e0672d878769057764c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_pixels.h"
+          },
+          "hashes": {
+            "md5": "09d85053b587137b11d77e2a1a19e1ba"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_surface.h"
+          },
+          "hashes": {
+            "md5": "a3f3966a66e815cfc2a8c5876bdb8851"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_blendmode.h"
+          },
+          "hashes": {
+            "md5": "79673536dda82ff11e0b56c8160c1ccc"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_keyboard.h"
+          },
+          "hashes": {
+            "md5": "40d7f66cc7442ec4261a8018f1f56ddd"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_keycode.h"
+          },
+          "hashes": {
+            "md5": "a94d1c5366da79e68c071bb92cf71f7d"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_scancode.h"
+          },
+          "hashes": {
+            "md5": "679cae56b1366916d74ec693927643b7"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_mouse.h"
+          },
+          "hashes": {
+            "md5": "db2f644f49cc7bb8ee592ee94b5f2a8c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_joystick.h"
+          },
+          "hashes": {
+            "md5": "5e034f3875a3b71c790505b2538d756e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_gamecontroller.h"
+          },
+          "hashes": {
+            "md5": "c4acfa08cac72a980718073f3606f9f4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_sensor.h"
+          },
+          "hashes": {
+            "md5": "fcdd79fdd5bf38ca317fe5efc444f04f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_quit.h"
+          },
+          "hashes": {
+            "md5": "52aafad22d8becd329915b98110d4f88"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_gesture.h"
+          },
+          "hashes": {
+            "md5": "4924dca01ac1ff9c41d28e792bdb6875"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_touch.h"
+          },
+          "hashes": {
+            "md5": "88850ae5360e104a88996cfe270fd7c0"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_filesystem.h"
+          },
+          "hashes": {
+            "md5": "d6a38619c1d5f8c061ef2d878f05798b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_haptic.h"
+          },
+          "hashes": {
+            "md5": "f2695da7b32caa2978c9db2520c5a777"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_hints.h"
+          },
+          "hashes": {
+            "md5": "f37c5dedab285473efe608f01b074042"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_loadso.h"
+          },
+          "hashes": {
+            "md5": "8d2a34119142debfa6b574c605721d3b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_log.h"
+          },
+          "hashes": {
+            "md5": "723c32c43ea477f97bce5fd022a497a4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_messagebox.h"
+          },
+          "hashes": {
+            "md5": "f37d7c9a8bc8a01a9456826ae6ed9002"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_metal.h"
+          },
+          "hashes": {
+            "md5": "b8fa497d4b911ef0564da35aedae96bd"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_power.h"
+          },
+          "hashes": {
+            "md5": "5a9e6f685f246891de315d350e3db02a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_render.h"
+          },
+          "hashes": {
+            "md5": "ac83236728ba4717828048e8cd163024"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_shape.h"
+          },
+          "hashes": {
+            "md5": "1a43cf5044728b67fb81caac513fea11"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_system.h"
+          },
+          "hashes": {
+            "md5": "bab2298093b4843d6d9bd492a1e10822"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_timer.h"
+          },
+          "hashes": {
+            "md5": "bd65a90dee35fd50f80a7455f409ee40"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_version.h"
+          },
+          "hashes": {
+            "md5": "c32259a10605e4d2f4711f78663e729c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_locale.h"
+          },
+          "hashes": {
+            "md5": "a04ec0408ce94b7ba0c076087f572517"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2-2.0.14/include/sdl_misc.h"
+          },
+          "hashes": {
+            "md5": "3904136bff2f7116caa66ef5578f4639"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2_image-2.0.5/include/sdl_image.h"
+          },
+          "hashes": {
+            "md5": "0ccc93aad7f3bcda7016f9ac9dfab470"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/sdl2_mixer-2.0.4/include/sdl_mixer.h"
+          },
+          "hashes": {
+            "md5": "5ab719a61a7641f6f65f303845dfae9c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/wtimer.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "md5": "217d0bc14f7516fd9d3b8561a9fc9de0"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/deprecator16/desktop/wluwgameengine/wluwgameengine/wtimer.h"
+          },
+          "hashes": {
+            "md5": "65ea6fb1c7a6f4734e63358a3cad6f70"
+          }
+        }
+      ]
+    }
+  ]
+}

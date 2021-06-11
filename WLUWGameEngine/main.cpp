@@ -9,13 +9,14 @@
 #include "WRenderer.h"
 #include "WLoader.h"
 #include "Header.h"
+#include "WAudioController.h"
 
 
 // Initialize SDL
 bool init()
 {
 	// Initialize SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 		return false;
@@ -25,14 +26,21 @@ bool init()
 	int imageFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imageFlags) & imageFlags))
 	{
-		printf("SDL_image could not initialize! SDL Error: %s\n", SDL_GetError());
+		printf("SDL_image could not initialize! SDL Error: %s\n", IMG_GetError());
 		return false;
 	}
 
 	// Initialize SDL_ttf
 	if (TTF_Init() < 0)
 	{
-		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+		printf("SDL_TTF could not initialize!SDL Error : % s\n", TTF_GetError());
+		return false;
+	}
+
+	// Initialize SDL_mixer	
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 		return false;
 	}
 
@@ -225,11 +233,18 @@ int main(int argc, char* argv[])
 	WWindow window;
 	SDL_Renderer* renderer = SDL_CreateRenderer(window.getWindow(), -1, 0);
 
+	WAudioController audio;
+
 	if (!init())
 	{
 		cout << "Initialization failed!" << endl;
 		return 1;
 	}
+
+	//Load Music and SFX and play
+	audio.loadMusic((char*)"music/Soundgarden-Smokestack-Lightning.wav", "smokestack");
+	audio.playMusic("smokestack");
+	audio.loadChunk((char*)"music/wilhelm.wav", "wilhelm");
 
 	// Load media
 	// Player spritesheet
@@ -312,6 +327,23 @@ int main(int argc, char* argv[])
 				case SDLK_ESCAPE:
 					quit = true;
 					break;
+				case SDLK_0:
+					audio.getPlayingMusic() ? audio.getPausedMusic() ? audio.resumeMusic() : audio.pauseMusic() : audio.playMusic("smokestack");
+					break;
+				case SDLK_9:
+					audio.getPlayingMusic() ? audio.getPausedMusic() ? audio.resumeMusic() : audio.haltMusic(2000) : audio.playMusic("smokestack", 5000);
+					break;
+				case SDLK_UP:
+					audio.setMusicVolume(audio.musicVolume + 0.1f);
+					break;
+				case SDLK_DOWN:
+					audio.setMusicVolume(audio.musicVolume - 0.1f);
+					break;
+				case SDLK_8:
+					audio.playSfx("wilhelm");
+					break;
+				case SDLK_7:
+					audio.playSfxLooped("wilhelm", -1);
 				}
 			}
 
@@ -359,9 +391,13 @@ int main(int argc, char* argv[])
 		timer.reset();
 	}
 
+	//Halt music
+	audio.haltMusic();
+
 	// Cleanup
 	SDL_DestroyRenderer(renderer);
 	window.~WWindow();
+	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
 

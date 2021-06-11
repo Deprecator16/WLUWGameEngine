@@ -55,6 +55,9 @@
 	  <Filter>Source Files</Filter>
 	</ClCompile>
     <ClCompile Include="WMenu.cpp">
+	  <Filter>Source Files</Filter>
+	</ClCompile>
+    <ClCompile Include="WAudioController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -105,6 +108,9 @@
 	  <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WMenu.h">
+	  <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WAudioController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

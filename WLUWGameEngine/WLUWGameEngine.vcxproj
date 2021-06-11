@@ -116,13 +116,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)SDL2_ttf-2.0.15\include;$(ProjectDir)SDL2-2.0.14\include;$(ProjectDir)SDL2_image-2.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)SDL2_ttf-2.0.15\include;$(ProjectDir)SDL2-2.0.14\include;$(ProjectDir)SDL2_image-2.0.5\include;$(ProjectDir)SDL2_mixer-2.0.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)SDL2_ttf-2.0.15\lib\x64;$(ProjectDir)SDL2-2.0.14\lib\x64;$(ProjectDir)SDL2_image-2.0.5\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)SDL2_ttf-2.0.15\lib\x64;$(ProjectDir)SDL2-2.0.14\lib\x64;$(ProjectDir)SDL2_image-2.0.5\lib\x64;$(ProjectDir)SDL2_mixer-2.0.4\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -152,6 +152,7 @@
     <ClCompile Include="WAnimation.cpp" />
     <ClCompile Include="WLoader.cpp" />
     <ClCompile Include="WMenu.cpp" />
+    <ClCompile Include="WAudioController.cpp" />
     <ClCompile Include="WObject.cpp" />
     <ClCompile Include="WRenderer.cpp" />
     <ClCompile Include="WTexture.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="WAnimation.h" />
     <ClInclude Include="WLoader.h" />
     <ClInclude Include="WMenu.h" />
+    <ClInclude Include="WAudioController.h" />
     <ClInclude Include="WObject.h" />
     <ClInclude Include="WRenderer.h" />
     <ClInclude Include="WTexture.h" />
