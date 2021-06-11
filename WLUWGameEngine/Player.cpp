@@ -3,7 +3,8 @@
 Player::Player(Vector2 hitboxPos, Vector2 hitboxSize, WTexture* sprite, Vector2 imageCount, WWindow* window, SDL_Renderer* renderer) :
 	hitbox(hitboxPos, hitboxSize),
 	animation(sprite, imageCount, 0),
-	vel(0.0, 0.0)
+	vel(0.0, 0.0),
+	renderer(renderer)
 {
 	// Initialize graphics variables
 	this->texture = sprite;
@@ -284,11 +285,11 @@ void Player::render()
 	center.x = hitbox.getPos().x;
 	center.y = hitbox.getPos().y;
 	if (faceRight) {
-		texture->render(hitbox.getPos().x, hitbox.getPos().y, animation.getClip(), 0, &center, SDL_FLIP_NONE);
+		texture->render(renderer, hitbox.getPos().x, hitbox.getPos().y, animation.getClip(), 0, &center, SDL_FLIP_NONE);
 	}
 	else
 	{
-		texture->render(hitbox.getPos().x, hitbox.getPos().y, animation.getClip(), 0, &center, SDL_FLIP_HORIZONTAL);
+		texture->render(renderer, hitbox.getPos().x, hitbox.getPos().y, animation.getClip(), 0, &center, SDL_FLIP_HORIZONTAL);
 	}
 }
 

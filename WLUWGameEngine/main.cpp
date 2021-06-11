@@ -6,15 +6,10 @@
 #include "Hitbox.h"
 #include "Block.h"
 #include "Player.h"
+#include "WRenderer.h"
+#include "WLoader.h"
 #include "Header.h"
 
-// Struct for resolving collisions
-struct Collision
-{
-	Hitbox* hitbox1;
-	Hitbox* hitbox2;
-	Vector2 intersection;
-};
 
 // Initialize SDL
 bool init()
@@ -31,6 +26,13 @@ bool init()
 	if (!(IMG_Init(imageFlags) & imageFlags))
 	{
 		printf("SDL_image could not initialize! SDL Error: %s\n", SDL_GetError());
+		return false;
+	}
+
+	// Initialize SDL_ttf
+	if (TTF_Init() < 0)
+	{
+		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 		return false;
 	}
 
@@ -252,6 +254,16 @@ int main(int argc, char* argv[])
 	// Initialize blocks
 	vector<Block*> blocks;
 
+	// Testing WRenderer
+	WRenderer rend(renderer);
+	WObject obj[2];
+	WLoader::init(&rend);
+	WLoader::loadTextureFromFile(obj[0].texture, "assets/character.png");
+	obj[0].hitbox = Hitbox(Vector2(100, 0), Vector2(100, 100));
+	obj[0].texture->layer = 5;
+	WLoader::loadTextureFromFile(obj[1].texture, "assets/character2.png");
+	obj[1].texture->layer = 7;
+
 	// Ground block
 	Block ground(Vector2(0.0, 320.0), Vector2(640.0, 16.0));
 	blocks.push_back(&ground);
@@ -274,6 +286,9 @@ int main(int argc, char* argv[])
 	WTimer timer;
 	float deltaTime = 0.0;
 	float timeElapsed = 0.0;
+
+	// Testing camera
+	rend.setCameraPos(Vector2(100, 0));
 
 	// Main game loop
 	while (!quit)
@@ -330,6 +345,10 @@ int main(int argc, char* argv[])
 		// Render all objects
 		// Render player
 		player.render();
+
+		rend.addObj(&obj[0]);
+		rend.addObj(&obj[1]);
+		rend.renderAll();
 
 		// Update the screen
 		SDL_RenderPresent(renderer);

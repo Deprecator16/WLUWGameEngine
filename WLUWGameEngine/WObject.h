@@ -3,15 +3,18 @@
 #include "Header.h"
 #include "Vector2.h"
 #include "WTexture.h"
+#include "Hitbox.h"
 
 class WObject
 {
 public:
+
+	WObject();
+	WObject(WTexture* texture);
+
 	void virtual update();
-	void draw();
 
-protected:
 	WTexture* texture;
-	Vector2* pos;
+	Hitbox hitbox;
+	bool shouldDraw;
 };
-

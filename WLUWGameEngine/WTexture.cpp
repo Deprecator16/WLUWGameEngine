@@ -1,6 +1,11 @@
 #include "WTexture.h"
 
-WTexture::WTexture(WWindow* window, SDL_Renderer* renderer, int layer = 0)
+WTexture::WTexture()
+{
+    layer = 0;
+}
+
+WTexture::WTexture(WWindow* window, SDL_Renderer* renderer, int layer)
 {
     this->window = window;
     this->renderer = renderer;
@@ -76,7 +81,7 @@ void WTexture::setAlpha(Uint8 alpha)
     SDL_SetTextureAlphaMod(texture, alpha);
 }
 
-void WTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+void WTexture::render(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
 {
     //Set rendering space and render to screen
     SDL_Rect renderQuad = { x, y, size.x, size.y };
@@ -92,7 +97,14 @@ void WTexture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* cen
     SDL_RenderCopyEx(renderer, texture, clip, &renderQuad, angle, center, flip);
 }
 
+void WTexture::renderToRect(SDL_Renderer* renderer, SDL_Rect* dstrect, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
+{
+    //Render to screen
+    SDL_RenderCopyEx(renderer, texture, clip, dstrect, angle, center, flip);
+}
+
 Vector2 WTexture::getSize()
 {
     return size;
 }
+

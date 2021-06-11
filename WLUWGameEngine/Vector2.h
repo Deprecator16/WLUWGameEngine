@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Header.h"
-
 class Vector2
 {
 public:
@@ -128,4 +126,3 @@ public:
 		}
 	}
 };
-
