@@ -1,11 +1,11 @@
 #include "WAnimation.h"
 
-WAnimation::WAnimation(WTexture* tex, Vector2 imageCount, Uint32 switchTime)
+WAnimation::WAnimation(WTexture* tex, Vector2 imageCount, Uint32 switchTime) :
+    imageCount(imageCount),
+    switchTime(switchTime),
+    currentImage(0, 0)
 {
-    this->imageCount = imageCount;
-    this->switchTime = switchTime;
     totalTime = 0;
-    currentImage.x = 0;
 
     // REQUIRES: tex->getSize is divisible by imageCount
     uvRect.w = tex->getSize().x / imageCount.x;

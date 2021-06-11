@@ -16,19 +16,19 @@ public:
 	~Player();
 
 	// State machine functions
-	void deadState(Uint32 deltaTime);
-	void idleState(Uint32 deltaTime);
-	void walkState(Uint32 deltaTime);
-	void runState(Uint32 deltaTime);
-	void jumpState(Uint32 deltaTime);
-	void crouchState(Uint32 deltaTime);
+	void deadState(float deltaTime);
+	void idleState(float deltaTime);
+	void walkState(float deltaTime);
+	void runState(float deltaTime);
+	void jumpState(float deltaTime);
+	void crouchState(float deltaTime);
 
 	// Function for handling event
 	void handleEvent(SDL_Event& e);
 	
 	// Update functions
-	void updateAnimation(Uint32 deltaTime);
-	void update(Uint32 deltaTime);
+	void updateAnimation(float deltaTime);
+	void update(float deltaTime);
 	void render();
 
 	// Information functions
@@ -36,7 +36,7 @@ public:
 	Vector2 getSize();
 	Vector2 getVel();
 	Hitbox* getHitbox();
-	playerState getState();
+	PlayerState getState();
 
 	// Management functions
 	void setPos(Vector2 pos);
@@ -52,16 +52,17 @@ protected:
 	int row;
 	int colBegin;
 	int colEnd;
-	Uint32 switchTime;
+	float switchTime;
 	bool faceRight;
 
 	// Movement
 	float speed;
+	float jumpHeight;
 	Vector2 vel;
 	bool canJump;
 
 	// State
-	playerState state;
+	PlayerState state;
 
 	// Keys
 	bool keyW, keyS, keyA, keyD;

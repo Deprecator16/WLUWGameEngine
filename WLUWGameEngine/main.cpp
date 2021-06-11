@@ -8,6 +8,13 @@
 #include "Player.h"
 #include "Header.h"
 
+// Struct for resolving collisions
+struct Collision
+{
+	Hitbox* hitbox1;
+	Hitbox* hitbox2;
+	Vector2 intersection;
+};
 
 // Initialize SDL
 bool init()
@@ -45,9 +52,168 @@ SDL_Texture* loadTexture(std::string path, SDL_Renderer* renderer)
 	newText = SDL_CreateTextureFromSurface(renderer, loadedImg);
 
 	// TODO: Idiotproof
+	// TODO: Drink some water
+	// TODO: Fix your posture
 
 	SDL_FreeSurface(loadedImg);
 	return newText;
+}
+
+void handleCollisions(Player* player, vector<Block*>* blocks, float deltaTime, SDL_Renderer* renderer)
+{
+	// Get player hitbox
+	Hitbox* playerHitbox = player->getHitbox();
+
+	// Loop through blocks
+	size_t blocksSize = blocks->size();
+	for (int i = 0; i < blocksSize; i++)
+	{
+		// Update player prediction box
+		playerHitbox->updatePredict(deltaTime);
+
+		// Get block hitbox and update its prediction box
+		Hitbox* blockHitbox = blocks->at(i)->getHitbox();
+		blockHitbox->updatePredict(deltaTime);
+
+		// Detect incoming collision
+		if (playerHitbox->predictCollision(blockHitbox))
+		{
+			// Information variables
+			// Player variables
+			Vector2 playerPos = playerHitbox->getPos();
+			Vector2 playerSize = playerHitbox->getSize();
+			Vector2 vel = playerHitbox->getVel();
+
+			// Block variables
+			Vector2 blockPos = blockHitbox->getPos();
+			Vector2 blockSize = blockHitbox->getSize();
+
+			// Get distance between player and block
+			Vector2 dist = playerHitbox->getDistanceTo(blockHitbox);
+
+			// Enum to store axis of collision
+			Axis collisionAxis;
+
+			// Check for single axis collision
+			bool singleAxis = false;
+			// Check if any side of the player is eclipsed by the block
+			// Eclipsed on X axis, collision must occur on Y axis
+			if ((playerPos.x                  > blockPos.x) && (playerPos.x                  < (blockPos.x + blockSize.x)) || // Left side
+				((playerPos.x + playerSize.x) > blockPos.x) && ((playerPos.x + playerSize.x) < (blockPos.x + blockSize.x)))   // Right side
+			{
+				singleAxis = true;
+				collisionAxis = Axis::Y;
+			}
+			// Eclipsed on Y axis, collision must occur on X axis
+			if ((playerPos.y                  > blockPos.y) && (playerPos.y                  < (blockPos.y + blockSize.y)) || // Top side
+				((playerPos.y + playerSize.y) > blockPos.y) && ((playerPos.y + playerSize.y) < (blockPos.y + blockSize.y)))   // Bottom side
+			{
+				singleAxis = true;
+				collisionAxis = Axis::X;
+			}
+
+			// Check if any side of the block is eclipsed by the player
+			// Eclipsed on X axis, collision must occur on Y axis
+			if ((blockPos.x                 > playerPos.x) && (blockPos.x                 < (playerPos.x + playerSize.x)) || // Left side
+				((blockPos.x + blockSize.x) > playerPos.x) && ((blockPos.x + blockSize.x) < (playerPos.x + playerSize.x)))   // Right side
+			{
+				singleAxis = true;
+				collisionAxis = Axis::Y;
+			}
+			// Eclipsed on Y axis, collision must occur on X axis
+			if ((blockPos.y                 > playerPos.y) && (blockPos.y                 < (playerPos.y + playerSize.y)) || // Top side
+				((blockPos.y + blockSize.y) > playerPos.y) && ((blockPos.y + blockSize.y) < (playerPos.y + playerSize.y)))   // Bottom side
+			{
+				singleAxis = true;
+				collisionAxis = Axis::X;
+			}
+
+			// Resolve single axis collision
+			if (singleAxis)
+			{
+				// X
+				if (collisionAxis == Axis::X)
+				{
+					player->setPos(Vector2(round(playerPos.x + dist.x), playerPos.y));
+					player->setVel(Vector2(0.0, vel.y));
+				}
+				// Y
+				else
+				{
+					player->setPos(Vector2(playerPos.x, round(playerPos.y + dist.y)));
+					player->setVel(Vector2(vel.x, 0.0));
+
+					// Reset canJump
+					if ((playerHitbox->getBox()->y + playerSize.y) == blockHitbox->getBox()->y) // If touching ground
+					{
+						player->setCanJump(true);
+					}
+				}
+			}
+			// Collision on both axes
+			else
+			{
+				// Get time of overlap on either axis
+				float xOverlapTime = dist.x / (vel.x * deltaTime);
+				float yOverlapTime = dist.y / (vel.y * deltaTime);
+
+				// Check for overlap at the average time
+				float avgTime = (xOverlapTime + yOverlapTime) / 2;
+
+				// Collision occurs at the shorter time
+				if ((playerPos.x + (avgTime * vel.x * deltaTime)) + playerSize.x >= blockPos.x &&
+					blockPos.x + blockSize.x >= (playerPos.x + (avgTime * vel.x * deltaTime)) &&
+					(playerPos.y + (avgTime * vel.y * deltaTime)) + playerSize.y >= blockPos.y &&
+					blockPos.y + blockSize.y >= (playerPos.y + (avgTime * vel.y * deltaTime)))
+				{
+					// X
+					if (xOverlapTime < yOverlapTime)
+					{
+						collisionAxis = Axis::X;
+					}
+					// Y
+					else
+					{
+						collisionAxis = Axis::Y;
+					}
+				}
+				// Collision occurs at the longer time
+				else
+				{
+					// X
+					if (xOverlapTime > yOverlapTime)
+					{
+						collisionAxis = Axis::X;
+					}
+					// Y
+					else
+					{
+						collisionAxis = Axis::Y;
+					}
+				}
+
+				// Resolve double axis collision
+				// X
+				if (collisionAxis == Axis::X)
+				{
+					player->setPos(Vector2(round(playerPos.x + dist.x), playerPos.y));
+					player->setVel(Vector2(0.0, vel.y));
+				}
+				// Y
+				else
+				{
+					player->setPos(Vector2(playerPos.x, round(playerPos.y + dist.y)));
+					player->setVel(Vector2(vel.x, 0.0));
+
+					// Reset canJump
+					if ((playerHitbox->getBox()->y + playerSize.y) == blockHitbox->getBox()->y) // If touching ground
+					{
+						player->setCanJump(true);
+					}
+				}
+			}
+		}
+	}
 }
 
 int main(int argc, char* argv[])
@@ -64,13 +230,14 @@ int main(int argc, char* argv[])
 	}
 
 	// Load media
-	SDL_Texture* texture = loadTexture("assets/loaded.png", renderer);
+	// Player spritesheet
 	WTexture texPlayer(&window, renderer);
 	if (!texPlayer.loadFromFile("assets/texPlayer.png"))
 	{
 		cout << "Could not load player texture!" << endl;
 		return 1;
 	}
+	Vector2 texPlayerMap(2, 6);
 
 	// Allows the program to exit
 	bool quit = false;
@@ -78,40 +245,39 @@ int main(int argc, char* argv[])
 	// For event handling
 	SDL_Event e;
 
-	// Player object
-	Vector2 hitboxPos;
-	hitboxPos.x = 0.0;
-	hitboxPos.y = 0.0;
-	Vector2 hitboxSize;
-	hitboxSize.x = 32.0;
-	hitboxSize.y = 32.0;
-	Vector2 imageCount;
-	imageCount.x = 2;
-	imageCount.y = 6;
 
 	// Initialize player object
-	Player player(hitboxPos, hitboxSize, &texPlayer, imageCount, &window, renderer);
+	Player player(Vector2(64.0, 0.0), Vector2(16.0, 32.0), &texPlayer, texPlayerMap, &window, renderer);
+
+	// Initialize blocks
+	vector<Block*> blocks;
 
 	// Ground block
-	hitboxPos.x = 0.0;
-	hitboxPos.y = 320.0;
-	hitboxSize.x = 640.0;
-	hitboxSize.y = 16.0;
+	Block ground(Vector2(0.0, 320.0), Vector2(640.0, 16.0));
+	blocks.push_back(&ground);
 
-	Block ground(hitboxPos, hitboxSize);
+	// Wall blocks
+	Block leftWall(Vector2(0.0, 0.0), Vector2(16.0, 480.0));
+	blocks.push_back(&leftWall);
+	Block rightWall(Vector2(624.0, 0.0), Vector2(16.0, 480.0));
+	blocks.push_back(&rightWall);
+
+	// Ceiling blocks
+	Block leftCeiling(Vector2(0.0, 272.0), Vector2(160.0, 16.0));
+	blocks.push_back(&leftCeiling);
+	Block rightCeiling(Vector2(480.0, 272.0), Vector2(160.0, 16.0));
+	blocks.push_back(&rightCeiling);
+	Block midCeiling(Vector2(280.0, 256.0), Vector2(80.0, 16.0));
+	blocks.push_back(&midCeiling);
 
 	// Initialize internal timer
 	WTimer timer;
-	Uint32 timeElapsed = 0;
+	float deltaTime = 0.0;
+	float timeElapsed = 0.0;
 
 	// Main game loop
 	while (!quit)
 	{
-		// Restart timer at the beginning of frame
-		timeElapsed += timer.getTicks();
-		timer.stop();
-		timer.start();
-
 		// Fill the screen with a solid colour (white)
 		SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 		SDL_RenderClear(renderer);
@@ -137,43 +303,41 @@ int main(int argc, char* argv[])
 			player.handleEvent(e);
 		}
 
+		// Update all objects
 		// Update player
-		player.update(timer.getTicks());
+		player.update(deltaTime);
 
 		// Do collisions
-		if (player.getHitbox()->checkOverlap(ground.getHitbox()))
+		handleCollisions(&player, &blocks, deltaTime, renderer);
+
+		// Move all objects
+		// Move player hitbox
+		player.getHitbox()->move(deltaTime);
+
+		
+		// Render player hitbox for testing
+		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
+		SDL_RenderFillRect(renderer, player.getHitbox()->getBox());
+
+		// Render block hitboxes for testing
+		SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
+		// Render block hitboxes for testing
+		for (int i = 0; i < blocks.size(); i++)
 		{
-			Vector2 correct;
-			correct.x = -player.getVel().x;
-			correct.y = -player.getVel().y;
-			player.getHitbox()->move(correct);
-
-			// Reset player velocity
-			correct.x = player.getVel().x;
-			correct.y = 0;
-			player.setVel(correct);
-
-			player.setCanJump(true);
+			SDL_RenderFillRect(renderer, blocks.at(i)->getHitbox()->getBox());
 		}
 
-		SDL_RenderCopy(renderer, texture, NULL, NULL);
-		
-		// Draw ground block hitbox for testing
-		SDL_Rect fillRect =
-		{
-			ground.getHitbox()->getPos().x,
-			ground.getHitbox()->getPos().y,
-			ground.getHitbox()->getSize().x,
-			ground.getHitbox()->getSize().y
-		};
-		SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0x00);
-		SDL_RenderFillRect(renderer, &fillRect);
-
+		// Render all objects
 		// Render player
 		player.render();
 
 		// Update the screen
 		SDL_RenderPresent(renderer);
+
+		// Restart timer at the end of frame
+		deltaTime = timer.elapsed();
+		timeElapsed += timer.elapsed();
+		timer.reset();
 	}
 
 	// Cleanup

@@ -5,27 +5,25 @@
 class WTimer
 {
 public:
-	// Constructor
-	WTimer();
+    WTimer() :
+        startTime(timer::now())
+    {
+    
+    }
 
-	// Management
-	void start();
-	void stop();
-	void pause();
-	void unpause();
+    void reset()
+    {
+        startTime = timer::now();
+    }
 
-	// Information
-	Uint32 getTicks();
-
-	// Status
-	bool isStarted();
-	bool isPaused();
+    float elapsed() const
+    {
+        return std::chrono::duration_cast<second>
+            (timer::now() - startTime).count();
+    }
 
 private:
-	Uint32 startTicks;
-	Uint32 pausedTicks;
-
-	bool started;
-	bool paused;
+    typedef std::chrono::high_resolution_clock timer;
+    typedef std::chrono::duration<float, std::ratio<1> > second;
+    std::chrono::time_point<timer> startTime;
 };
-
