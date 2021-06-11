@@ -61,39 +61,38 @@ SDL_Texture* loadTexture(std::string path, SDL_Renderer* renderer)
 
 void handleCollisions(Player* player, vector<Block*>* blocks, float deltaTime, SDL_Renderer* renderer)
 {
-	// Player hitbox
+	// Get player hitbox
 	Hitbox* playerHitbox = player->getHitbox();
-	playerHitbox->updatePredict(deltaTime);
 
 	// Loop through blocks
 	size_t blocksSize = blocks->size();
 	for (int i = 0; i < blocksSize; i++)
 	{
-		// Update player hitbox
+		// Update player prediction box
 		playerHitbox->updatePredict(deltaTime);
 
-		// Block hitbox
+		// Get block hitbox and update its prediction box
 		Hitbox* blockHitbox = blocks->at(i)->getHitbox();
 		blockHitbox->updatePredict(deltaTime);
 
-		// Detect collision
+		// Detect incoming collision
 		if (playerHitbox->predictCollision(blockHitbox))
 		{
 			// Information variables
+			// Player variables
 			Vector2 playerPos = playerHitbox->getPos();
 			Vector2 playerSize = playerHitbox->getSize();
-			Vector2 playerPredictPos = playerHitbox->getPredictPos();
 			Vector2 vel = playerHitbox->getVel();
+
+			// Block variables
 			Vector2 blockPos = blockHitbox->getPos();
 			Vector2 blockSize = blockHitbox->getSize();
+
+			// Get distance between player and block
 			Vector2 dist = playerHitbox->getDistanceTo(blockHitbox);
 
 			// Enum to store axis of collision
 			Axis collisionAxis;
-
-			// Get time of overlap on either axis
-			float xOverlapTime = dist.x / (vel.x * deltaTime);
-			float yOverlapTime = dist.y / (vel.y * deltaTime);
 
 			// Check for single axis collision
 			bool singleAxis = false;
@@ -129,8 +128,7 @@ void handleCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 				collisionAxis = Axis::X;
 			}
 
-			// Resolve collision
-			// Single axis collision
+			// Resolve single axis collision
 			if (singleAxis)
 			{
 				// X
@@ -155,17 +153,19 @@ void handleCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 			// Collision on both axes
 			else
 			{
+				// Get time of overlap on either axis
+				float xOverlapTime = dist.x / (vel.x * deltaTime);
+				float yOverlapTime = dist.y / (vel.y * deltaTime);
+
 				// Check for overlap at the average time
 				float avgTime = (xOverlapTime + yOverlapTime) / 2;
-				float collisionTime = 0.0;
+
 				// Collision occurs at the shorter time
 				if ((playerPos.x + (avgTime * vel.x * deltaTime)) + playerSize.x >= blockPos.x &&
 					blockPos.x + blockSize.x >= (playerPos.x + (avgTime * vel.x * deltaTime)) &&
 					(playerPos.y + (avgTime * vel.y * deltaTime)) + playerSize.y >= blockPos.y &&
 					blockPos.y + blockSize.y >= (playerPos.y + (avgTime * vel.y * deltaTime)))
 				{
-					collisionTime = min(xOverlapTime, yOverlapTime);
-
 					// X
 					if (xOverlapTime < yOverlapTime)
 					{
@@ -180,8 +180,6 @@ void handleCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 				// Collision occurs at the longer time
 				else
 				{
-					collisionTime = max(xOverlapTime, yOverlapTime);
-
 					// X
 					if (xOverlapTime > yOverlapTime)
 					{
@@ -194,7 +192,7 @@ void handleCollisions(Player* player, vector<Block*>* blocks, float deltaTime, S
 					}
 				}
 
-				// Resolve collision
+				// Resolve double axis collision
 				// X
 				if (collisionAxis == Axis::X)
 				{
@@ -249,7 +247,7 @@ int main(int argc, char* argv[])
 
 
 	// Initialize player object
-	Player player(Vector2(64.0, 0.0), Vector2(32.0, 32.0), &texPlayer, texPlayerMap, &window, renderer);
+	Player player(Vector2(64.0, 0.0), Vector2(16.0, 32.0), &texPlayer, texPlayerMap, &window, renderer);
 
 	// Initialize blocks
 	vector<Block*> blocks;
@@ -305,13 +303,15 @@ int main(int argc, char* argv[])
 			player.handleEvent(e);
 		}
 
+		// Update all objects
 		// Update player
 		player.update(deltaTime);
 
 		// Do collisions
 		handleCollisions(&player, &blocks, deltaTime, renderer);
 
-		// Move hitboxes
+		// Move all objects
+		// Move player hitbox
 		player.getHitbox()->move(deltaTime);
 
 		
@@ -327,6 +327,7 @@ int main(int argc, char* argv[])
 			SDL_RenderFillRect(renderer, blocks.at(i)->getHitbox()->getBox());
 		}
 
+		// Render all objects
 		// Render player
 		player.render();
 
