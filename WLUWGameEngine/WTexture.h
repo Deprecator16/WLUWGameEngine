@@ -10,7 +10,7 @@ class WTexture
 {
 public:
     // Constructor/Destructor
-    WTexture(WWindow* window, SDL_Renderer* renderer);
+    WTexture(WWindow* window, SDL_Renderer* renderer, int layer = 0);
     ~WTexture();
 
     // Management functions
@@ -22,6 +22,9 @@ public:
 
     // Information functions
     Vector2 getSize();
+
+    // Layer to render texture on
+    int layer;
 
 private:
     // The actual hardware texture
