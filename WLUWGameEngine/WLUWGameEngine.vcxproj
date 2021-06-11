@@ -151,6 +151,7 @@
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="WAnimation.cpp" />
     <ClCompile Include="WLoader.cpp" />
+    <ClCompile Include="WMenu.cpp" />
     <ClCompile Include="WObject.cpp" />
     <ClCompile Include="WRenderer.cpp" />
     <ClCompile Include="WTexture.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="WAnimation.h" />
     <ClInclude Include="WLoader.h" />
+    <ClInclude Include="WMenu.h" />
     <ClInclude Include="WObject.h" />
     <ClInclude Include="WRenderer.h" />
     <ClInclude Include="WTexture.h" />

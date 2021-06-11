@@ -1,9 +1,13 @@
 #pragma once
 
-#include "Header.h"
+#include <vector>
+#include <SDL.h>
 #include "Vector2.h"
 #include "WTexture.h"
 
+/**
+* Menu Slider
+*/
 class Slider
 {
 public:
@@ -20,9 +24,10 @@ public:
 	Vector2* pos; //Top left coords of bar
 	float value = 1.0f; //Value of slider from 0 to 1, inclusive
 	bool isEnabled = true; //True if the slider should be useable
+	int menuID = 0; //ID assigned by WMenu owner
 	SliderStates state = SliderStates::UNHELD; //Current state of slider
 
-	Slider(WTexture &bar, WTexture &knob, Vector2 &barDims, Vector2 &knobDims, Vector2 &pos, float value);
+	Slider(WTexture &bar, WTexture &knob, Vector2 &barDims, Vector2 &knobDims, Vector2 &pos, float value, int menuID);
 	~Slider();
 
 	bool mouseIsInsideKnob(int x, int y);

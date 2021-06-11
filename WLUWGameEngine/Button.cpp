@@ -1,11 +1,12 @@
 #include "Button.h"
 
-Button::Button(Vector2 &pos, Vector2 &size, WTexture& normal, WTexture& hovered, WTexture& pressed) : 
+Button::Button(Vector2 &pos, Vector2 &size, WTexture& normal, WTexture& hovered, WTexture& pressed, int menuID) :
 	pos(&pos), 
 	size(&size), 
 	normal(&normal), 
 	hovered(&hovered), 
-	pressed(&pressed)
+	pressed(&pressed),
+	menuID(menuID)
 {
 	state = ButtonStates::NORMAL;
 }
@@ -30,8 +31,8 @@ Button::~Button()
 /**
 * Check if mouse is inside button
 * 
-* @param x mouse x coord relative to screen
-* @param y mouse y coord relative to screen
+* @param x Mouse x coord relative to screen
+* @param y Mouse y coord relative to screen
 * @return True if mouse is inside button
 */
 bool Button::mouseIsInside(int x, int y)
@@ -115,6 +116,16 @@ void Button::updateButton(SDL_Event* e)
 void Button::setState(ButtonStates state)
 {
 	this->state = state;
+}
+
+/**
+* Callback function when button is clicked
+* 
+* @param clickFunc Function pointer to function
+*/
+void Button::onClick(onClickFunc clickFunc)
+{
+	clickFunc();
 }
 
 /**
