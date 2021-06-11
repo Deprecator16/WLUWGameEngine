@@ -24,7 +24,17 @@ SDL_Renderer* WRenderer::getRenderer()
 	return renderer;
 }
 
+void WRenderer::setCameraPos(Vector2 pos)
+{
+	cameraPos = pos;
+}
+
 void WRenderer::renderToScreen(WObject* obj)
 {
-	obj->texture->renderToRect(renderer, obj->hitbox.getBox());
+	// change box position according to camera
+	SDL_Rect rect = *obj->hitbox.getBox();
+	rect.x -= cameraPos.x;
+	rect.y -= cameraPos.y;
+
+	obj->texture->renderToRect(renderer, &rect);
 }

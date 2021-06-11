@@ -24,6 +24,9 @@ public:
 	// Returns renderer
 	SDL_Renderer* getRenderer();
 
+	// Camera
+	void setCameraPos(Vector2 pos);
+
 private:
 
 	SDL_Renderer* renderer;
@@ -47,4 +50,7 @@ private:
 
 	// Render a single texture
 	void renderToScreen(WObject* obj);
+
+	// Camera Position
+	Vector2 cameraPos;
 };

@@ -6,10 +6,10 @@
 #include "Hitbox.h"
 #include "Block.h"
 #include "Player.h"
-#include "Header.h"
 #include "WRenderer.h"
 #include "WLoader.h"
 
+#include "Header.h"
 
 // Initialize SDL
 bool init()
@@ -26,6 +26,13 @@ bool init()
 	if (!(IMG_Init(imageFlags) & imageFlags))
 	{
 		printf("SDL_image could not initialize! SDL Error: %s\n", SDL_GetError());
+		return false;
+	}
+
+	// Initialize SDL_ttf
+	if (TTF_Init() < 0)
+	{
+		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 		return false;
 	}
 
@@ -115,6 +122,9 @@ int main(int argc, char* argv[])
 	// Initialize internal timer
 	WTimer timer;
 	Uint32 timeElapsed = 0;
+
+	// Testing camera
+	rend.setCameraPos(Vector2(100, 0));
 
 	// Main game loop
 	while (!quit)
