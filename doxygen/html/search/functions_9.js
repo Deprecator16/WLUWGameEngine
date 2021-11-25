@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['lastchild_0',['LastChild',['../classtinyxml2_1_1_x_m_l_node.html#a69a29bb8263ff5e9815be180bf27e7af',1,'tinyxml2::XMLNode::LastChild()'],['../classtinyxml2_1_1_x_m_l_handle.html#a9d09f04435f0f2f7d0816b0198d0517b',1,'tinyxml2::XMLHandle::LastChild()']]],
-  ['lastchildelement_1',['LastChildElement',['../classtinyxml2_1_1_x_m_l_node.html#a609e02f02044f39b928d1a3e0de9f532',1,'tinyxml2::XMLNode::LastChildElement()'],['../classtinyxml2_1_1_x_m_l_handle.html#a42cccd0ce8b1ce704f431025e9f19e0c',1,'tinyxml2::XMLHandle::LastChildElement()']]],
-  ['loadchunk_2',['loadChunk',['../class_w_audio_controller.html#af2fc370ed34acddcbe43c0d8cf1dd4c2',1,'WAudioController']]],
-  ['loadfile_3',['LoadFile',['../classtinyxml2_1_1_x_m_l_document.html#a2ebd4647a8af5fc6831b294ac26a150a',1,'tinyxml2::XMLDocument::LoadFile(const char *filename)'],['../classtinyxml2_1_1_x_m_l_document.html#a5f1d330fad44c52f3d265338dd2a6dc2',1,'tinyxml2::XMLDocument::LoadFile(FILE *)']]],
-  ['loadmusic_4',['loadMusic',['../class_w_audio_controller.html#a76774acd419e36a96f90cdd8a112bc2b',1,'WAudioController']]]
+  ['setmusicvolume_0',['setMusicVolume',['../d5/db2/class_w_audio_controller.html#af1b3a831cb1af0717f60a15011554a80',1,'WAudioController']]],
+  ['setsfxvolume_1',['setSfxVolume',['../d5/db2/class_w_audio_controller.html#aa64f9e795717f7836b03de798d1d2785',1,'WAudioController']]],
+  ['setstate_2',['setState',['../d4/d77/class_button.html#accc7428e89687c6abc391d5481af5e62',1,'Button::setState()'],['../dc/d65/class_slider.html#ab7515e1f820353b6f27f767266ea159f',1,'Slider::setState()']]]
 ];

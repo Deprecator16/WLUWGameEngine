@@ -1,0 +1,62 @@
+\hypertarget{_w_renderer_8h_source}{}\doxysection{WRenderer.\+h}
+\label{_w_renderer_8h_source}\index{C:/Users/Deprecator16/Desktop/WLUWGameEngine/WLUWGameEngine/WRenderer.h@{C:/Users/Deprecator16/Desktop/WLUWGameEngine/WLUWGameEngine/WRenderer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include <queue>}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}Header.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}WObject.h"{}}}
+\DoxyCodeLine{6 }
+\DoxyCodeLine{7 \textcolor{keyword}{class }\mbox{\hyperlink{class_w_renderer}{WRenderer}}}
+\DoxyCodeLine{8 \{}
+\DoxyCodeLine{9 \textcolor{keyword}{public}:}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11     \textcolor{comment}{// Constructors}}
+\DoxyCodeLine{12     \mbox{\hyperlink{class_w_renderer}{WRenderer}}();}
+\DoxyCodeLine{13     \mbox{\hyperlink{class_w_renderer}{WRenderer}}(SDL\_Renderer* renderer);}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15     \textcolor{comment}{// Render all currently stored textures}}
+\DoxyCodeLine{16     \textcolor{keywordtype}{void} renderAll();}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18     \textcolor{comment}{// [DEBUG] Add object to storage}}
+\DoxyCodeLine{19     \textcolor{keywordtype}{void} addObj(\mbox{\hyperlink{class_w_object}{WObject}}* obj)}
+\DoxyCodeLine{20     \{}
+\DoxyCodeLine{21         renderQueue.push(obj);}
+\DoxyCodeLine{22     \}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24     \textcolor{comment}{// Returns renderer}}
+\DoxyCodeLine{25     SDL\_Renderer* getRenderer();}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27     \textcolor{comment}{// Camera}}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} setCameraPos(\mbox{\hyperlink{class_vector2}{Vector2}} pos);}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{keyword}{private}:}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32     SDL\_Renderer* renderer;}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     \textcolor{comment}{// Texture storage and sorting}}
+\DoxyCodeLine{35     \textcolor{comment}{//bool sortTexture(WObject* obj1, WObject* obj2);}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     }
+\DoxyCodeLine{38     \textcolor{comment}{// Sort textures}}
+\DoxyCodeLine{39     \textcolor{keyword}{struct }sortTexture}
+\DoxyCodeLine{40     \{}
+\DoxyCodeLine{41         \textcolor{keywordtype}{bool} operator()(\mbox{\hyperlink{class_w_object}{WObject}}* obj1, \mbox{\hyperlink{class_w_object}{WObject}}* obj2)}
+\DoxyCodeLine{42         \{}
+\DoxyCodeLine{43             \textcolor{keywordflow}{return} obj1-\/>texture-\/>layer < obj2-\/>texture-\/>layer;}
+\DoxyCodeLine{44         \}}
+\DoxyCodeLine{45     \};}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47     \textcolor{comment}{// Store textures in order of layer}}
+\DoxyCodeLine{48     \textcolor{comment}{// Higher layers are rendered farther back}}
+\DoxyCodeLine{49     priority\_queue<WObject*, vector<WObject*>, sortTexture> renderQueue;}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \textcolor{comment}{// Render a single texture}}
+\DoxyCodeLine{52     \textcolor{keywordtype}{void} renderToScreen(\mbox{\hyperlink{class_w_object}{WObject}}* obj);}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     \textcolor{comment}{// Camera Position}}
+\DoxyCodeLine{55     \mbox{\hyperlink{class_vector2}{Vector2}} cameraPos;}
+\DoxyCodeLine{56 \};}
+
+\end{DoxyCode}

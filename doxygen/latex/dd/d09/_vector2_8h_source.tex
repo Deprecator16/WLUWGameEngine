@@ -1,0 +1,134 @@
+\hypertarget{_vector2_8h_source}{}\doxysection{Vector2.\+h}
+\label{_vector2_8h_source}\index{C:/Users/Deprecator16/Desktop/WLUWGameEngine/WLUWGameEngine/Vector2.h@{C:/Users/Deprecator16/Desktop/WLUWGameEngine/WLUWGameEngine/Vector2.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{keyword}{class }\mbox{\hyperlink{class_vector2}{Vector2}}}
+\DoxyCodeLine{4 \{}
+\DoxyCodeLine{5 \textcolor{keyword}{public}:}
+\DoxyCodeLine{6     \textcolor{comment}{// Default constructor}}
+\DoxyCodeLine{7     \mbox{\hyperlink{class_vector2}{Vector2}}()}
+\DoxyCodeLine{8     \{}
+\DoxyCodeLine{9         x = 0.0;}
+\DoxyCodeLine{10         y = 0.0;}
+\DoxyCodeLine{11     \}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13     \textcolor{comment}{// Constructor}}
+\DoxyCodeLine{14     \mbox{\hyperlink{class_vector2}{Vector2}}(\textcolor{keywordtype}{float} x, \textcolor{keywordtype}{float} y)}
+\DoxyCodeLine{15     \{}
+\DoxyCodeLine{16         this-\/>x = x;}
+\DoxyCodeLine{17         this-\/>y = y;}
+\DoxyCodeLine{18     \}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20     \textcolor{comment}{// Core variables}}
+\DoxyCodeLine{21     \textcolor{keywordtype}{float} x;}
+\DoxyCodeLine{22     \textcolor{keywordtype}{float} y;}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24     \textcolor{comment}{// Overloaded functions}}
+\DoxyCodeLine{25     \textcolor{comment}{// Addition}}
+\DoxyCodeLine{26     \textcolor{keyword}{friend} \mbox{\hyperlink{class_vector2}{Vector2}} operator+(\textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec1, \textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec2)}
+\DoxyCodeLine{27     \{}
+\DoxyCodeLine{28         \mbox{\hyperlink{class_vector2}{Vector2}} output(0.0, 0.0);}
+\DoxyCodeLine{29         output.x = vec1.x + vec2.x;}
+\DoxyCodeLine{30         output.y = vec1.y + vec2.y;}
+\DoxyCodeLine{31         \textcolor{keywordflow}{return} output;}
+\DoxyCodeLine{32     \}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     \textcolor{keyword}{friend} \mbox{\hyperlink{class_vector2}{Vector2}} operator+(\textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec1, \textcolor{keyword}{const} \textcolor{keywordtype}{float} scalar)}
+\DoxyCodeLine{35     \{}
+\DoxyCodeLine{36         \mbox{\hyperlink{class_vector2}{Vector2}} output(0.0, 0.0);}
+\DoxyCodeLine{37         output.x = vec1.x + scalar;}
+\DoxyCodeLine{38         output.y = vec1.y + scalar;}
+\DoxyCodeLine{39         \textcolor{keywordflow}{return} output;}
+\DoxyCodeLine{40     \}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42     \textcolor{comment}{// Subtraction}}
+\DoxyCodeLine{43     \textcolor{keyword}{friend} \mbox{\hyperlink{class_vector2}{Vector2}} operator-\/(\textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec1, \textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec2)}
+\DoxyCodeLine{44     \{}
+\DoxyCodeLine{45         \mbox{\hyperlink{class_vector2}{Vector2}} output(0.0, 0.0);}
+\DoxyCodeLine{46         output.x = vec1.x -\/ vec2.x;}
+\DoxyCodeLine{47         output.y = vec1.y -\/ vec2.y;}
+\DoxyCodeLine{48         \textcolor{keywordflow}{return} output;}
+\DoxyCodeLine{49     \}}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51     \textcolor{keyword}{friend} \mbox{\hyperlink{class_vector2}{Vector2}} operator-\/(\textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec1, \textcolor{keyword}{const} \textcolor{keywordtype}{float} scalar)}
+\DoxyCodeLine{52     \{}
+\DoxyCodeLine{53         \mbox{\hyperlink{class_vector2}{Vector2}} output(0.0, 0.0);}
+\DoxyCodeLine{54         output.x = vec1.x -\/ scalar;}
+\DoxyCodeLine{55         output.y = vec1.y -\/ scalar;}
+\DoxyCodeLine{56         \textcolor{keywordflow}{return} output;}
+\DoxyCodeLine{57     \}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     \textcolor{comment}{// Multiplication}}
+\DoxyCodeLine{60     \textcolor{keyword}{friend} \mbox{\hyperlink{class_vector2}{Vector2}} operator*(\textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec1, \textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec2)}
+\DoxyCodeLine{61     \{}
+\DoxyCodeLine{62         \mbox{\hyperlink{class_vector2}{Vector2}} output(0.0, 0.0);}
+\DoxyCodeLine{63         output.x = vec1.x * vec2.x;}
+\DoxyCodeLine{64         output.y = vec1.y * vec2.y;}
+\DoxyCodeLine{65         \textcolor{keywordflow}{return} output;}
+\DoxyCodeLine{66     \}}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68     \textcolor{keyword}{friend} \mbox{\hyperlink{class_vector2}{Vector2}} operator*(\textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec1, \textcolor{keyword}{const} \textcolor{keywordtype}{float} scalar)}
+\DoxyCodeLine{69     \{}
+\DoxyCodeLine{70         \mbox{\hyperlink{class_vector2}{Vector2}} output(0.0, 0.0);}
+\DoxyCodeLine{71         output.x = vec1.x * scalar;}
+\DoxyCodeLine{72         output.y = vec1.y * scalar;}
+\DoxyCodeLine{73         \textcolor{keywordflow}{return} output;}
+\DoxyCodeLine{74     \}}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76     \textcolor{comment}{// Division}}
+\DoxyCodeLine{77     \textcolor{keyword}{friend} \mbox{\hyperlink{class_vector2}{Vector2}} operator/(\textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec1, \textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec2)}
+\DoxyCodeLine{78     \{}
+\DoxyCodeLine{79         \mbox{\hyperlink{class_vector2}{Vector2}} output(0.0, 0.0);}
+\DoxyCodeLine{80         output.x = vec1.x / vec2.x;}
+\DoxyCodeLine{81         output.y = vec1.y / vec2.y;}
+\DoxyCodeLine{82         \textcolor{keywordflow}{return} output;}
+\DoxyCodeLine{83     \}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85     \textcolor{keyword}{friend} \mbox{\hyperlink{class_vector2}{Vector2}} operator/(\textcolor{keyword}{const} \mbox{\hyperlink{class_vector2}{Vector2}} vec1, \textcolor{keyword}{const} \textcolor{keywordtype}{float} scalar)}
+\DoxyCodeLine{86     \{}
+\DoxyCodeLine{87         \mbox{\hyperlink{class_vector2}{Vector2}} output(0.0, 0.0);}
+\DoxyCodeLine{88         output.x = vec1.x / scalar;}
+\DoxyCodeLine{89         output.y = vec1.y / scalar;}
+\DoxyCodeLine{90         \textcolor{keywordflow}{return} output;}
+\DoxyCodeLine{91     \}}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93     \textcolor{keywordtype}{float}\& operator[](\textcolor{keywordtype}{int} index)}
+\DoxyCodeLine{94     \{}
+\DoxyCodeLine{95         \textcolor{keywordflow}{if} (index > 1 || index < 0)}
+\DoxyCodeLine{96         \{}
+\DoxyCodeLine{97             \textcolor{keywordflow}{throw}(\textcolor{stringliteral}{"{}out of range"{}});}
+\DoxyCodeLine{98             \textcolor{keywordtype}{float} x;}
+\DoxyCodeLine{99             \textcolor{keywordflow}{return} x;}
+\DoxyCodeLine{100         \}}
+\DoxyCodeLine{101         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (index == 0)}
+\DoxyCodeLine{102         \{}
+\DoxyCodeLine{103             \textcolor{keywordflow}{return} x;}
+\DoxyCodeLine{104         \}}
+\DoxyCodeLine{105         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (index == 1)}
+\DoxyCodeLine{106         \{}
+\DoxyCodeLine{107             \textcolor{keywordflow}{return} y;}
+\DoxyCodeLine{108         \}}
+\DoxyCodeLine{109     \}}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111     \textcolor{keyword}{const} \textcolor{keywordtype}{float}\& operator[](\textcolor{keywordtype}{int} index)\textcolor{keyword}{ const}}
+\DoxyCodeLine{112 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{113         \textcolor{keywordflow}{if} (index > 1 || index < 0)}
+\DoxyCodeLine{114         \{}
+\DoxyCodeLine{115             \textcolor{keywordflow}{throw}(\textcolor{stringliteral}{"{}out of range"{}});}
+\DoxyCodeLine{116             \textcolor{keywordtype}{float} x;}
+\DoxyCodeLine{117             \textcolor{keywordflow}{return} x;}
+\DoxyCodeLine{118         \}}
+\DoxyCodeLine{119         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (index == 0)}
+\DoxyCodeLine{120         \{}
+\DoxyCodeLine{121             \textcolor{keywordflow}{return} x;}
+\DoxyCodeLine{122         \}}
+\DoxyCodeLine{123         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (index == 1)}
+\DoxyCodeLine{124         \{}
+\DoxyCodeLine{125             \textcolor{keywordflow}{return} y;}
+\DoxyCodeLine{126         \}}
+\DoxyCodeLine{127     \}}
+\DoxyCodeLine{128 \};}
+
+\end{DoxyCode}

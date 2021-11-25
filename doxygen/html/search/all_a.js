@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['mempool_0',['MemPool',['../classtinyxml2_1_1_mem_pool.html',1,'tinyxml2']]],
-  ['mempoolt_1',['MemPoolT',['../classtinyxml2_1_1_mem_pool_t.html',1,'tinyxml2']]],
-  ['mouseisinside_2',['mouseIsInside',['../class_button.html#a8edcdfb29e1a99976f41639062a4a5d3',1,'Button']]],
-  ['mouseisinsidebar_3',['mouseIsInsideBar',['../class_slider.html#ae42a70a71f129375802f030701e59b71',1,'Slider']]],
-  ['mouseisinsideknob_4',['mouseIsInsideKnob',['../class_slider.html#a92b52e22e6f33fc86ead9cf16009aac0',1,'Slider']]],
-  ['mouseisinsideslider_5',['mouseIsInsideSlider',['../class_slider.html#a7eed592c2613e0f2fa8e94af1fd9c5bd',1,'Slider']]]
+  ['setmusicvolume_0',['setMusicVolume',['../d5/db2/class_w_audio_controller.html#af1b3a831cb1af0717f60a15011554a80',1,'WAudioController']]],
+  ['setsfxvolume_1',['setSfxVolume',['../d5/db2/class_w_audio_controller.html#aa64f9e795717f7836b03de798d1d2785',1,'WAudioController']]],
+  ['setstate_2',['setState',['../d4/d77/class_button.html#accc7428e89687c6abc391d5481af5e62',1,'Button::setState()'],['../dc/d65/class_slider.html#ab7515e1f820353b6f27f767266ea159f',1,'Slider::setState()']]],
+  ['slider_3',['Slider',['../dc/d65/class_slider.html',1,'']]]
 ];

@@ -1,0 +1,129 @@
+\hypertarget{class_player}{}\doxysection{Player Class Reference}
+\label{class_player}\index{Player@{Player}}
+Inheritance diagram for Player\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{d8/d53/class_player}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_player_ad0a21b08b55720aa97d35a52581388cf}\label{class_player_ad0a21b08b55720aa97d35a52581388cf}} 
+{\bfseries Player} (\mbox{\hyperlink{class_vector2}{Vector2}} hitbox\+Pos, \mbox{\hyperlink{class_vector2}{Vector2}} hitbox\+Size, \mbox{\hyperlink{class_w_texture}{WTexture}} $\ast$sprite, \mbox{\hyperlink{class_vector2}{Vector2}} image\+Count, \mbox{\hyperlink{class_w_window}{WWindow}} $\ast$window, SDL\+\_\+\+Renderer $\ast$renderer)
+\item 
+\mbox{\Hypertarget{class_player_a913da738ad11f416e6ddf90f4ecebdd3}\label{class_player_a913da738ad11f416e6ddf90f4ecebdd3}} 
+void {\bfseries dead\+State} (float delta\+Time)
+\item 
+\mbox{\Hypertarget{class_player_a9fb4fefcbe1e0149f5c803913738675c}\label{class_player_a9fb4fefcbe1e0149f5c803913738675c}} 
+void {\bfseries idle\+State} (float delta\+Time)
+\item 
+\mbox{\Hypertarget{class_player_a7311042f930a92f994aa1c70019f2a19}\label{class_player_a7311042f930a92f994aa1c70019f2a19}} 
+void {\bfseries walk\+State} (float delta\+Time)
+\item 
+\mbox{\Hypertarget{class_player_ae5d32282a39d846633ca0f7726944ff2}\label{class_player_ae5d32282a39d846633ca0f7726944ff2}} 
+void {\bfseries run\+State} (float delta\+Time)
+\item 
+\mbox{\Hypertarget{class_player_ac8ef627b0ecaa639502d5d1171b0502b}\label{class_player_ac8ef627b0ecaa639502d5d1171b0502b}} 
+void {\bfseries jump\+State} (float delta\+Time)
+\item 
+\mbox{\Hypertarget{class_player_a7119b7b50f8373fb87fd119aa9f66dfd}\label{class_player_a7119b7b50f8373fb87fd119aa9f66dfd}} 
+void {\bfseries crouch\+State} (float delta\+Time)
+\item 
+\mbox{\Hypertarget{class_player_a512cc5207eeb07b78831d405a8f1276b}\label{class_player_a512cc5207eeb07b78831d405a8f1276b}} 
+void {\bfseries handle\+Event} (SDL\+\_\+\+Event \&e)
+\item 
+\mbox{\Hypertarget{class_player_ae961685d8f83bfacd0ebc1e46c537565}\label{class_player_ae961685d8f83bfacd0ebc1e46c537565}} 
+void {\bfseries update\+Animation} (float delta\+Time)
+\item 
+\mbox{\Hypertarget{class_player_a584e779f6483c59a680766e3b11f060a}\label{class_player_a584e779f6483c59a680766e3b11f060a}} 
+void {\bfseries update} (float delta\+Time)
+\item 
+\mbox{\Hypertarget{class_player_afe3ff7815f9366b4c4fffa2cf6556ad5}\label{class_player_afe3ff7815f9366b4c4fffa2cf6556ad5}} 
+void {\bfseries render} ()
+\item 
+\mbox{\Hypertarget{class_player_aaa9c7bacbe7e5df7f24f1a3c0609cfec}\label{class_player_aaa9c7bacbe7e5df7f24f1a3c0609cfec}} 
+\mbox{\hyperlink{class_vector2}{Vector2}} {\bfseries get\+Pos} ()
+\item 
+\mbox{\Hypertarget{class_player_a516725b42bd586ce6a75f3d2cf50def4}\label{class_player_a516725b42bd586ce6a75f3d2cf50def4}} 
+\mbox{\hyperlink{class_vector2}{Vector2}} {\bfseries get\+Size} ()
+\item 
+\mbox{\Hypertarget{class_player_a53dbcfab2244d7b5af6233fc7276bef7}\label{class_player_a53dbcfab2244d7b5af6233fc7276bef7}} 
+\mbox{\hyperlink{class_vector2}{Vector2}} {\bfseries get\+Vel} ()
+\item 
+\mbox{\Hypertarget{class_player_a21cf27a179c0fd94fc423ce2623a4de5}\label{class_player_a21cf27a179c0fd94fc423ce2623a4de5}} 
+\mbox{\hyperlink{class_hitbox}{Hitbox}} $\ast$ {\bfseries get\+Hitbox} ()
+\item 
+\mbox{\Hypertarget{class_player_aadf28877e9a64c905f2f32edf72f873a}\label{class_player_aadf28877e9a64c905f2f32edf72f873a}} 
+Player\+State {\bfseries get\+State} ()
+\item 
+\mbox{\Hypertarget{class_player_aedd26afc62acd73100115b453bdfe0f6}\label{class_player_aedd26afc62acd73100115b453bdfe0f6}} 
+void {\bfseries set\+Pos} (\mbox{\hyperlink{class_vector2}{Vector2}} pos)
+\item 
+\mbox{\Hypertarget{class_player_add06d5d81022017aab6b137a89d7e7d9}\label{class_player_add06d5d81022017aab6b137a89d7e7d9}} 
+void {\bfseries set\+Vel} (\mbox{\hyperlink{class_vector2}{Vector2}} vel)
+\item 
+\mbox{\Hypertarget{class_player_a0a79810d3e4db6025acb768ba6ae916b}\label{class_player_a0a79810d3e4db6025acb768ba6ae916b}} 
+void {\bfseries set\+Can\+Jump} (bool can\+Jump)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_player_a21e212ba2c3ac9a4a7737b16ea06d1c0}\label{class_player_a21e212ba2c3ac9a4a7737b16ea06d1c0}} 
+\mbox{\hyperlink{class_hitbox}{Hitbox}} {\bfseries hitbox}
+\item 
+\mbox{\Hypertarget{class_player_a8e1d559ae83bef440f947a2d91a700a7}\label{class_player_a8e1d559ae83bef440f947a2d91a700a7}} 
+\mbox{\hyperlink{class_w_animation}{WAnimation}} {\bfseries animation}
+\item 
+\mbox{\Hypertarget{class_player_ab4e6ed0131da3921bc80b39f9b455dc9}\label{class_player_ab4e6ed0131da3921bc80b39f9b455dc9}} 
+int {\bfseries row}
+\item 
+\mbox{\Hypertarget{class_player_a61f2949f8abaec312e526b26de6964c7}\label{class_player_a61f2949f8abaec312e526b26de6964c7}} 
+int {\bfseries col\+Begin}
+\item 
+\mbox{\Hypertarget{class_player_aa8c5107b6efc045880e7c39ab7c54965}\label{class_player_aa8c5107b6efc045880e7c39ab7c54965}} 
+int {\bfseries col\+End}
+\item 
+\mbox{\Hypertarget{class_player_a6c4bc522f63a3a72779850ed983cadcf}\label{class_player_a6c4bc522f63a3a72779850ed983cadcf}} 
+float {\bfseries switch\+Time}
+\item 
+\mbox{\Hypertarget{class_player_ad9571d46a33dd843b8ac0c8fa1104f18}\label{class_player_ad9571d46a33dd843b8ac0c8fa1104f18}} 
+bool {\bfseries face\+Right}
+\item 
+\mbox{\Hypertarget{class_player_adfc6aaa5842f687dd854e5baceaddd9b}\label{class_player_adfc6aaa5842f687dd854e5baceaddd9b}} 
+SDL\+\_\+\+Renderer $\ast$ {\bfseries renderer}
+\item 
+\mbox{\Hypertarget{class_player_a770942101eff683b030edde9f730d537}\label{class_player_a770942101eff683b030edde9f730d537}} 
+float {\bfseries speed}
+\item 
+\mbox{\Hypertarget{class_player_a4f89d734cdeaff0e9e4e72119f60438c}\label{class_player_a4f89d734cdeaff0e9e4e72119f60438c}} 
+float {\bfseries jump\+Height}
+\item 
+\mbox{\Hypertarget{class_player_a4786038ec51e98e7c58257b3910a9641}\label{class_player_a4786038ec51e98e7c58257b3910a9641}} 
+\mbox{\hyperlink{class_vector2}{Vector2}} {\bfseries vel}
+\item 
+\mbox{\Hypertarget{class_player_adc45785d6d5075072ef675ce2781f6ff}\label{class_player_adc45785d6d5075072ef675ce2781f6ff}} 
+bool {\bfseries can\+Jump}
+\item 
+\mbox{\Hypertarget{class_player_afb60fdad921bce05783ef2709e849c27}\label{class_player_afb60fdad921bce05783ef2709e849c27}} 
+Player\+State {\bfseries state}
+\item 
+\mbox{\Hypertarget{class_player_a4180373ee0826943fe39d0e8a1712934}\label{class_player_a4180373ee0826943fe39d0e8a1712934}} 
+bool {\bfseries keyW}
+\item 
+\mbox{\Hypertarget{class_player_ab626d3a5ef33e64acc01e2fe10290d32}\label{class_player_ab626d3a5ef33e64acc01e2fe10290d32}} 
+bool {\bfseries keyS}
+\item 
+\mbox{\Hypertarget{class_player_abebe28e39574958115bbf2ab58baf312}\label{class_player_abebe28e39574958115bbf2ab58baf312}} 
+bool {\bfseries keyA}
+\item 
+\mbox{\Hypertarget{class_player_a144dbbaa8e2a1a895eaaece0ca9fb9d5}\label{class_player_a144dbbaa8e2a1a895eaaece0ca9fb9d5}} 
+bool {\bfseries keyD}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Deprecator16/\+Desktop/\+WLUWGame\+Engine/\+WLUWGame\+Engine/Player.\+h\item 
+C\+:/\+Users/\+Deprecator16/\+Desktop/\+WLUWGame\+Engine/\+WLUWGame\+Engine/Player.\+cpp\end{DoxyCompactItemize}

@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['insertafterchild_0',['InsertAfterChild',['../classtinyxml2_1_1_x_m_l_node.html#a9275138a1b8dd5d8e2c26789bdc23ac8',1,'tinyxml2::XMLNode']]],
-  ['insertendchild_1',['InsertEndChild',['../classtinyxml2_1_1_x_m_l_node.html#ae3b422e98914d6002ca99bb1d2837103',1,'tinyxml2::XMLNode']]],
-  ['insertfirstchild_2',['InsertFirstChild',['../classtinyxml2_1_1_x_m_l_node.html#ac609a8f3ea949027f439280c640bbaf2',1,'tinyxml2::XMLNode']]],
-  ['int64attribute_3',['Int64Attribute',['../classtinyxml2_1_1_x_m_l_element.html#a66d96972adecd816194191f13cc4a0a0',1,'tinyxml2::XMLElement']]],
-  ['int64text_4',['Int64Text',['../classtinyxml2_1_1_x_m_l_element.html#aab6151f7e3b4c2c0a8234e262d7b6b8a',1,'tinyxml2::XMLElement']]],
-  ['intattribute_5',['IntAttribute',['../classtinyxml2_1_1_x_m_l_element.html#a95a89b13bb14a2d4655e2b5b406c00d4',1,'tinyxml2::XMLElement']]],
-  ['intvalue_6',['IntValue',['../classtinyxml2_1_1_x_m_l_attribute.html#adfa2433f0fdafd5c3880936de9affa80',1,'tinyxml2::XMLAttribute']]]
+  ['pausemusic_0',['pauseMusic',['../d5/db2/class_w_audio_controller.html#a677ef54115d3f8d02e4d389b01619891',1,'WAudioController']]],
+  ['player_1',['Player',['../d8/d53/class_player.html',1,'']]],
+  ['playmusic_2',['playMusic',['../d5/db2/class_w_audio_controller.html#a5f3f0577805f872579cd4b8190efc386',1,'WAudioController']]],
+  ['playmusiclooped_3',['playMusicLooped',['../d5/db2/class_w_audio_controller.html#ae1c5d5c7f839826a7667b0c57c02ae49',1,'WAudioController']]],
+  ['playsfx_4',['playSfx',['../d5/db2/class_w_audio_controller.html#acef3fa2955a63f33ba43df971cfc1c2f',1,'WAudioController']]],
+  ['playsfxlooped_5',['playSfxLooped',['../d5/db2/class_w_audio_controller.html#a866c8120d782314511a9d70b88f3d2ca',1,'WAudioController']]]
 ];

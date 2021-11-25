@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dynarray_0',['DynArray',['../classtinyxml2_1_1_dyn_array.html',1,'tinyxml2']]]
+  ['hitbox_0',['Hitbox',['../d7/d44/class_hitbox.html',1,'']]]
 ];

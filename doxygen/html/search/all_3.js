@@ -1,13 +1,11 @@
 var searchData=
 [
-  ['deepclone_0',['DeepClone',['../classtinyxml2_1_1_x_m_l_node.html#a3bb369fd733f1989b751d99a9417adab',1,'tinyxml2::XMLNode']]],
-  ['deepcopy_1',['DeepCopy',['../classtinyxml2_1_1_x_m_l_document.html#af592ffc91514e25a39664521ac83db45',1,'tinyxml2::XMLDocument']]],
-  ['deleteattribute_2',['DeleteAttribute',['../classtinyxml2_1_1_x_m_l_element.html#aebd45aa7118964c30b32fe12e944628a',1,'tinyxml2::XMLElement']]],
-  ['deletechild_3',['DeleteChild',['../classtinyxml2_1_1_x_m_l_node.html#a363b6edbd6ebd55f8387d2b89f2b0921',1,'tinyxml2::XMLNode']]],
-  ['deletechildren_4',['DeleteChildren',['../classtinyxml2_1_1_x_m_l_node.html#a0360085cc54df5bff85d5c5da13afdce',1,'tinyxml2::XMLNode']]],
-  ['deletenode_5',['DeleteNode',['../classtinyxml2_1_1_x_m_l_document.html#ac1d6e2c7fcc1a660624ac4f68e96380d',1,'tinyxml2::XMLDocument']]],
-  ['doubleattribute_6',['DoubleAttribute',['../classtinyxml2_1_1_x_m_l_element.html#a10a90c505aea716bf073eea1c97f33b5',1,'tinyxml2::XMLElement']]],
-  ['doubletext_7',['DoubleText',['../classtinyxml2_1_1_x_m_l_element.html#a81b1ff0cf2f2cd09be8badc08b39a2b7',1,'tinyxml2::XMLElement']]],
-  ['doublevalue_8',['DoubleValue',['../classtinyxml2_1_1_x_m_l_attribute.html#a4aa73513f54ff0087d3e804f0f54e30f',1,'tinyxml2::XMLAttribute']]],
-  ['dynarray_9',['DynArray',['../classtinyxml2_1_1_dyn_array.html',1,'tinyxml2']]]
+  ['getchunk_0',['getChunk',['../d5/db2/class_w_audio_controller.html#a4c9a768e3215c49e545a12a326cb396b',1,'WAudioController']]],
+  ['getknobpos_1',['getKnobPos',['../dc/d65/class_slider.html#a5032a660cb31cb6150ecb169b46fee35',1,'Slider']]],
+  ['getmusic_2',['getMusic',['../d5/db2/class_w_audio_controller.html#aa9a4c776b4c3dff77f0a425a98ba8bcb',1,'WAudioController']]],
+  ['getmusicvolume_3',['getMusicVolume',['../d5/db2/class_w_audio_controller.html#a7885aaa2101e8c5ba568f5a07e50eeef',1,'WAudioController']]],
+  ['getpausedmusic_4',['getPausedMusic',['../d5/db2/class_w_audio_controller.html#a8ffd88359f467295ffc4bb026fb6a4b9',1,'WAudioController']]],
+  ['getplayingmusic_5',['getPlayingMusic',['../d5/db2/class_w_audio_controller.html#a59c0f5b88a5fdcf9c713243d385991b1',1,'WAudioController']]],
+  ['getsfxvolume_6',['getSfxVolume',['../d5/db2/class_w_audio_controller.html#a806923a22c3eaac99d78f895eb3dc41e',1,'WAudioController']]],
+  ['gettexture_7',['getTexture',['../d4/d77/class_button.html#aa772c6a58323d072aa2e753285676a4c',1,'Button']]]
 ];

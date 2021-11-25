@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['cdata_0',['CData',['../classtinyxml2_1_1_x_m_l_text.html#ac1bb5ea4166c320882d9e0ad16fd385b',1,'tinyxml2::XMLText']]],
-  ['clear_1',['Clear',['../classtinyxml2_1_1_x_m_l_document.html#a65656b0b2cbc822708eb351504178aaf',1,'tinyxml2::XMLDocument']]],
-  ['clearbuffer_2',['ClearBuffer',['../classtinyxml2_1_1_x_m_l_printer.html#a216157765b7267bf389975b1cbf9a909',1,'tinyxml2::XMLPrinter']]],
-  ['closeelement_3',['CloseElement',['../classtinyxml2_1_1_x_m_l_printer.html#af1fb439e5d800999646f333fa2f0699a',1,'tinyxml2::XMLPrinter']]],
-  ['containschunk_4',['containsChunk',['../class_w_audio_controller.html#a82a5b04c09a532a70c96cac7d70e8636',1,'WAudioController']]],
-  ['containsmusic_5',['containsMusic',['../class_w_audio_controller.html#af5f7baad0778c21c7fb03b63034bfd6a',1,'WAudioController']]],
-  ['cstr_6',['CStr',['../classtinyxml2_1_1_x_m_l_printer.html#abfa772366c44a17cdeb8aea294d57f78',1,'tinyxml2::XMLPrinter']]],
-  ['cstrsize_7',['CStrSize',['../classtinyxml2_1_1_x_m_l_printer.html#a3256cf3523d4898b91abb18b924be04c',1,'tinyxml2::XMLPrinter']]]
+  ['getchunk_0',['getChunk',['../d5/db2/class_w_audio_controller.html#a4c9a768e3215c49e545a12a326cb396b',1,'WAudioController']]],
+  ['getknobpos_1',['getKnobPos',['../dc/d65/class_slider.html#a5032a660cb31cb6150ecb169b46fee35',1,'Slider']]],
+  ['getmusic_2',['getMusic',['../d5/db2/class_w_audio_controller.html#aa9a4c776b4c3dff77f0a425a98ba8bcb',1,'WAudioController']]],
+  ['getmusicvolume_3',['getMusicVolume',['../d5/db2/class_w_audio_controller.html#a7885aaa2101e8c5ba568f5a07e50eeef',1,'WAudioController']]],
+  ['getpausedmusic_4',['getPausedMusic',['../d5/db2/class_w_audio_controller.html#a8ffd88359f467295ffc4bb026fb6a4b9',1,'WAudioController']]],
+  ['getplayingmusic_5',['getPlayingMusic',['../d5/db2/class_w_audio_controller.html#a59c0f5b88a5fdcf9c713243d385991b1',1,'WAudioController']]],
+  ['getsfxvolume_6',['getSfxVolume',['../d5/db2/class_w_audio_controller.html#a806923a22c3eaac99d78f895eb3dc41e',1,'WAudioController']]],
+  ['gettexture_7',['getTexture',['../d4/d77/class_button.html#aa772c6a58323d072aa2e753285676a4c',1,'Button']]]
 ];

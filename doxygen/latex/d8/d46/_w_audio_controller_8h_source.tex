@@ -1,0 +1,58 @@
+\hypertarget{_w_audio_controller_8h_source}{}\doxysection{WAudio\+Controller.\+h}
+\label{_w_audio_controller_8h_source}\index{C:/Users/Deprecator16/Desktop/WLUWGameEngine/WLUWGameEngine/WAudioController.h@{C:/Users/Deprecator16/Desktop/WLUWGameEngine/WLUWGameEngine/WAudioController.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include <unordered\_map>}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}SDL\_mixer.h"{}}}
+\DoxyCodeLine{5 }
+\DoxyCodeLine{6 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{11 \textcolor{keyword}{class }\mbox{\hyperlink{class_w_audio_controller}{WAudioController}}}
+\DoxyCodeLine{12 \{}
+\DoxyCodeLine{13 \textcolor{keyword}{public}:}
+\DoxyCodeLine{14     unordered\_map<string, Mix\_Chunk*> sfx; \textcolor{comment}{//Dictionary of sound effects}}
+\DoxyCodeLine{15     unordered\_map<string, Mix\_Music*> music; \textcolor{comment}{//Dictionary of music}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17     \textcolor{keywordtype}{float} sfxVolume = 1.0f; \textcolor{comment}{//SFX volume}}
+\DoxyCodeLine{18     \textcolor{keywordtype}{float} musicVolume = 1.0f; \textcolor{comment}{//Music volume}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20     \textcolor{comment}{//Constructors and destructor}}
+\DoxyCodeLine{21     \mbox{\hyperlink{class_w_audio_controller}{WAudioController}}(\textcolor{keywordtype}{float} sVolume = 1.0f, \textcolor{keywordtype}{float} mVolume = 1.0f);}
+\DoxyCodeLine{22     \mbox{\hyperlink{class_w_audio_controller}{\string~WAudioController}}();}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24     \textcolor{comment}{//Sound file loading functions}}
+\DoxyCodeLine{25     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_w_audio_controller_af2fc370ed34acddcbe43c0d8cf1dd4c2}{loadChunk}}(\textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{string} key);}
+\DoxyCodeLine{26     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_w_audio_controller_a76774acd419e36a96f90cdd8a112bc2b}{loadMusic}}(\textcolor{keywordtype}{char}* file, \textcolor{keywordtype}{string} key);}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28     \textcolor{comment}{//Check container functions}}
+\DoxyCodeLine{29     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_w_audio_controller_a82a5b04c09a532a70c96cac7d70e8636}{containsChunk}}(\textcolor{keywordtype}{string} key);}
+\DoxyCodeLine{30     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_w_audio_controller_af5f7baad0778c21c7fb03b63034bfd6a}{containsMusic}}(\textcolor{keywordtype}{string} key);}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32     \textcolor{comment}{//Getters}}
+\DoxyCodeLine{33     Mix\_Chunk* \mbox{\hyperlink{class_w_audio_controller_a4c9a768e3215c49e545a12a326cb396b}{getChunk}}(\textcolor{keywordtype}{string} key);}
+\DoxyCodeLine{34     Mix\_Music* \mbox{\hyperlink{class_w_audio_controller_aa9a4c776b4c3dff77f0a425a98ba8bcb}{getMusic}}(\textcolor{keywordtype}{string} key);}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36     \textcolor{comment}{//Volume functions}}
+\DoxyCodeLine{37     \textcolor{keywordtype}{float} \mbox{\hyperlink{class_w_audio_controller_aa64f9e795717f7836b03de798d1d2785}{setSfxVolume}}(\textcolor{keywordtype}{float} volume);}
+\DoxyCodeLine{38     \textcolor{keywordtype}{float} \mbox{\hyperlink{class_w_audio_controller_af1b3a831cb1af0717f60a15011554a80}{setMusicVolume}}(\textcolor{keywordtype}{float} volume);}
+\DoxyCodeLine{39     \textcolor{keywordtype}{float} \mbox{\hyperlink{class_w_audio_controller_a806923a22c3eaac99d78f895eb3dc41e}{getSfxVolume}}();}
+\DoxyCodeLine{40     \textcolor{keywordtype}{float} \mbox{\hyperlink{class_w_audio_controller_a7885aaa2101e8c5ba568f5a07e50eeef}{getMusicVolume}}();}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42     \textcolor{comment}{//Play SFX functions}}
+\DoxyCodeLine{43     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_w_audio_controller_a866c8120d782314511a9d70b88f3d2ca}{playSfxLooped}}(\textcolor{keywordtype}{string} key, \textcolor{keywordtype}{int} loops);}
+\DoxyCodeLine{44     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_w_audio_controller_acef3fa2955a63f33ba43df971cfc1c2f}{playSfx}}(\textcolor{keywordtype}{string} key);}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46     \textcolor{comment}{//Music functions}}
+\DoxyCodeLine{47     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_w_audio_controller_ae1c5d5c7f839826a7667b0c57c02ae49}{playMusicLooped}}(\textcolor{keywordtype}{string} key, \textcolor{keywordtype}{int} loops, \textcolor{keywordtype}{int} fadeInTime = 0);}
+\DoxyCodeLine{48     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_w_audio_controller_a5f3f0577805f872579cd4b8190efc386}{playMusic}}(\textcolor{keywordtype}{string} key, \textcolor{keywordtype}{int} fadeInTime = 0);}
+\DoxyCodeLine{49     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_w_audio_controller_a677ef54115d3f8d02e4d389b01619891}{pauseMusic}}();}
+\DoxyCodeLine{50     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_w_audio_controller_ac23f0aa27d3c4731bb6419be49a8ee2d}{resumeMusic}}();}
+\DoxyCodeLine{51     \textcolor{keywordtype}{int} \mbox{\hyperlink{class_w_audio_controller_a9d5001f2b78f1c11979817dfe90862f4}{haltMusic}}(\textcolor{keywordtype}{int} fadeOutTime = 0);}
+\DoxyCodeLine{52     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_w_audio_controller_a8ffd88359f467295ffc4bb026fb6a4b9}{getPausedMusic}}();}
+\DoxyCodeLine{53     \textcolor{keywordtype}{bool} \mbox{\hyperlink{class_w_audio_controller_a59c0f5b88a5fdcf9c713243d385991b1}{getPlayingMusic}}();}
+\DoxyCodeLine{54 \};}
+\DoxyCodeLine{55 }
+
+\end{DoxyCode}
