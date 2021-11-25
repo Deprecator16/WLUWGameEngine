@@ -9,7 +9,7 @@ Cleanup:
 - Menu editing (buttons, sliders) - use event system
 - Standardize movement and rendering
 - Improve animation ease of use
-- Add standardized documentation (doxygen)
+- ~~Add standardized documentation (doxygen)~~ (COMPLETE)
 - Ease of use for external projects
 
 Additions:
