@@ -1,0 +1,102 @@
+\hypertarget{class_w_menu}{}\doxysection{WMenu Class Reference}
+\label{class_w_menu}\index{WMenu@{WMenu}}
+
+
+{\ttfamily \#include $<$WMenu.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_w_menu_a5c3d5506875e1c6040870971275c87a3}\label{class_w_menu_a5c3d5506875e1c6040870971275c87a3}} 
+{\bfseries WMenu} (vector$<$ \mbox{\hyperlink{class_button}{Button}} $>$ \&buttons, vector$<$ \mbox{\hyperlink{class_slider}{Slider}} $>$ \&sliders)
+\item 
+void \mbox{\hyperlink{class_w_menu_ac33dbb4e2fd95d4032a647e90e1c05cd}{add\+Button}} (\mbox{\hyperlink{class_button}{Button}} button)
+\item 
+void \mbox{\hyperlink{class_w_menu_a26d926c805221ac16d348565753917f4}{add\+Slider}} (\mbox{\hyperlink{class_slider}{Slider}} slider)
+\item 
+\mbox{\hyperlink{class_button}{Button}} $\ast$ \mbox{\hyperlink{class_w_menu_aabd28a3c3cc6871e55c24b00f77dc4b3}{remove\+Button}} (int menu\+ID)
+\item 
+\mbox{\hyperlink{class_slider}{Slider}} $\ast$ \mbox{\hyperlink{class_w_menu_a3dc862327d61e55d32f5f2d10df5d9cc}{remove\+Slider}} (int menu\+ID)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_w_menu_a046f7ce2252c905e6ce46034eb4e76d0}\label{class_w_menu_a046f7ce2252c905e6ce46034eb4e76d0}} 
+vector$<$ \mbox{\hyperlink{class_button}{Button}} $>$ $\ast$ {\bfseries buttons} = nullptr
+\item 
+\mbox{\Hypertarget{class_w_menu_a45de53b09002abaf0a12f28e3a7809b7}\label{class_w_menu_a45de53b09002abaf0a12f28e3a7809b7}} 
+vector$<$ \mbox{\hyperlink{class_slider}{Slider}} $>$ $\ast$ {\bfseries sliders} = nullptr
+\item 
+\mbox{\Hypertarget{class_w_menu_aa630a54ae57d8b1dcd86007986f2f0d0}\label{class_w_menu_aa630a54ae57d8b1dcd86007986f2f0d0}} 
+int {\bfseries menu\+IDCounter} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Base Menu class 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_w_menu_ac33dbb4e2fd95d4032a647e90e1c05cd}\label{class_w_menu_ac33dbb4e2fd95d4032a647e90e1c05cd}} 
+\index{WMenu@{WMenu}!addButton@{addButton}}
+\index{addButton@{addButton}!WMenu@{WMenu}}
+\doxysubsubsection{\texorpdfstring{addButton()}{addButton()}}
+{\footnotesize\ttfamily void WMenu\+::add\+Button (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_button}{Button}}}]{button }\end{DoxyParamCaption})}
+
+Add button to menu
+
+
+\begin{DoxyParams}{Parameters}
+{\em button} & \mbox{\hyperlink{class_button}{Button}} to add to menu \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_w_menu_a26d926c805221ac16d348565753917f4}\label{class_w_menu_a26d926c805221ac16d348565753917f4}} 
+\index{WMenu@{WMenu}!addSlider@{addSlider}}
+\index{addSlider@{addSlider}!WMenu@{WMenu}}
+\doxysubsubsection{\texorpdfstring{addSlider()}{addSlider()}}
+{\footnotesize\ttfamily void WMenu\+::add\+Slider (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_slider}{Slider}}}]{slider }\end{DoxyParamCaption})}
+
+Add slider to menu
+
+
+\begin{DoxyParams}{Parameters}
+{\em slider} & \mbox{\hyperlink{class_slider}{Slider}} to add to menu \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_w_menu_aabd28a3c3cc6871e55c24b00f77dc4b3}\label{class_w_menu_aabd28a3c3cc6871e55c24b00f77dc4b3}} 
+\index{WMenu@{WMenu}!removeButton@{removeButton}}
+\index{removeButton@{removeButton}!WMenu@{WMenu}}
+\doxysubsubsection{\texorpdfstring{removeButton()}{removeButton()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_button}{Button}} $\ast$ WMenu\+::remove\+Button (\begin{DoxyParamCaption}\item[{int}]{menu\+ID }\end{DoxyParamCaption})}
+
+Remove button by menu\+ID
+
+
+\begin{DoxyParams}{Parameters}
+{\em menu\+ID} & ID of button to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Removed button 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_w_menu_a3dc862327d61e55d32f5f2d10df5d9cc}\label{class_w_menu_a3dc862327d61e55d32f5f2d10df5d9cc}} 
+\index{WMenu@{WMenu}!removeSlider@{removeSlider}}
+\index{removeSlider@{removeSlider}!WMenu@{WMenu}}
+\doxysubsubsection{\texorpdfstring{removeSlider()}{removeSlider()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_slider}{Slider}} $\ast$ WMenu\+::remove\+Slider (\begin{DoxyParamCaption}\item[{int}]{menu\+ID }\end{DoxyParamCaption})}
+
+Remove slider by menu\+ID
+
+
+\begin{DoxyParams}{Parameters}
+{\em menu\+ID} & ID of slider to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Removed slider 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+WLUWGame\+Engine/WMenu.\+h\item 
+WLUWGame\+Engine/WMenu.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,77 @@
+\hypertarget{_player_8h_source}{}\doxysection{Player.\+h}
+\label{_player_8h_source}\index{WLUWGameEngine/Player.h@{WLUWGameEngine/Player.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include "{}Vector2.h"{}}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}WTexture.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}WAnimation.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}Hitbox.h"{}}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include "{}WWindow.h"{}}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}Header.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}WObject.h"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{class }\mbox{\hyperlink{class_player}{Player}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_w_object}{WObject}}}
+\DoxyCodeLine{12 \{}
+\DoxyCodeLine{13 \textcolor{keyword}{public}:}
+\DoxyCodeLine{14     \textcolor{comment}{// Constructor}}
+\DoxyCodeLine{15     \mbox{\hyperlink{class_player}{Player}}(\mbox{\hyperlink{class_vector2}{Vector2}} hitboxPos, \mbox{\hyperlink{class_vector2}{Vector2}} hitboxSize, \mbox{\hyperlink{class_w_texture}{WTexture}}* sprite, \mbox{\hyperlink{class_vector2}{Vector2}} imageCount, \mbox{\hyperlink{class_w_window}{WWindow}}* window, SDL\_Renderer* renderer);}
+\DoxyCodeLine{16     \mbox{\hyperlink{class_player}{\string~Player}}();}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18     \textcolor{comment}{// State machine functions}}
+\DoxyCodeLine{19     \textcolor{keywordtype}{void} deadState(\textcolor{keywordtype}{float} deltaTime);}
+\DoxyCodeLine{20     \textcolor{keywordtype}{void} idleState(\textcolor{keywordtype}{float} deltaTime);}
+\DoxyCodeLine{21     \textcolor{keywordtype}{void} walkState(\textcolor{keywordtype}{float} deltaTime);}
+\DoxyCodeLine{22     \textcolor{keywordtype}{void} runState(\textcolor{keywordtype}{float} deltaTime);}
+\DoxyCodeLine{23     \textcolor{keywordtype}{void} jumpState(\textcolor{keywordtype}{float} deltaTime);}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} crouchState(\textcolor{keywordtype}{float} deltaTime);}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26     \textcolor{comment}{// Function for handling event}}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} handleEvent(SDL\_Event\& e);}
+\DoxyCodeLine{28     }
+\DoxyCodeLine{29     \textcolor{comment}{// Update functions}}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} updateAnimation(\textcolor{keywordtype}{float} deltaTime);}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} update(\textcolor{keywordtype}{float} deltaTime);}
+\DoxyCodeLine{32     \textcolor{keywordtype}{void} render();}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     \textcolor{comment}{// Information functions}}
+\DoxyCodeLine{35     \mbox{\hyperlink{class_vector2}{Vector2}} getPos();}
+\DoxyCodeLine{36     \mbox{\hyperlink{class_vector2}{Vector2}} getSize();}
+\DoxyCodeLine{37     \mbox{\hyperlink{class_vector2}{Vector2}} getVel();}
+\DoxyCodeLine{38     \mbox{\hyperlink{class_hitbox}{Hitbox}}* getHitbox();}
+\DoxyCodeLine{39     PlayerState getState();}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41     \textcolor{comment}{// Management functions}}
+\DoxyCodeLine{42     \textcolor{keywordtype}{void} setPos(\mbox{\hyperlink{class_vector2}{Vector2}} pos);}
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} setVel(\mbox{\hyperlink{class_vector2}{Vector2}} vel);}
+\DoxyCodeLine{44     \textcolor{keywordtype}{void} setCanJump(\textcolor{keywordtype}{bool} canJump);}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{47     \textcolor{comment}{// Associated hitbox}}
+\DoxyCodeLine{48     \mbox{\hyperlink{class_hitbox}{Hitbox}} hitbox;}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50     \textcolor{comment}{// Graphics}}
+\DoxyCodeLine{51     \mbox{\hyperlink{class_w_animation}{WAnimation}} animation;}
+\DoxyCodeLine{52     \textcolor{keywordtype}{int} row;}
+\DoxyCodeLine{53     \textcolor{keywordtype}{int} colBegin;}
+\DoxyCodeLine{54     \textcolor{keywordtype}{int} colEnd;}
+\DoxyCodeLine{55     \textcolor{keywordtype}{float} switchTime;}
+\DoxyCodeLine{56     \textcolor{keywordtype}{bool} faceRight;}
+\DoxyCodeLine{57     SDL\_Renderer* renderer;}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59     \textcolor{comment}{// Movement}}
+\DoxyCodeLine{60     \textcolor{keywordtype}{float} speed;}
+\DoxyCodeLine{61     \textcolor{keywordtype}{float} jumpHeight;}
+\DoxyCodeLine{62     \mbox{\hyperlink{class_vector2}{Vector2}} vel;}
+\DoxyCodeLine{63     \textcolor{keywordtype}{bool} canJump;}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65     \textcolor{comment}{// State}}
+\DoxyCodeLine{66     PlayerState state;}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{68     \textcolor{comment}{// Keys}}
+\DoxyCodeLine{69     \textcolor{keywordtype}{bool} keyW, keyS, keyA, keyD;}
+\DoxyCodeLine{70 \};}
+\DoxyCodeLine{71 }
+
+\end{DoxyCode}
