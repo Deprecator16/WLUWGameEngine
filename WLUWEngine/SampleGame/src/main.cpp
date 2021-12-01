@@ -1,9 +1,11 @@
+#include "WLUW.h"
 #include "WWindow.h"
 #include <cstdlib>
+#include <iostream>
 
 int main()
 {
-	WWindow window;
+	std::cout << "Hello World" << std::endl;
 	system("pause");
 	return 0;
 }
