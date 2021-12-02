@@ -173,9 +173,13 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\WAudioController.cpp" />
     <ClCompile Include="src\WWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Vector2.h" />
+    <ClInclude Include="src\WAudioController.h" />
+    <ClInclude Include="src\WTimer.h" />
     <ClInclude Include="src\WWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
