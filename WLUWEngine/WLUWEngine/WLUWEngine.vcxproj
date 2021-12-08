@@ -179,6 +179,7 @@
   <ItemGroup>
     <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\WAudioController.h" />
+    <ClInclude Include="src\WLUW.h" />
     <ClInclude Include="src\WTimer.h" />
     <ClInclude Include="src\WWindow.h" />
   </ItemGroup>

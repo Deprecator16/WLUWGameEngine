@@ -1,22 +1,28 @@
 #pragma once
 
-constexpr int SCREEN_WIDTH = 640;
-constexpr int SCREEN_HEIGHT = 480;
-
 class SDL_Window;
 
-class WWindow
+namespace WLUW
 {
-public:
-	// Constructor/destructor
-	WWindow();
-	~WWindow();
+	constexpr int SCREEN_WIDTH = 640;
+	constexpr int SCREEN_HEIGHT = 480;
 
-	// Information functions
-	SDL_Window* getWindow();
+	class WWindow
+	{
+	public:
+		// Constructor/destructor
+		WWindow();
+		WWindow(char* name, bool isFullscreen = false, int width = 640, int height = 480);
+		~WWindow();
 
-private:
-	// Core window
-	SDL_Window* window;
-};
+		// Change Window Settings
+		bool setWindowSize(int width, int height);
 
+		// Information functions
+		SDL_Window* getWindow();
+
+	private:
+		// Core window
+		SDL_Window* window;
+	};
+}
