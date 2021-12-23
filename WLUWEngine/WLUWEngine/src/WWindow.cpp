@@ -28,6 +28,11 @@ namespace WLUW
 		SDL_DestroyWindow(window);
 	}
 
+	/**
+	* Sets the size of the window
+	* @param width The new width of the window
+	* @param height The new height of the window
+	*/
 	bool WWindow::setWindowSize(int width, int height)
 	{
 		SDL_SetWindowSize(window, width, height);
@@ -35,7 +40,8 @@ namespace WLUW
 	}
 
 	/*
-	* Get SDL window pointer
+	* Returns a reference to the SDL_Window
+	* @return a reference to the SDL_Window object
 	*/
 	SDL_Window* WWindow::getWindow()
 	{

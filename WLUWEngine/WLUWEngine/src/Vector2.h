@@ -1,134 +1,137 @@
 #pragma once
 #include <math.h>
 
-class Vector2
+namespace WLUW
 {
-public:
-	// Default constructor
-	Vector2()
+	class Vector2
 	{
-		x = 0.0;
-		y = 0.0;
-	}
-
-	// Constructor
-	Vector2(float x, float y)
-	{
-		this->x = x;
-		this->y = y;
-	}
-
-	// Core variables
-	float x;
-	float y;
-
-	float getLength()
-	{
-		return sqrtf(powf(this->x, 2.0f) + powf(this->y, 2.0f));
-	}
-
-	// Overloaded functions
-	// Addition
-	friend Vector2 operator+(const Vector2 vec1, const Vector2 vec2)
-	{
-		Vector2 output(0.0, 0.0);
-		output.x = vec1.x + vec2.x;
-		output.y = vec1.y + vec2.y;
-		return output;
-	}
-
-	friend Vector2 operator+(const Vector2 vec1, const float scalar)
-	{
-		Vector2 output(0.0, 0.0);
-		output.x = vec1.x + scalar;
-		output.y = vec1.y + scalar;
-		return output;
-	}
-
-	// Subtraction
-	friend Vector2 operator-(const Vector2 vec1, const Vector2 vec2)
-	{
-		Vector2 output(0.0, 0.0);
-		output.x = vec1.x - vec2.x;
-		output.y = vec1.y - vec2.y;
-		return output;
-	}
-
-	friend Vector2 operator-(const Vector2 vec1, const float scalar)
-	{
-		Vector2 output(0.0, 0.0);
-		output.x = vec1.x - scalar;
-		output.y = vec1.y - scalar;
-		return output;
-	}
-
-	// Multiplication
-	friend Vector2 operator*(const Vector2 vec1, const Vector2 vec2)
-	{
-		Vector2 output(0.0, 0.0);
-		output.x = vec1.x * vec2.x;
-		output.y = vec1.y * vec2.y;
-		return output;
-	}
-
-	friend Vector2 operator*(const Vector2 vec1, const float scalar)
-	{
-		Vector2 output(0.0, 0.0);
-		output.x = vec1.x * scalar;
-		output.y = vec1.y * scalar;
-		return output;
-	}
-
-	// Division
-	friend Vector2 operator/(const Vector2 vec1, const Vector2 vec2)
-	{
-		Vector2 output(0.0, 0.0);
-		output.x = vec1.x / vec2.x;
-		output.y = vec1.y / vec2.y;
-		return output;
-	}
-
-	friend Vector2 operator/(const Vector2 vec1, const float scalar)
-	{
-		Vector2 output(0.0, 0.0);
-		output.x = vec1.x / scalar;
-		output.y = vec1.y / scalar;
-		return output;
-	}
-
-	float& operator[](int index)
-	{
-		if (index > 1 || index < 0)
+	public:
+		// Default constructor
+		Vector2()
 		{
-			throw("out of range");
-			float x;
-			return x;
+			x = 0.0;
+			y = 0.0;
 		}
-		else if (index == 0)
-		{
-			return x;
-		}
-		else if (index == 1)
-		{
-			return y;
-		}
-	}
 
-	const float& operator[](int index) const
-	{
-		if (index > 1 || index < 0)
+		// Constructor
+		Vector2(float x, float y)
 		{
-			throw("out of range");
-			float x;
-			return x;
+			this->x = x;
+			this->y = y;
 		}
-		else if (index == 0)
+
+		// Core variables
+		float x;
+		float y;
+
+		float size()
 		{
-			return x;
+			return sqrtf(powf(this->x, 2.0f) + powf(this->y, 2.0f));
 		}
-		else if (index == 1)
+
+		// Overloaded functions
+		// Addition
+		friend Vector2 operator+(const Vector2 vec1, const Vector2 vec2)
 		{
-			return y;
+			Vector2 output(0.0, 0.0);
+			output.x = vec1.x + vec2.x;
+			output.y = vec1.y + vec2.y;
+			return output;
 		}
-	}
-};
+
+		friend Vector2 operator+(const Vector2 vec1, const float scalar)
+		{
+			Vector2 output(0.0, 0.0);
+			output.x = vec1.x + scalar;
+			output.y = vec1.y + scalar;
+			return output;
+		}
+
+		// Subtraction
+		friend Vector2 operator-(const Vector2 vec1, const Vector2 vec2)
+		{
+			Vector2 output(0.0, 0.0);
+			output.x = vec1.x - vec2.x;
+			output.y = vec1.y - vec2.y;
+			return output;
+		}
+
+		friend Vector2 operator-(const Vector2 vec1, const float scalar)
+		{
+			Vector2 output(0.0, 0.0);
+			output.x = vec1.x - scalar;
+			output.y = vec1.y - scalar;
+			return output;
+		}
+
+		// Multiplication
+		friend Vector2 operator*(const Vector2 vec1, const Vector2 vec2)
+		{
+			Vector2 output(0.0, 0.0);
+			output.x = vec1.x * vec2.x;
+			output.y = vec1.y * vec2.y;
+			return output;
+		}
+
+		friend Vector2 operator*(const Vector2 vec1, const float scalar)
+		{
+			Vector2 output(0.0, 0.0);
+			output.x = vec1.x * scalar;
+			output.y = vec1.y * scalar;
+			return output;
+		}
+
+		// Division
+		friend Vector2 operator/(const Vector2 vec1, const Vector2 vec2)
+		{
+			Vector2 output(0.0, 0.0);
+			output.x = vec1.x / vec2.x;
+			output.y = vec1.y / vec2.y;
+			return output;
+		}
+
+		friend Vector2 operator/(const Vector2 vec1, const float scalar)
+		{
+			Vector2 output(0.0, 0.0);
+			output.x = vec1.x / scalar;
+			output.y = vec1.y / scalar;
+			return output;
+		}
+
+		float& operator[](int index)
+		{
+			if (index > 1 || index < 0)
+			{
+				throw("out of range");
+				float x;
+				return x;
+			}
+			else if (index == 0)
+			{
+				return x;
+			}
+			else if (index == 1)
+			{
+				return y;
+			}
+		}
+
+		const float& operator[](int index) const
+		{
+			if (index > 1 || index < 0)
+			{
+				throw("out of range");
+				float x;
+				return x;
+			}
+			else if (index == 0)
+			{
+				return x;
+			}
+			else if (index == 1)
+			{
+				return y;
+			}
+		}
+	};
+}
