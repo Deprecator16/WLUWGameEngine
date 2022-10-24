@@ -4,5 +4,6 @@ var searchData=
   ['playmusic_1',['playMusic',['../d5/db2/class_w_audio_controller.html#a5f3f0577805f872579cd4b8190efc386',1,'WAudioController']]],
   ['playmusiclooped_2',['playMusicLooped',['../d5/db2/class_w_audio_controller.html#ae1c5d5c7f839826a7667b0c57c02ae49',1,'WAudioController']]],
   ['playsfx_3',['playSfx',['../d5/db2/class_w_audio_controller.html#acef3fa2955a63f33ba43df971cfc1c2f',1,'WAudioController']]],
-  ['playsfxlooped_4',['playSfxLooped',['../d5/db2/class_w_audio_controller.html#a866c8120d782314511a9d70b88f3d2ca',1,'WAudioController']]]
+  ['playsfxlooped_4',['playSfxLooped',['../d5/db2/class_w_audio_controller.html#a866c8120d782314511a9d70b88f3d2ca',1,'WAudioController']]],
+  ['projectontoaxis_5',['projectOntoAxis',['../d8/d1d/class_w_l_u_w_1_1_shape.html#af101d962b2d5dafb8c6d85021f48af0c',1,'WLUW::Shape']]]
 ];

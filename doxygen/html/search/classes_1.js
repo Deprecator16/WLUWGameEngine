@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hitbox_0',['Hitbox',['../d7/d44/class_hitbox.html',1,'']]]
+  ['vector2_0',['Vector2',['../d7/ddc/class_w_l_u_w_1_1_vector2.html',1,'WLUW']]]
 ];

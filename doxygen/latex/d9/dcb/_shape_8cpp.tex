@@ -1,0 +1,107 @@
+\hypertarget{_shape_8cpp}{}\doxysection{D\+:/repos/\+WLUWGame\+Engine/\+WLUWEngine/\+WLUWEngine/src/\+Shape.cpp File Reference}
+\label{_shape_8cpp}\index{D:/repos/WLUWGameEngine/WLUWEngine/WLUWEngine/src/Shape.cpp@{D:/repos/WLUWGameEngine/WLUWEngine/WLUWEngine/src/Shape.cpp}}
+
+
+Implementation of shape class and collision detection.  
+
+
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$limits$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}Shape.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Vector2.\+h\char`\"{}}\newline
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{_shape_8cpp_a5629779064bdbf005fd6664626ffbe9c}\label{_shape_8cpp_a5629779064bdbf005fd6664626ffbe9c}} 
+using {\bfseries Axis} = \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}
+\item 
+\mbox{\Hypertarget{_shape_8cpp_af55e78470e0e53abfb70ea65ac6320b1}\label{_shape_8cpp_af55e78470e0e53abfb70ea65ac6320b1}} 
+using {\bfseries Proj} = std\+::pair$<$ double, double $>$
+\item 
+\mbox{\Hypertarget{_shape_8cpp_a42bae771bd46a675636155d6ef850d0f}\label{_shape_8cpp_a42bae771bd46a675636155d6ef850d0f}} 
+using {\bfseries MTV} = std\+::pair$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}, double $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{_shape_8cpp_a0d04f5ca202382c3ee957a1811d7fa44}{overlapping}} (Proj a, Proj b)
+\begin{DoxyCompactList}\small\item\em Helper function which gets the length of the union of two ranges/projections. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Axis}} \mbox{\hyperlink{_shape_8cpp_a432f91a468f0b602fb630512480688bc}{calc\+Circle\+To\+Circle\+Collision\+Axis}} (const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&a, const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&b)
+\begin{DoxyCompactList}\small\item\em Helper function which calculates circle to circle collision. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Axis}} $>$ \mbox{\hyperlink{_shape_8cpp_ad98d1d5c026985b474978db69eeb91d5}{calc\+Circle\+To\+Polygon\+Collision\+Axis}} (const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&circle, const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&poly)
+\begin{DoxyCompactList}\small\item\em Helper function which calculates circle to polygon collision. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of shape class and collision detection. 
+
+\begin{DoxyAuthor}{Author}
+Bassil Virk 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+January 2022 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_shape_8cpp_a432f91a468f0b602fb630512480688bc}\label{_shape_8cpp_a432f91a468f0b602fb630512480688bc}} 
+\index{Shape.cpp@{Shape.cpp}!calcCircleToCircleCollisionAxis@{calcCircleToCircleCollisionAxis}}
+\index{calcCircleToCircleCollisionAxis@{calcCircleToCircleCollisionAxis}!Shape.cpp@{Shape.cpp}}
+\doxysubsubsection{\texorpdfstring{calcCircleToCircleCollisionAxis()}{calcCircleToCircleCollisionAxis()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Axis}} calc\+Circle\+To\+Circle\+Collision\+Axis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&}]{a,  }\item[{const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&}]{b }\end{DoxyParamCaption})}
+
+
+
+Helper function which calculates circle to circle collision. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & first circle \\
+\hline
+{\em b} & second circle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Axis between the centre of the two circles 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_shape_8cpp_ad98d1d5c026985b474978db69eeb91d5}\label{_shape_8cpp_ad98d1d5c026985b474978db69eeb91d5}} 
+\index{Shape.cpp@{Shape.cpp}!calcCircleToPolygonCollisionAxis@{calcCircleToPolygonCollisionAxis}}
+\index{calcCircleToPolygonCollisionAxis@{calcCircleToPolygonCollisionAxis}!Shape.cpp@{Shape.cpp}}
+\doxysubsubsection{\texorpdfstring{calcCircleToPolygonCollisionAxis()}{calcCircleToPolygonCollisionAxis()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Axis}} $>$ calc\+Circle\+To\+Polygon\+Collision\+Axis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&}]{circle,  }\item[{const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&}]{poly }\end{DoxyParamCaption})}
+
+
+
+Helper function which calculates circle to polygon collision. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em circle} & circle shape \\
+\hline
+{\em poly} & polygon shape \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Axes to test for collision 
+\end{DoxyReturn}
+\mbox{\Hypertarget{_shape_8cpp_a0d04f5ca202382c3ee957a1811d7fa44}\label{_shape_8cpp_a0d04f5ca202382c3ee957a1811d7fa44}} 
+\index{Shape.cpp@{Shape.cpp}!overlapping@{overlapping}}
+\index{overlapping@{overlapping}!Shape.cpp@{Shape.cpp}}
+\doxysubsubsection{\texorpdfstring{overlapping()}{overlapping()}}
+{\footnotesize\ttfamily double overlapping (\begin{DoxyParamCaption}\item[{Proj}]{a,  }\item[{Proj}]{b }\end{DoxyParamCaption})}
+
+
+
+Helper function which gets the length of the union of two ranges/projections. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & first range/projection \\
+\hline
+{\em b} & second range/projection \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+length of the union of a and b, or NaN if no overlap 
+\end{DoxyReturn}

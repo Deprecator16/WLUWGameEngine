@@ -1,0 +1,65 @@
+\hypertarget{_shape_8h_source}{}\doxysection{Shape.\+h}
+\label{_shape_8h_source}\index{D:/repos/WLUWGameEngine/WLUWEngine/WLUWEngine/src/Shape.h@{D:/repos/WLUWGameEngine/WLUWEngine/WLUWEngine/src/Shape.h}}
+\mbox{\hyperlink{_shape_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*****************************************************************/}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{_vector2_8h}{Vector2.h}}"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{namespace }WLUW}
+\DoxyCodeLine{13 \{}
+\DoxyCodeLine{18     \textcolor{keyword}{enum class} \mbox{\hyperlink{_shape_8h_ace9f04efa79c8e53d5dba8f932eed3c9}{ShapeType}} \{}
+\DoxyCodeLine{19         POLYGON,}
+\DoxyCodeLine{20         CIRCLE}
+\DoxyCodeLine{21     \};}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{26     \textcolor{keyword}{class }\mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}}}
+\DoxyCodeLine{27     \{}
+\DoxyCodeLine{28     \textcolor{keyword}{public}:}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{38         \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a610d90b25714734570a2b4c2e763cccd}{Shape}}(\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} pos = \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}());}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{46         \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a610d90b25714734570a2b4c2e763cccd}{Shape}}(std::vector<Vector2>\& points, \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} pos = \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}());}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{54         \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a610d90b25714734570a2b4c2e763cccd}{Shape}}(\textcolor{keywordtype}{double} radius, \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} pos = \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}());}
+\DoxyCodeLine{55 }
+\DoxyCodeLine{62         \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a610d90b25714734570a2b4c2e763cccd}{Shape}}(\mbox{\hyperlink{_shape_8h_ace9f04efa79c8e53d5dba8f932eed3c9}{ShapeType}} type, \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} pos = \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}());}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{67 }
+\DoxyCodeLine{75         \textcolor{keyword}{static} std::pair<Vector2, double> \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a7187cb097c3c879384f658f1adad9ac9}{checkCollision}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}}\& a, \textcolor{keyword}{const} \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}}\& b);}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{80         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a3c8ee4cd3ce20f60b48615f119b9b9d7}{calcNormals}}();}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{88         std::pair<double, double> \mbox{\hyperlink{class_w_l_u_w_1_1_shape_af101d962b2d5dafb8c6d85021f48af0c}{projectOntoAxis}}(\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} axis) \textcolor{keyword}{const};}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{93         }
+\DoxyCodeLine{99         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a586342f11dd4ea770d146815f4edbbc9}{addPoint}}(\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} point);}
+\DoxyCodeLine{100 }
+\DoxyCodeLine{107         \textcolor{keywordtype}{void} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a89e6a7a735b71bfc11a7f1de41a55485}{insertPoint}}(\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} point, \textcolor{keywordtype}{int} index);}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{115         \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_ad4f625e7b3f7f4c78833ddda8d508611}{removePoint}}(\textcolor{keywordtype}{int} index);}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{124         \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a9641b9643d15a6b0c7edeae25bdbcb0c}{swapPoint}}(\textcolor{keywordtype}{int} index, \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} point);}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{129         }
+\DoxyCodeLine{131         \mbox{\hyperlink{_shape_8h_ace9f04efa79c8e53d5dba8f932eed3c9}{ShapeType}} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a4c00d139487894018b5ddddc01db432f}{getShapeType}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} type; \};}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{134         \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_ac0c8b962f430d07bd37274df9ac1241a}{getPosition}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} pos; \};}
+\DoxyCodeLine{135         }
+\DoxyCodeLine{137         \textcolor{keywordtype}{double} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a279f3b0e8f54f093020305074602202f}{getRadius}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} radius; \};}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{140         std::vector<Vector2> \textcolor{keyword}{const}\& \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a932ef9505f288ab09762765ca9a96f92}{getPoints}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} points; \};}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{143         std::vector<Vector2> \textcolor{keyword}{const}\& \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a06f096b22df525fdee1392b052f4c298}{getNormals}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} normals; \};}
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145     \textcolor{keyword}{private}:}
+\DoxyCodeLine{146         \mbox{\hyperlink{_shape_8h_ace9f04efa79c8e53d5dba8f932eed3c9}{ShapeType}} type;                    \textcolor{comment}{/* Type of shape */}}
+\DoxyCodeLine{147         \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} pos;                 \textcolor{comment}{/* Position of shape */}}
+\DoxyCodeLine{148         \textcolor{keywordtype}{double} radius;                  \textcolor{comment}{/* Radius, if shape is circle */}}
+\DoxyCodeLine{149         std::vector<Vector2> points;    \textcolor{comment}{/* Points defining polygon */}}
+\DoxyCodeLine{150         std::vector<Vector2> normals;   \textcolor{comment}{/* List of unique normal vectors for every edge */}}
+\DoxyCodeLine{151     \};}
+\DoxyCodeLine{152 \}}
+\DoxyCodeLine{153 }
+
+\end{DoxyCode}

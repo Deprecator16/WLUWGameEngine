@@ -1,6 +1,11 @@
 var searchData=
 [
-  ['removebutton_0',['removeButton',['../de/d69/class_w_menu.html#aabd28a3c3cc6871e55c24b00f77dc4b3',1,'WMenu']]],
-  ['removeslider_1',['removeSlider',['../de/d69/class_w_menu.html#a3dc862327d61e55d32f5f2d10df5d9cc',1,'WMenu']]],
-  ['resumemusic_2',['resumeMusic',['../d5/db2/class_w_audio_controller.html#ac23f0aa27d3c4731bb6419be49a8ee2d',1,'WAudioController']]]
+  ['setmusicvolume_0',['setMusicVolume',['../d5/db2/class_w_audio_controller.html#af1b3a831cb1af0717f60a15011554a80',1,'WAudioController']]],
+  ['setsfxvolume_1',['setSfxVolume',['../d5/db2/class_w_audio_controller.html#aa64f9e795717f7836b03de798d1d2785',1,'WAudioController']]],
+  ['setwindowsize_2',['setWindowSize',['../dc/d8d/class_w_l_u_w_1_1_w_window.html#aaad7dd10c2a9e39ebf182fd3e010db59',1,'WLUW::WWindow']]],
+  ['shape_3',['Shape',['../d8/d1d/class_w_l_u_w_1_1_shape.html#a610d90b25714734570a2b4c2e763cccd',1,'WLUW::Shape::Shape(Vector2 pos=Vector2())'],['../d8/d1d/class_w_l_u_w_1_1_shape.html#a19924684674fea41770e7c698d1309e0',1,'WLUW::Shape::Shape(std::vector&lt; Vector2 &gt; &amp;points, Vector2 pos=Vector2())'],['../d8/d1d/class_w_l_u_w_1_1_shape.html#a15b585a881cd66eb2fe6f0e67f1b14bc',1,'WLUW::Shape::Shape(double radius, Vector2 pos=Vector2())'],['../d8/d1d/class_w_l_u_w_1_1_shape.html#a80ebc18bd65c5f1ccb9ea2603d237dd1',1,'WLUW::Shape::Shape(ShapeType type, Vector2 pos=Vector2())'],['../d8/d1d/class_w_l_u_w_1_1_shape.html',1,'WLUW::Shape']]],
+  ['shape_2ecpp_4',['Shape.cpp',['../d9/dcb/_shape_8cpp.html',1,'']]],
+  ['shape_2eh_5',['Shape.h',['../da/d05/_shape_8h.html',1,'']]],
+  ['shapetype_6',['ShapeType',['../da/d05/_shape_8h.html#ace9f04efa79c8e53d5dba8f932eed3c9',1,'WLUW']]],
+  ['swappoint_7',['swapPoint',['../d8/d1d/class_w_l_u_w_1_1_shape.html#a9641b9643d15a6b0c7edeae25bdbcb0c',1,'WLUW::Shape']]]
 ];

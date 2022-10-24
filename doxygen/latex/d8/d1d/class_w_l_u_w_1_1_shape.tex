@@ -1,0 +1,279 @@
+\hypertarget{class_w_l_u_w_1_1_shape}{}\doxysection{WLUW\+::Shape Class Reference}
+\label{class_w_l_u_w_1_1_shape}\index{WLUW::Shape@{WLUW::Shape}}
+
+
+{\ttfamily \#include $<$Shape.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_w_l_u_w_1_1_shape_a610d90b25714734570a2b4c2e763cccd}{Shape}} (\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} pos=\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}())
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_w_l_u_w_1_1_shape_a19924684674fea41770e7c698d1309e0}{Shape}} (std\+::vector$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} $>$ \&points, \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} pos=\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}())
+\begin{DoxyCompactList}\small\item\em Constructor which moves a set of points from a vector to the object. The points vector will be empty after this. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_w_l_u_w_1_1_shape_a15b585a881cd66eb2fe6f0e67f1b14bc}{Shape}} (double radius, \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} pos=\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}())
+\begin{DoxyCompactList}\small\item\em Constructor for a circle shape with a given radius. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_w_l_u_w_1_1_shape_a80ebc18bd65c5f1ccb9ea2603d237dd1}{Shape}} (\mbox{\hyperlink{_shape_8h_ace9f04efa79c8e53d5dba8f932eed3c9}{Shape\+Type}} type, \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} pos=\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}())
+\begin{DoxyCompactList}\small\item\em Constructor for a shape with only the type defined. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a3c8ee4cd3ce20f60b48615f119b9b9d7}\label{class_w_l_u_w_1_1_shape_a3c8ee4cd3ce20f60b48615f119b9b9d7}} 
+void {\bfseries calc\+Normals} ()
+\begin{DoxyCompactList}\small\item\em Calculate the normals of the edges of the shape and swap them into this-\/\texorpdfstring{$>$}{>}points. \end{DoxyCompactList}\item 
+std\+::pair$<$ double, double $>$ \mbox{\hyperlink{class_w_l_u_w_1_1_shape_af101d962b2d5dafb8c6d85021f48af0c}{project\+Onto\+Axis}} (\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} axis) const
+\begin{DoxyCompactList}\small\item\em Gets projection of shape onto an axis. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a586342f11dd4ea770d146815f4edbbc9}{add\+Point}} (\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} point)
+\begin{DoxyCompactList}\small\item\em Add point to shape. Point is appended to end of vector. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a89e6a7a735b71bfc11a7f1de41a55485}{insert\+Point}} (\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} point, int index)
+\begin{DoxyCompactList}\small\item\em Insert point to shape. Point is inserted inside vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_ad4f625e7b3f7f4c78833ddda8d508611}{remove\+Point}} (int index)
+\begin{DoxyCompactList}\small\item\em Remove point from shape. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a9641b9643d15a6b0c7edeae25bdbcb0c}{swap\+Point}} (int index, \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} point)
+\begin{DoxyCompactList}\small\item\em Swap out a point in the shape with another. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_shape_8h_ace9f04efa79c8e53d5dba8f932eed3c9}{Shape\+Type}} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a4c00d139487894018b5ddddc01db432f}{get\+Shape\+Type}} () const
+\item 
+\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} \mbox{\hyperlink{class_w_l_u_w_1_1_shape_ac0c8b962f430d07bd37274df9ac1241a}{get\+Position}} () const
+\item 
+double \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a279f3b0e8f54f093020305074602202f}{get\+Radius}} () const
+\item 
+std\+::vector$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} $>$ const \& \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a932ef9505f288ab09762765ca9a96f92}{get\+Points}} () const
+\item 
+std\+::vector$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} $>$ const \& \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a06f096b22df525fdee1392b052f4c298}{get\+Normals}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::pair$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}, double $>$ \mbox{\hyperlink{class_w_l_u_w_1_1_shape_a7187cb097c3c879384f658f1adad9ac9}{check\+Collision}} (const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&a, const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&b)
+\begin{DoxyCompactList}\small\item\em Checks for a collision check between 2 shapes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class which defines a convex 2D polygon 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a610d90b25714734570a2b4c2e763cccd}\label{class_w_l_u_w_1_1_shape_a610d90b25714734570a2b4c2e763cccd}} 
+\index{WLUW::Shape@{WLUW::Shape}!Shape@{Shape}}
+\index{Shape@{Shape}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{Shape()}{Shape()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily WLUW\+::\+Shape\+::\+Shape (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}}]{pos = {\ttfamily \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}()} }\end{DoxyParamCaption})}
+
+
+
+Default constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & position of shape \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a19924684674fea41770e7c698d1309e0}\label{class_w_l_u_w_1_1_shape_a19924684674fea41770e7c698d1309e0}} 
+\index{WLUW::Shape@{WLUW::Shape}!Shape@{Shape}}
+\index{Shape@{Shape}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{Shape()}{Shape()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily WLUW\+::\+Shape\+::\+Shape (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} $>$ \&}]{points,  }\item[{\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}}]{pos = {\ttfamily \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}()} }\end{DoxyParamCaption})}
+
+
+
+Constructor which moves a set of points from a vector to the object. The points vector will be empty after this. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em points} & vector of points defining polygon \\
+\hline
+{\em pos} & position of shape \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a15b585a881cd66eb2fe6f0e67f1b14bc}\label{class_w_l_u_w_1_1_shape_a15b585a881cd66eb2fe6f0e67f1b14bc}} 
+\index{WLUW::Shape@{WLUW::Shape}!Shape@{Shape}}
+\index{Shape@{Shape}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{Shape()}{Shape()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily WLUW\+::\+Shape\+::\+Shape (\begin{DoxyParamCaption}\item[{double}]{radius,  }\item[{\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}}]{pos = {\ttfamily \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}()} }\end{DoxyParamCaption})}
+
+
+
+Constructor for a circle shape with a given radius. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em radius} & radius of circle to create \\
+\hline
+{\em pos} & position of circle \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a80ebc18bd65c5f1ccb9ea2603d237dd1}\label{class_w_l_u_w_1_1_shape_a80ebc18bd65c5f1ccb9ea2603d237dd1}} 
+\index{WLUW::Shape@{WLUW::Shape}!Shape@{Shape}}
+\index{Shape@{Shape}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{Shape()}{Shape()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily WLUW\+::\+Shape\+::\+Shape (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_shape_8h_ace9f04efa79c8e53d5dba8f932eed3c9}{Shape\+Type}}}]{type,  }\item[{\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}}]{pos = {\ttfamily \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}()} }\end{DoxyParamCaption})}
+
+
+
+Constructor for a shape with only the type defined. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & type of shape \\
+\hline
+{\em pos} & position of shape \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a586342f11dd4ea770d146815f4edbbc9}\label{class_w_l_u_w_1_1_shape_a586342f11dd4ea770d146815f4edbbc9}} 
+\index{WLUW::Shape@{WLUW::Shape}!addPoint@{addPoint}}
+\index{addPoint@{addPoint}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{addPoint()}{addPoint()}}
+{\footnotesize\ttfamily void WLUW\+::\+Shape\+::add\+Point (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}}]{point }\end{DoxyParamCaption})}
+
+
+
+Add point to shape. Point is appended to end of vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em point} & point to add to shape \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a7187cb097c3c879384f658f1adad9ac9}\label{class_w_l_u_w_1_1_shape_a7187cb097c3c879384f658f1adad9ac9}} 
+\index{WLUW::Shape@{WLUW::Shape}!checkCollision@{checkCollision}}
+\index{checkCollision@{checkCollision}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{checkCollision()}{checkCollision()}}
+{\footnotesize\ttfamily MTV WLUW\+::\+Shape\+::check\+Collision (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&}]{a,  }\item[{const \mbox{\hyperlink{class_w_l_u_w_1_1_shape}{Shape}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Checks for a collision check between 2 shapes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & first shape \\
+\hline
+{\em b} & second shape \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the minimum translation vector (MTV) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a06f096b22df525fdee1392b052f4c298}\label{class_w_l_u_w_1_1_shape_a06f096b22df525fdee1392b052f4c298}} 
+\index{WLUW::Shape@{WLUW::Shape}!getNormals@{getNormals}}
+\index{getNormals@{getNormals}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{getNormals()}{getNormals()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} $>$ const  \& WLUW\+::\+Shape\+::get\+Normals (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+normal vectors of edges 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a932ef9505f288ab09762765ca9a96f92}\label{class_w_l_u_w_1_1_shape_a932ef9505f288ab09762765ca9a96f92}} 
+\index{WLUW::Shape@{WLUW::Shape}!getPoints@{getPoints}}
+\index{getPoints@{getPoints}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{getPoints()}{getPoints()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} $>$ const  \& WLUW\+::\+Shape\+::get\+Points (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+points defining polygon 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_ac0c8b962f430d07bd37274df9ac1241a}\label{class_w_l_u_w_1_1_shape_ac0c8b962f430d07bd37274df9ac1241a}} 
+\index{WLUW::Shape@{WLUW::Shape}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} WLUW\+::\+Shape\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+shape position 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a279f3b0e8f54f093020305074602202f}\label{class_w_l_u_w_1_1_shape_a279f3b0e8f54f093020305074602202f}} 
+\index{WLUW::Shape@{WLUW::Shape}!getRadius@{getRadius}}
+\index{getRadius@{getRadius}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{getRadius()}{getRadius()}}
+{\footnotesize\ttfamily double WLUW\+::\+Shape\+::get\+Radius (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+radius, if type is circle 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a4c00d139487894018b5ddddc01db432f}\label{class_w_l_u_w_1_1_shape_a4c00d139487894018b5ddddc01db432f}} 
+\index{WLUW::Shape@{WLUW::Shape}!getShapeType@{getShapeType}}
+\index{getShapeType@{getShapeType}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{getShapeType()}{getShapeType()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_shape_8h_ace9f04efa79c8e53d5dba8f932eed3c9}{Shape\+Type}} WLUW\+::\+Shape\+::get\+Shape\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+type of shape 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a89e6a7a735b71bfc11a7f1de41a55485}\label{class_w_l_u_w_1_1_shape_a89e6a7a735b71bfc11a7f1de41a55485}} 
+\index{WLUW::Shape@{WLUW::Shape}!insertPoint@{insertPoint}}
+\index{insertPoint@{insertPoint}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{insertPoint()}{insertPoint()}}
+{\footnotesize\ttfamily void WLUW\+::\+Shape\+::insert\+Point (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}}]{point,  }\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+Insert point to shape. Point is inserted inside vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em point} & point to insert into shape \\
+\hline
+{\em index} & index to insert point at \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_af101d962b2d5dafb8c6d85021f48af0c}\label{class_w_l_u_w_1_1_shape_af101d962b2d5dafb8c6d85021f48af0c}} 
+\index{WLUW::Shape@{WLUW::Shape}!projectOntoAxis@{projectOntoAxis}}
+\index{projectOntoAxis@{projectOntoAxis}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{projectOntoAxis()}{projectOntoAxis()}}
+{\footnotesize\ttfamily Proj WLUW\+::\+Shape\+::project\+Onto\+Axis (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}}]{axis }\end{DoxyParamCaption}) const}
+
+
+
+Gets projection of shape onto an axis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em axis} & axis to project shape on to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pair of doubles representing the min and max of the projection 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_ad4f625e7b3f7f4c78833ddda8d508611}\label{class_w_l_u_w_1_1_shape_ad4f625e7b3f7f4c78833ddda8d508611}} 
+\index{WLUW::Shape@{WLUW::Shape}!removePoint@{removePoint}}
+\index{removePoint@{removePoint}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{removePoint()}{removePoint()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} WLUW\+::\+Shape\+::remove\+Point (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})}
+
+
+
+Remove point from shape. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & index of point to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+removed point 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_w_l_u_w_1_1_shape_a9641b9643d15a6b0c7edeae25bdbcb0c}\label{class_w_l_u_w_1_1_shape_a9641b9643d15a6b0c7edeae25bdbcb0c}} 
+\index{WLUW::Shape@{WLUW::Shape}!swapPoint@{swapPoint}}
+\index{swapPoint@{swapPoint}!WLUW::Shape@{WLUW::Shape}}
+\doxysubsubsection{\texorpdfstring{swapPoint()}{swapPoint()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}} WLUW\+::\+Shape\+::swap\+Point (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{\mbox{\hyperlink{class_w_l_u_w_1_1_vector2}{Vector2}}}]{point }\end{DoxyParamCaption})}
+
+
+
+Swap out a point in the shape with another. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em index} & index of the point to swap out \\
+\hline
+{\em point} & point to swap out with \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+point which was swapped out 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/repos/\+WLUWGame\+Engine/\+WLUWEngine/\+WLUWEngine/src/\mbox{\hyperlink{_shape_8h}{Shape.\+h}}\item 
+D\+:/repos/\+WLUWGame\+Engine/\+WLUWEngine/\+WLUWEngine/src/\mbox{\hyperlink{_shape_8cpp}{Shape.\+cpp}}\end{DoxyCompactItemize}
