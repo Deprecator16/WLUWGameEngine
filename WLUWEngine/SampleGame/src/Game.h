@@ -30,6 +30,7 @@ namespace WLUW::SampleGame
 		void update(double deltaTime);
 		void render(SDL_Renderer* renderer);
 		void handleCollisions(double deltaTime);
+		bool clips(Hitbox* box, int index, double deltaTime);
 
 		// Loaders
 		bool loadGame();

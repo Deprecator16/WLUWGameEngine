@@ -245,6 +245,9 @@ WLUW::Hitbox::CollisionData getCollisionData(Hitbox* box1, Hitbox* box2, double 
 					);
 				}
 
+				if (timeOfImpact < 0)
+					continue;
+
 				// Check if time of impact is lower than current min
 				if (timeOfImpact < collisionData.timeOfImpact)
 				{
@@ -352,6 +355,14 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 	The problem: The box may get pushed into another box due to collision with one box
 	*/
 
+	// TO DO: Implement sweep-based continuous collisiion detection
+	// https://docs.unity3d.com/Manual/ContinuousCollisionDetection.html
+
+
+
+
+
+
 	// Check every object with every other object
 	for (unsigned int i = 0; i < objects.size() - 1; ++i)
 	{
@@ -398,9 +409,23 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 
 				// Move soft object so that it touches hard object
 				softBox->setPos(softBox->getPos() + collisionData.distance);
+				if (box1->getInertia() == Hitbox::SOFT)
+				{
+					if (clips(softBox, i, deltaTime))
+					{
+						std::cout << "Object clips after collision resolution" << std::endl;
+					}
+				}
+				else
+				{
+					if (clips(softBox, j, deltaTime))
+					{
+						std::cout << "Object clips after collision resolution" << std::endl;
+					}
+				}
 
 				// Redirect soft object velocity
-				softBox->setVel(softBox->getVel().projectOntoAxis(collisionData.edge.second - collisionData.edge.first));
+				softBox->setVel((softBox->getVel() - collisionData.distance).projectOntoAxis(collisionData.edge.second - collisionData.edge.first) * pow(0.03125, deltaTime));
 			}
 
 			// Trigger OnCollide callbacks
@@ -408,6 +433,31 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 			objects[j]->OnCollide(objects[i], collisionData);
 		}
 	}
+}
+
+bool WLUW::SampleGame::Game::clips(Hitbox* box, int index, double deltaTime)
+{
+	// Check if box at given index clips any other object
+	for (unsigned int i = 0; i < objects.size(); ++i)
+	{
+		if (i == index)
+			continue;
+
+		// Check if a collision occurs
+		std::pair<Vector2, double> mtv = box->checkCollision(objects[i]->getHitbox());
+		if (mtv.second == 0) // No collision
+			continue;
+
+		/*
+		// Use mtv to fix collision
+		box->setPos(box->getPos() - mtv.first * mtv.second);
+		box->setVel(box->getVel().projectOntoAxis(mtv.first) * pow(0.03125, deltaTime));
+		*/
+
+		return true;
+	}
+
+	return false;
 }
 
 bool WLUW::SampleGame::Game::loadGame()

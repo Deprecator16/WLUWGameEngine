@@ -61,7 +61,7 @@ void WLUW::SampleGame::Player::handleInput(double deltaTime)
 
 	// W
 	//if (inputManager->getKeyDown(SDLK_w) && grounded)
-	if (inputManager->getKeyDown(SDLK_w))
+	if (inputManager->getKey(SDLK_w))
 	{
 		tmpVel.y = -1024.0f;
 		grounded = false;
@@ -133,7 +133,7 @@ void WLUW::SampleGame::Player::OnCollide(WObject* target, Hitbox::CollisionData 
 	{
 		// Get slope of colliding edge
 		double slope = (collisionData.edge.second.y - collisionData.edge.first.y) / (collisionData.edge.second.x - collisionData.edge.first.x);
-		if (slope <= 1)
+		if (abs(slope) <= 1)
 		{
 			grounded = true;
 		}
