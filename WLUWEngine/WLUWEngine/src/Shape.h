@@ -99,11 +99,11 @@ namespace WLUW
 		/////////////////////
 
 		/**
-		 * \brief Checks for a collision check between 2 shapes
+		 * \brief Checks if two shapes are colliding by projecting both shapes onto all axes (If the two shapes are overlapping on every single axes of both shapes, then they are colliding)
 		 *
-		 * \param a first shape
-		 * \param b second shape
-		 * \return the minimum translation vector (MTV)
+		 * \param a First shape
+		 * \param b Second shape
+		 * \return The MTV containing the axis with the minimum translation distance and the distance
 		 */
 		static std::pair<Vector2, double> checkCollision(const Shape& a, const Shape& b);
 

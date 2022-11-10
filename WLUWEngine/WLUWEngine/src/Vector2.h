@@ -54,6 +54,9 @@ namespace WLUW
 
 		Vector2 projectOntoAxis(const Vector2 axis) const
 		{
+			if (*this == Vector2() || axis == Vector2())
+				return Vector2();
+
 			return axis * (this->dot(axis)) / (axis.dot(axis));
 		}
 

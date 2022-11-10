@@ -158,13 +158,6 @@ std::vector<Axis> calcCircleToPolygonCollisionAxis(const Shape& circle, const Sh
     return axes;
 }
 
-/**
- * \brief Checks if two shapes are colliding by projecting both shapes onto all axes (If the two shapes are overlapping on every single axes of both shapes, then they are colliding)
- *
- * \param a First shape
- * \param b Second shape
- * \return The MTV containing the axis with the minimum translation distance and the distance
- */
 MTV WLUW::Shape::checkCollision(const Shape& a, const Shape& b)
 {
     double mtvOverlap = std::numeric_limits<double>::max();
@@ -246,9 +239,6 @@ MTV WLUW::Shape::checkCollision(const Shape& a, const Shape& b)
     return mtv;
 }
 
-/**
- * \brief Calculates normals of all edges in polygon, and updates the shape's normals member vector
- */
 void WLUW::Shape::calcNormals()
 {
     // Not enough points to calculate a normal
@@ -292,12 +282,6 @@ void WLUW::Shape::calcNormals()
     std::swap(this->normals, newNormals);
 }
 
-/**
- * \brief Projects the shape onto the given axis
- * 
- * \param axis The axis to project onto
- * \return The resulting projection vector
- */
 Proj WLUW::Shape::projectOntoAxis(Vector2 axis) const
 {
     // If shape is a polygon

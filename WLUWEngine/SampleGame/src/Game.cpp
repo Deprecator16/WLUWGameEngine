@@ -7,6 +7,13 @@ using namespace WLUW;
 // Aliases
 using Edge = std::pair<Vector2, Vector2>;
 
+enum Orientation
+{
+	COLLINEAR = 0,
+	CLOCKWISE,
+	COUNTERCLOCKWISE
+};
+
 WLUW::SampleGame::Game::Game(GameData gameData) :
 	window{gameData.window},
 	inputManager{gameData.inputManager}
@@ -64,7 +71,14 @@ void WLUW::SampleGame::Game::render(SDL_Renderer* renderer)
 
 // Given three collinear points p, a, b, the function checks if
 // point p lies on line segment 'ab'
-bool WLUW::SampleGame::Game::onSegment(Vector2 point, Edge edge)
+/**
+ * \brief Helper function that returns whether a given point lies on a given edge
+ *
+ * \param point: Specified point
+ * \param edge: Specified edge
+ * \return True if point lies on edge, false otherwise
+ */
+bool onSegment(Vector2 point, Edge edge)
 {
 	if (point.x <= std::max(edge.first.x, edge.second.x) && point.x >= std::min(edge.first.x, edge.second.x) &&
 		point.y <= std::max(edge.first.y, edge.second.y) && point.y >= std::min(edge.first.y, edge.second.y))
@@ -73,8 +87,15 @@ bool WLUW::SampleGame::Game::onSegment(Vector2 point, Edge edge)
 	return false;
 }
 
-// To find orientation of ordered triplet (p, q, r)
-WLUW::SampleGame::Game::Orientation WLUW::SampleGame::Game::orientation(Vector2 point1, Vector2 point2, Vector2 point3)
+/**
+ * \brief Helper function that returns the orientation of an ordered triplet
+ *
+ * \param point1: First point in the triplet
+ * \param point2: Second point in the triplet
+ * \param point3: Third point in the triplet
+ * \return Orientation object specifying the orientation of the given ordered triplet, or COLLINEAR if collinear
+ */
+Orientation orientation(Vector2 point1, Vector2 point2, Vector2 point3)
 {
 	int val = (point2.y - point1.y) * (point3.x - point2.x) -
 		(point2.x - point1.x) * (point3.y - point2.y);
@@ -84,9 +105,14 @@ WLUW::SampleGame::Game::Orientation WLUW::SampleGame::Game::orientation(Vector2 
 	return (val > 0) ? Orientation::CLOCKWISE : Orientation::COUNTERCLOCKWISE;
 }
 
-// The main function that returns true if line segment 'p1p2'
-// and 'q1q2' intersect.
-bool WLUW::SampleGame::Game::areIntersecting(Edge edge1, Edge edge2)
+/**
+ * \brief Helper function that returns whether two edges intersect
+ *
+ * \param edge1: First edge
+ * \param edge2: Second edge
+ * \return True if edge1 and edge2 intersect, false otherwise
+ */
+bool areIntersecting(Edge edge1, Edge edge2)
 {
 	// Check for parallelism
 	if (edge1.second - edge1.first == edge2.second - edge2.first ||
@@ -116,7 +142,14 @@ bool WLUW::SampleGame::Game::areIntersecting(Edge edge1, Edge edge2)
 	return false; // Doesn't fall in any of the above cases
 }
 
-Vector2 WLUW::SampleGame::Game::getPointOfIntersection(Edge edge1, Edge edge2)
+/**
+ * \brief Helper function that returns the point of intersection between two edges
+ *
+ * \param edge1: First edge
+ * \param edge2: Second edge
+ * \return The point of intersection between edge1 and edge2
+ */
+Vector2 getPointOfIntersection(Edge edge1, Edge edge2)
 {
 	// Line 1 represented as a1x + b1y = c1
 	double a1 = edge1.second.y - edge1.first.y;
@@ -144,8 +177,16 @@ Vector2 WLUW::SampleGame::Game::getPointOfIntersection(Edge edge1, Edge edge2)
 	}
 }
 
-// Returns a pair with
-WLUW::Hitbox::CollisionData WLUW::SampleGame::Game::getCollisionData(Hitbox* box1, Hitbox* box2, double deltaTime)
+/**
+ * \brief Helper function that returns collision data of the collision between two hitboxes
+ *
+ * \param box1: First box
+ * \param box2: Second box
+ * \param deltaTime: deltaTime for velocity calculations
+ * \return CollisionData object containing the point and edge that do the colliding,
+ *     the point of intersection, the distance from the point to the edge, and the time of impact
+ */
+WLUW::Hitbox::CollisionData getCollisionData(Hitbox* box1, Hitbox* box2, double deltaTime)
 {
 	Hitbox::CollisionData collisionData;
 	collisionData.timeOfImpact = INT_MAX;
@@ -167,7 +208,7 @@ WLUW::Hitbox::CollisionData WLUW::SampleGame::Game::getCollisionData(Hitbox* box
 
 			if (areIntersecting(std::make_pair(p1, p2), edge))
 			{
-				// Check if original point is colinear to edge
+				// Check if original point is collinear to edge
 				if (onSegment(p1, edge))
 				{
 					// Update collision data with new info
@@ -217,7 +258,7 @@ WLUW::Hitbox::CollisionData WLUW::SampleGame::Game::getCollisionData(Hitbox* box
 			}
 		}
 	}
-
+	/*
 	// For every edge, find the first point that its movement will intersect
 	for (unsigned int i = 0; i < box1->getBox()->getPoints().size(); ++i)
 	{
@@ -236,7 +277,7 @@ WLUW::Hitbox::CollisionData WLUW::SampleGame::Game::getCollisionData(Hitbox* box
 
 			if (areIntersecting(std::make_pair(p1, p2), edge))
 			{
-				// Check if original point is colinear to edge
+				// Check if original point is collinear to edge
 				if (onSegment(p1, edge))
 				{
 					// Update collision data with new info
@@ -286,6 +327,7 @@ WLUW::Hitbox::CollisionData WLUW::SampleGame::Game::getCollisionData(Hitbox* box
 			}
 		}
 	}
+	*/
 	
 	/*
 	std::cout << "(point: x=" << collisionData.point.x << ", y=" << collisionData.point.y <<
@@ -313,59 +355,57 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 	// Check every object with every other object
 	for (unsigned int i = 0; i < objects.size() - 1; ++i)
 	{
-		// Get hitbox and update prediction box
-		Hitbox* box1 = objects[i]->getHitbox();
-		box1->updatePredict(deltaTime);
-
 		for (unsigned int j = i + 1; j < objects.size(); ++j)
 		{
 			// Get hitbox and update prediction box
+			Hitbox* box1 = objects[i]->getHitbox();
 			Hitbox* box2 = objects[j]->getHitbox();
+			box1->updatePredict(deltaTime);
 			box2->updatePredict(deltaTime);
 
+			// Prune
 			// Check if there is actually movement
 			if (box1->getBox() == box1->getPredict() &&
 				box2->getBox() == box2->getPredict())
 				continue;
 
-			// Detect incoming collision
+			// Check if the objects' AABBs overlap
+			SDL_Rect AABB1 = box1->getAABB();
+			SDL_Rect AABB2 = box2->getAABB();
+			if (!(AABB1.x + AABB1.w >= AABB2.x &&
+				AABB2.x + AABB2.x >= AABB1.x &&
+				AABB1.y + AABB1.h >= AABB2.y &&
+				AABB2.y + AABB2.y >= AABB1.y))
+				continue;
+
+			// Check if a collision occurs
 			std::pair<Vector2, double> mtv = box1->predictCollision(box2);
-			if (mtv.second != 0) // Collision detected
+			if (mtv.second == 0) // No collision
+				continue;
+
+			Hitbox::CollisionData collisionData;
+
+			// Only resolve collision if one object is soft and the other is hard
+			if (box1->getInertia() != box2->getInertia())
 			{
-				Hitbox::CollisionData collisionData;
+				// Resolve collision
+				// Check which object is soft
+				Hitbox* softBox = box1->getInertia() == Hitbox::SOFT ? box1 : box2;
+				Hitbox* hardBox = box1->getInertia() == Hitbox::HARD ? box1 : box2;
 
-				// Only resolve collision if one object is soft and the other is hard
-				if (box1->getInertia() != box2->getInertia())
-				{
-					// Resolve collision
-					// Check which object is soft
-					Hitbox* softBox;
-					Hitbox* hardBox;
-					if (box1->getInertia() == Hitbox::SOFT)
-					{
-						softBox = box1;
-						hardBox = box2;
-					}
-					else
-					{
-						softBox = box2;
-						hardBox = box1;
-					}
+				// Get collision data
+				collisionData = getCollisionData(softBox, hardBox, deltaTime);
 
-					// Get collision data
-					collisionData = getCollisionData(softBox, hardBox, deltaTime);
+				// Move soft object so that it touches hard object
+				softBox->setPos(softBox->getPos() + collisionData.distance);
 
-					// Move soft object so that it touches hard object
-					softBox->setPos(softBox->getPos() + collisionData.distance);
-
-					// Redirect soft object velocity
-					softBox->setVel(softBox->getVel().projectOntoAxis(collisionData.edge.second - collisionData.edge.first));
-				}
-
-				// Trigger OnCollide callbacks
-				objects[i]->OnCollide(objects[j], collisionData);
-				objects[j]->OnCollide(objects[i], collisionData);
+				// Redirect soft object velocity
+				softBox->setVel(softBox->getVel().projectOntoAxis(collisionData.edge.second - collisionData.edge.first));
 			}
+
+			// Trigger OnCollide callbacks
+			objects[i]->OnCollide(objects[j], collisionData);
+			objects[j]->OnCollide(objects[i], collisionData);
 		}
 	}
 }
