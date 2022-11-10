@@ -6,12 +6,12 @@
  * \date   January 2022
  *********************************************************************/
 
+#include <iostream>
 #include <algorithm>
 #include <limits>
 #include <vector>
 
 #include "Shape.h"
-#include "Vector2.h"
 
 using namespace WLUW;
 
@@ -46,6 +46,28 @@ WLUW::Shape::Shape(ShapeType type, Vector2 pos) : type(type), radius(0.f)
 {
 }
 
+Shape& WLUW::Shape::operator=(const Shape& other)
+{
+    this->type = other.type;
+    this->pos = other.pos;
+    this->radius = other.radius;
+    this->points = other.points;
+    this->normals = other.normals;
+
+    return *this;
+}
+
+Shape& WLUW::Shape::operator=(Shape&& other) noexcept
+{
+    this->type = other.type;
+    this->pos = other.pos;
+    this->radius = other.radius;
+    std::swap(this->points, other.points);
+    std::swap(this->normals, other.normals);
+
+    return *this;
+}
+
 bool WLUW::operator==(const Shape& lhs, const Shape& rhs)
 {
     return lhs.isEqual(rhs);
@@ -53,15 +75,32 @@ bool WLUW::operator==(const Shape& lhs, const Shape& rhs)
 
 /**
  * \brief Helper function which gets the length of the union of two ranges/projections
- * 
+ *
  * \param a first range/projection
  * \param b second range/projection
  * \return length of the union of a and b, or NaN if no overlap
  */
-double overlapping(Proj a, Proj b)
+bool isOverlapping(Proj a, Proj b)
 {
     if (b.first > a.second || a.first > b.second)
+        return false;
+    return true;
+}
+
+/**
+ * \brief Helper function which gets the length of the union of two ranges/projections
+ *
+ * \param a first range/projection
+ * \param b second range/projection
+ * \return length of the union of a and b, or NaN if no overlap
+ */
+double getOverlap(Proj a, Proj b)
+{
+    if (b.first > a.second || a.first > b.second)
+    {
+        throw("Proj a and b are not overlapping! Use isOverlapping() to assert that they overlap before calling getOverlap()");
         return std::numeric_limits<double>::quiet_NaN();
+    }
 
     double start = std::max(a.first, b.first);
     double end = std::min(a.second, b.second);
@@ -84,7 +123,7 @@ Axis calcCircleToCircleCollisionAxis(const Shape& a, const Shape& b)
         return Axis(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
     }
 
-    return a.getPosition() - b.getPosition();
+    return a.getPos() - b.getPos();
 }
 
 /**
@@ -96,14 +135,19 @@ Axis calcCircleToCircleCollisionAxis(const Shape& a, const Shape& b)
  */
 std::vector<Axis> calcCircleToPolygonCollisionAxis(const Shape& circle, const Shape& poly)
 {
-    if (circle.getShapeType() != ShapeType::CIRCLE || poly.getShapeType() != ShapeType::POLYGON)
+    if (circle.getShapeType() != ShapeType::CIRCLE)
     {
-        throw("Atleast one of the shapes was not a circle");
+        throw("The provided circle is not of the circle shape type");
+        return std::vector<Axis>();
+    }
+    if (poly.getShapeType() != ShapeType::POLYGON)
+    {
+        throw("The provided polygon is not of the polygon shape type");
         return std::vector<Axis>();
     }
 
     std::vector<Axis> axes;
-    Vector2 circlePos = circle.getPosition();
+    Vector2 circlePos = circle.getPos();
 
     // Generate all axes from centre of circle to polygon vertices
     for (auto &point : poly.getPoints())
@@ -114,12 +158,20 @@ std::vector<Axis> calcCircleToPolygonCollisionAxis(const Shape& circle, const Sh
     return axes;
 }
 
+/**
+ * \brief Checks if two shapes are colliding by projecting both shapes onto all axes (If the two shapes are overlapping on every single axes of both shapes, then they are colliding)
+ *
+ * \param a First shape
+ * \param b Second shape
+ * \return The MTV containing the axis with the minimum translation distance and the distance
+ */
 MTV WLUW::Shape::checkCollision(const Shape& a, const Shape& b)
 {
     double mtvOverlap = std::numeric_limits<double>::max();
     Axis mtvAxis;
     std::vector<Axis> allAxes, axes1, axes2;
 
+    // Find collision axes
     // If both shapes are circles
     if (a.getShapeType() == ShapeType::CIRCLE && b.getShapeType() == ShapeType::CIRCLE)
     {
@@ -148,44 +200,45 @@ MTV WLUW::Shape::checkCollision(const Shape& a, const Shape& b)
         axes1 = a.getNormals();
         axes2 = b.getNormals();
     }
-    
+
     allAxes = axes1;
 
-    for (auto &axis : axes2)
+    // Add all elements of axes2 into allAxes
+    for (auto& axis : axes2)
     {
         // Don't add vector if any vector currently in newNormal is collinear to this one
         if (!std::any_of(
             allAxes.begin(),
             allAxes.end(),
-            [=](Vector2 vec) { return vec.dot(axis) == vec.size() * axis.size(); })
-            )
+            [=](Vector2 vec) { return (vec.dot(axis) == vec.size() * axis.size()) || (vec.dot(axis) == -vec.size() * axis.size()); }))
         {
             allAxes.push_back(std::move(axis));
         }
     }
 
-    // loop over the axes
-    for (int i = 0; i < allAxes.size(); i++) {
-        Axis axis = axes1[i];
-        // project both shapes onto the axis
+    // Loop over the axes
+    for (int i = 0; i < allAxes.size(); i++)
+    {
+        Axis axis = allAxes[i];
+        // Project both shapes onto the axis
         Proj p1 = a.projectOntoAxis(axis);
         Proj p2 = b.projectOntoAxis(axis);
 
-        // Get overlap
-        double overlap = overlapping(p1, p2);
+        // Do the projections overlap?
+        // If so, we can guarantee that the shapes do not overlap
+        if (!isOverlapping(p1, p2))
+            return MTV(Axis(0, 0), 0);
 
-        // do the projections overlap?
-        if (overlap == std::numeric_limits<double>::quiet_NaN()) {
-            // then we can guarantee that the shapes do not overlap
-            return MTV(Axis(0, 0), overlap);
-        }
-        else {
-            // check for minimum
-            if (overlap < mtvOverlap) {
-                // then set this one as the smallest
-                mtvOverlap = overlap;
-                mtvAxis = axis;
-            }
+        // Get overlapping distance
+        double overlap = getOverlap(p1, p2);
+
+        // Check for minimum
+        // We want to return the smallest overlap length
+        if (overlap < mtvOverlap)
+        {
+            // Then set this one as the smallest
+            mtvOverlap = overlap;
+            mtvAxis = axis;
         }
     }
 
@@ -193,6 +246,9 @@ MTV WLUW::Shape::checkCollision(const Shape& a, const Shape& b)
     return mtv;
 }
 
+/**
+ * \brief Calculates normals of all edges in polygon, and updates the shape's normals member vector
+ */
 void WLUW::Shape::calcNormals()
 {
     // Not enough points to calculate a normal
@@ -225,7 +281,7 @@ void WLUW::Shape::calcNormals()
         if (!std::any_of(
             newNormals.begin(),
             newNormals.end(),
-            [=](Vector2 vec) { return vec.dot(normal) == vec.size() * normal.size(); })
+            [=](Vector2 vec) { return (vec.dot(normal) == vec.size() * normal.size()) || (vec.dot(normal) == -vec.size() * normal.size()); })
            )
         {
             newNormals.push_back(std::move(normal));
@@ -233,9 +289,15 @@ void WLUW::Shape::calcNormals()
     }
 
     // Swap in new normals
-    std::swap(this->points, newNormals);
+    std::swap(this->normals, newNormals);
 }
 
+/**
+ * \brief Projects the shape onto the given axis
+ * 
+ * \param axis The axis to project onto
+ * \return The resulting projection vector
+ */
 Proj WLUW::Shape::projectOntoAxis(Vector2 axis) const
 {
     // If shape is a polygon
@@ -279,7 +341,10 @@ Proj WLUW::Shape::projectOntoAxis(Vector2 axis) const
 void WLUW::Shape::addPoint(Vector2 point)
 {
     this->points.push_back(point);
-    calcNormals(); // Recalculate normals
+    if (points.size() > 1)
+    {
+        calcNormals(); // Recalculate normals
+    }
 }
 
 void WLUW::Shape::insertPoint(Vector2 point, int index)
@@ -291,7 +356,10 @@ void WLUW::Shape::insertPoint(Vector2 point, int index)
     }
 
     this->points.insert(this->points.begin() + index, point);
-    calcNormals(); // Recalculate normals
+    if (points.size() > 1)
+    {
+        calcNormals(); // Recalculate normals
+    }
 }
 
 Vector2 WLUW::Shape::removePoint(int index)
@@ -307,7 +375,10 @@ Vector2 WLUW::Shape::removePoint(int index)
     Vector2 returned = Vector2(removed.x, removed.y);
 
     this->points.erase(this->points.begin() + index);
-    calcNormals(); // Recalculate normals
+    if (points.size() > 1)
+    {
+        calcNormals(); // Recalculate normals
+    }
 
     return returned;
 }
@@ -322,7 +393,10 @@ Vector2 WLUW::Shape::swapPoint(int index, Vector2 point)
 
     Vector2 returned = Vector2(point.x, point.y);
     std::swap(returned, this->points[index]);
-    calcNormals(); // Recalculate normals
+    if (points.size() > 1)
+    {
+        calcNormals(); // Recalculate normals
+    }
 
     return returned;
 }

@@ -1,0 +1,42 @@
+<root>
+    <player>
+        <item x="128" y="0"/>
+    </player>
+    <blocks>
+        <item x="64" y="640">
+			<point x="0" y="0"/>
+			<point x="512" y="0"/>
+			<point x="512" y="256"/>
+			<point x="0" y="256"/>
+		</item>
+        <item x="256" y="544">
+			<point x="0" y="0"/>
+			<point x="64" y="0"/>
+			<point x="64" y="64"/>
+			<point x="0" y="64"/>
+		</item>
+        <item x="800" y="640">
+			<point x="0" y="0"/>
+			<point x="256" y="-256"/>
+			<point x="256" y="0"/>
+		</item>
+        <item x="1248" y="640">
+			<point x="0" y="0"/>
+			<point x="512" y="0"/>
+			<point x="512" y="256"/>
+			<point x="0" y="256"/>
+		</item>
+        <item x="1216" y="608">
+			<point x="0" y="0"/>
+			<point x="32" y="0"/>
+			<point x="32" y="32"/>
+			<point x="0" y="32"/>
+		</item>
+        <item x="1760" y="512">
+			<point x="0" y="0"/>
+			<point x="32" y="0"/>
+			<point x="32" y="512"/>
+			<point x="0" y="512"/>
+		</item>
+    </blocks>
+</root>

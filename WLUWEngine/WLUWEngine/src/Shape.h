@@ -76,6 +76,22 @@ namespace WLUW
 		//// Operators/Assignments
 		///////////////////////////
 
+		/**
+		 * \brief Copy assignment operator
+		 *
+		 * \param type type of shape
+		 * \param pos position of shape
+		 */
+		Shape& operator=(const Shape& other);
+
+		/**
+		 * \brief Move assignment operator
+		 *
+		 * \param type type of shape
+		 * \param pos position of shape
+		 */
+		Shape& operator=(Shape&& other) noexcept;
+
 		friend bool operator==(const Shape& lhs, const Shape& rhs);
 
 		/////////////////////
@@ -157,7 +173,7 @@ namespace WLUW
 		ShapeType getShapeType() const { return type; };
 
 		/**\return shape position */
-		Vector2 getPosition() const { return pos; };
+		Vector2 getPos() const { return pos; };
 		
 		/**\return radius, if type is circle */
 		double getRadius() const { return radius; };
@@ -167,6 +183,12 @@ namespace WLUW
 
 		/**\return normal vectors of edges */
 		std::vector<Vector2> const& getNormals() const { return normals; };
+
+		/////////////////////
+		//// Setter Methods
+		/////////////////////
+
+		void setPos(Vector2 pos) { this->pos = pos; }
 
 	private:
 		ShapeType type;					/* Type of shape */

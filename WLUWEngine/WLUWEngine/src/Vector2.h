@@ -52,6 +52,11 @@ namespace WLUW
 			return *this / this->size();
 		}
 
+		Vector2 projectOntoAxis(const Vector2 axis) const
+		{
+			return axis * (this->dot(axis)) / (axis.dot(axis));
+		}
+
 		// Overloaded functions
 		// Addition
 		friend Vector2 operator+(const Vector2 vec1, const Vector2 vec2)

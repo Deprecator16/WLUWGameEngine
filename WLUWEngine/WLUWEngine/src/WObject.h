@@ -11,8 +11,12 @@
 #include <memory>
 #include <map>
 
+#include "Hitbox.h"
+#include "SDL.h"
 #include "Shape.h"
-#include "WComponentBase.h"
+#include "WTexture.h"
+
+#include <iostream>
 
 namespace WLUW
 {
@@ -22,11 +26,6 @@ namespace WLUW
 	 */
 	class WObject
 	{
-	public:
-		std::map<int, std::unique_ptr<WComponentBase>> componentMap;	/* List of owned components */
-	private:
-		int id = 0;														/* Unique Object ID */
-
 	public:
 		/////////////////////
 		//// Constructors
@@ -55,49 +54,28 @@ namespace WLUW
 		//// Operators/Assignments
 		///////////////////////////
 
-		// Copy assignment
+		// Assignment operators
 		WObject& operator=(const WObject& other);
-
-		// Move assignment
 		WObject& operator=(WObject&& other) noexcept;
 
-		// Equality operator
-		friend bool operator==(const WObject& lhs, const WObject& rhs);
+		// Update functions
+		virtual void update(double deltaTime) = 0;
+		virtual void render(SDL_Renderer* renderer) = 0;
 
-		///////////////////
-		//// Methods
-		///////////////////
+		bool shouldDraw;
+		bool isUIElement;
 
-		/**
-		 * \brief Checks if this object and another are equal
-		 * 
-		 * \param other Other object to compare to
-		 * \return Equal or not
-		 */
-		virtual bool isEqual(WObject other) const;
+		// Event callbacks
+		virtual void OnCollide(WObject* target, Hitbox::CollisionData collisionData) = 0;
 
-		/**
-		 * \brief Attaches a component to this object.
-		 * 
-		 * \param component Component to attach
-		 */
-		void attachComponent(std::unique_ptr<WComponentBase> component);
+		// Getters
+		WTexture* getTexture() { return texture; }
+		Hitbox* getHitbox() { return &hitbox; }
 
-		/**
-		 * \brief Remove a component by key.
-		 * 
-		 * \param key Key of component to remove
-		 * \return 0 if component was not in map, 1 if it was and it was removed
-		 */
-		int removeComponent(int key);
+		void setTexture(WTexture* texture) { this->texture = texture; }
 
-		/////////////////////
-		//// Getters/Setters
-		/////////////////////
-
-		/**
-		 * \brief Get ID
-		 */
-		int getId() const { return id; };
+	protected:
+		WTexture* texture;
+		Hitbox hitbox;
 	};
 }

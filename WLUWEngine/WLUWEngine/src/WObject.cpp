@@ -1,53 +1,44 @@
 #include "WObject.h"
-#include "TypeIdManager.h"
 
-WLUW::WObject::WObject() : id(WLUW::TypeIdManager<WLUW::WObject>::getNewID())
+WLUW::WObject::WObject() :
+	shouldDraw{ true },
+	isUIElement{ false },
+	texture{ nullptr }
 {
 }
 
-WLUW::WObject::WObject(const WObject& obj) : id(WLUW::TypeIdManager<WLUW::WObject>::getNewID())
+WLUW::WObject::WObject(const WObject& obj) :
+	shouldDraw{ obj.shouldDraw },
+	isUIElement{ obj.isUIElement },
+	texture{ obj.texture },
+	hitbox{ obj.hitbox }
 {
 }
 
-WLUW::WObject::WObject(WObject&& obj) noexcept
+WLUW::WObject::WObject(WObject&& obj) noexcept :
+	shouldDraw{ obj.shouldDraw },
+	isUIElement{ obj.isUIElement },
+	texture{ obj.texture },
+	hitbox{ obj.hitbox }
 {
 }
 
 WLUW::WObject& WLUW::WObject::operator=(const WObject& other)
 {
-	return *this = WObject(other);
-}
-
-WLUW::WObject& WLUW::WObject::operator=(WObject&& other) noexcept
-{
-	if (this != &other)
-	{
-		this->id = other.id;
-
-		other.id = 0;
-	}
+	this->shouldDraw = other.shouldDraw;
+	this->isUIElement = other.isUIElement;
+	this->texture = other.texture;
+	this->hitbox = other.hitbox;
 
 	return *this;
 }
 
-bool WLUW::operator==(const WLUW::WObject& lhs, const WLUW::WObject& rhs)
+WLUW::WObject& WLUW::WObject::operator=(WObject&& other) noexcept
 {
-	return lhs.isEqual(rhs);
-}
+	this->shouldDraw = other.shouldDraw;
+	this->isUIElement = other.isUIElement;
+	this->texture = other.texture;
+	this->hitbox = other.hitbox;
 
-bool WLUW::WObject::isEqual(WObject other) const
-{
-	return this->id == other.id;
-}
-
-void WLUW::WObject::attachComponent(std::unique_ptr<WComponentBase> component)
-{
-	int key = component->getComponentId();
-	componentMap.erase(key);
-	componentMap.emplace(key, std::move(component));
-}
-
-int WLUW::WObject::removeComponent(int key)
-{
-	return componentMap.erase(key);
+	return *this;
 }

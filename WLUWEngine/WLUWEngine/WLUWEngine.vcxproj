@@ -174,25 +174,28 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Hitbox.cpp" />
     <ClCompile Include="src\Shape.cpp" />
+    <ClCompile Include="src\tinyxml2.cpp" />
     <ClCompile Include="src\WAudioController.cpp" />
     <ClCompile Include="src\WRendering.cpp" />
+    <ClCompile Include="src\WTexture.cpp" />
     <ClCompile Include="src\WWindow.cpp" />
     <ClCompile Include="src\WObject.cpp" />
-    <ClCompile Include="src\WWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Hitbox.h" />
+    <ClInclude Include="src\InputManager.h" />
     <ClInclude Include="src\Shape.h" />
+    <ClInclude Include="src\tinyxml2.h" />
     <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\WAudioController.h" />
     <ClInclude Include="src\WLUW.h" />
     <ClInclude Include="src\WRendering.h" />
+    <ClInclude Include="src\WTexture.h" />
     <ClInclude Include="src\WTimer.h" />
     <ClInclude Include="src\WWindow.h" />
-    <ClInclude Include="src\TypeIdManager.h" />
-    <ClInclude Include="src\WComponentBase.h" />
     <ClInclude Include="src\WObject.h" />
-    <ClInclude Include="src\WWorld.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
