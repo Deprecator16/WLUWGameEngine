@@ -27,10 +27,9 @@ namespace WLUW::SampleGame
 		void freeObjects();
 
 		// Updaters
+		void handleCollisions(double deltaTime);
 		void update(double deltaTime);
 		void render(SDL_Renderer* renderer);
-		void handleCollisions(double deltaTime);
-		bool clips(Hitbox* box, int index, double deltaTime);
 
 		// Loaders
 		bool loadGame();

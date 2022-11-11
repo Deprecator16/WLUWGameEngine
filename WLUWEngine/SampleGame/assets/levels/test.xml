@@ -1,6 +1,6 @@
 <root>
     <player>
-        <item x="128" y="0"/>
+        <item x="300" y="300"/>
     </player>
     <blocks>
         <item x="64" y="640">
@@ -15,28 +15,48 @@
 			<point x="64" y="64"/>
 			<point x="0" y="64"/>
 		</item>
-        <item x="800" y="640">
+		
+        <item x="800" y="600">
 			<point x="0" y="0"/>
-			<point x="256" y="-256"/>
-			<point x="256" y="0"/>
+			<point x="-100" y="0"/>
+			<point x="-100" y="50"/>
+			<point x="0" y="50"/>
 		</item>
-        <item x="1184" y="608">
+        <item x="800" y="600">
 			<point x="0" y="0"/>
-			<point x="64" y="0"/>
-			<point x="64" y="32"/>
-			<point x="0" y="32"/>
+			<point x="200" y="-200"/>
+			<point x="200" y="0"/>
 		</item>
-        <item x="1248" y="640">
+        <item x="1000" y="400">
 			<point x="0" y="0"/>
-			<point x="512" y="0"/>
-			<point x="512" y="256"/>
-			<point x="0" y="256"/>
+			<point x="100" y="0"/>
+			<point x="100" y="50"/>
+			<point x="0" y="50"/>
 		</item>
-        <item x="1760" y="512">
+		
+        <item x="300" y="100">
 			<point x="0" y="0"/>
-			<point x="32" y="0"/>
-			<point x="32" y="512"/>
-			<point x="0" y="512"/>
+			<point x="1000" y="0"/>
+			<point x="0" y="100"/>
+		</item>
+		
+        <item x="1100" y="600">
+			<point x="0" y="0"/>
+			<point x="100" y="0"/>
+			<point x="100" y="50"/>
+			<point x="0" y="50"/>
+		</item>
+        <item x="1200" y="300">
+			<point x="0" y="0"/>
+			<point x="100" y="0"/>
+			<point x="100" y="300"/>
+			<point x="0" y="300"/>
+		</item>
+        <item x="1300" y="600">
+			<point x="0" y="0"/>
+			<point x="500" y="0"/>
+			<point x="500" y="300"/>
+			<point x="0" y="300"/>
 		</item>
     </blocks>
 </root>

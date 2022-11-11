@@ -57,6 +57,9 @@ namespace WLUW
 			if (*this == Vector2() || axis == Vector2())
 				return Vector2();
 
+			if (this->dot(axis) == 0.0)
+				return Vector2();
+
 			return axis * (this->dot(axis)) / (axis.dot(axis));
 		}
 
@@ -97,11 +100,19 @@ namespace WLUW
 		// Division
 		friend Vector2 operator/(const Vector2 vec1, const Vector2 vec2)
 		{
+			if (vec2 == Vector2())
+				throw("Division by zero");
+			if (vec2.x == 0.0)
+				return Vector2(0.0, vec1.y / vec2.y);
+			if (vec2.y == 0.0)
+				return Vector2(vec1.x / vec2.x, 0.0);
 			return Vector2(vec1.x / vec2.x, vec1.y / vec2.y);
 		}
 
 		friend Vector2 operator/(const Vector2 vec1, const double scalar)
 		{
+			if (scalar == 0.0)
+				throw("Division by zero");
 			return Vector2(vec1.x / scalar, vec1.y / scalar);
 		}
 

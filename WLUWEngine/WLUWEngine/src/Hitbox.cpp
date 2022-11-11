@@ -89,16 +89,27 @@ SDL_Rect WLUW::Hitbox::getAABB()
 
 	Vector2 min;
 	Vector2 max;
-	for (auto& p : box.getPoints())
+	for (auto& point : box.getPoints())
 	{
-		if (p.x < min.x)
-			min.x = p.x;
-		if (p.x > max.x)
-			max.x = p.x;
-		if (p.y < min.y)
-			min.y = p.y;
-		if (p.y > max.y)
-			max.y = p.y;
+		if (point.x < min.x)
+			min.x = point.x;
+		if (point.x > max.x)
+			max.x = point.x;
+		if (point.y < min.y)
+			min.y = point.y;
+		if (point.y > max.y)
+			max.y = point.y;
+	}
+	for (auto& point : predict.getPoints())
+	{
+		if (point.x < min.x)
+			min.x = point.x;
+		if (point.x > max.x)
+			max.x = point.x;
+		if (point.y < min.y)
+			min.y = point.y;
+		if (point.y > max.y)
+			max.y = point.y;
 	}
 
 	return SDL_Rect(min.x, min.y, max.x - min.x, max.y - min.y);

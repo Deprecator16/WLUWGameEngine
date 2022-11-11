@@ -10,6 +10,7 @@
 
 #include <vector>
 
+#include "SDL.h"
 #include "Vector2.h"
 
 namespace WLUW
@@ -120,6 +121,12 @@ namespace WLUW
 		 */
 		std::pair<double, double> projectOntoAxis(Vector2 axis) const;
 
+		/**
+		 * \brief Equality check
+		 *
+		 * \param other: Shape to compare with
+		 * \return True if all parameters and vectors are equal
+		 */
 		virtual bool isEqual(Shape other) const
 		{
 			return this->type == other.type
@@ -183,6 +190,9 @@ namespace WLUW
 
 		/**\return normal vectors of edges */
 		std::vector<Vector2> const& getNormals() const { return normals; };
+
+		/**\return The center point of shape */
+		Vector2 getCenter();
 
 		/////////////////////
 		//// Setter Methods

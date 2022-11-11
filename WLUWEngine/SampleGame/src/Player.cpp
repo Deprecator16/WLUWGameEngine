@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 
 WLUW::SampleGame::Player::Player(InputManager* inputManager) :
 	inputManager{inputManager}
@@ -17,8 +18,9 @@ WLUW::SampleGame::Player::Player(InputManager* inputManager) :
 	// Initialize movement variables
 	this->speed = 1.0;
 	this->jumpHeight = 1.0;
+	this->gravity = 1.0;
 	this->tmpVel = Vector2(0.0, 0.0);
-	this->grounded = false;
+	this->collideBottom = false;
 }
 
 void WLUW::SampleGame::Player::update(double deltaTime)
@@ -42,30 +44,22 @@ void WLUW::SampleGame::Player::update(double deltaTime)
 	// Prime hitbox for movement
 	hitbox.setVel(tmpVel);
 
-	// Reset grounded state
-	// Grounded will be set to true in OnCollide() later if player is still grounded
-	grounded = false;
+	// Reset collision states
+	collideBottom = collideTop = collideLeft = collideRight = false;
 }
 
 void WLUW::SampleGame::Player::handleInput(double deltaTime)
 {
 	// A, D
-	if (inputManager->getKey(SDLK_a))
-	{
+	if (inputManager->getKey(SDLK_a) && !collideLeft)
 		tmpVel.x -= speed * deltaTime * 2048.0f;
-	}
-	if (inputManager->getKey(SDLK_d))
-	{
+	if (inputManager->getKey(SDLK_d) && !collideRight)
 		tmpVel.x += speed * deltaTime * 2048.0f;
-	}
 
 	// W
-	//if (inputManager->getKeyDown(SDLK_w) && grounded)
+	//if (inputManager->getKeyDown(SDLK_w) && collideBottom && !collideTop)
 	if (inputManager->getKey(SDLK_w))
-	{
-		tmpVel.y = -1024.0f;
-		grounded = false;
-	}
+		tmpVel.y = -1024.0f * jumpHeight;
 }
 
 void WLUW::SampleGame::Player::doPhysics(double deltaTime)
@@ -86,31 +80,14 @@ void WLUW::SampleGame::Player::doPhysics(double deltaTime)
 
 	// Gravity
 	// Limit gravity
-	if (tmpVel.y > 1024.0f)
-	{
-		tmpVel.y = 1024.0f;
-	}
-	// On ground
-	else if (grounded)
-	{
+	tmpVel.y = std::min(1024.0, tmpVel.y);
 
-	}
-	// Not on ground, increase y velocity
-	else
-	{
-		tmpVel.y += 4096.0f * deltaTime;
-	}
+	// Not on ground, increase y velocity based on gravity
+	if (!collideBottom)
+		tmpVel.y += gravity * 4096.0f * deltaTime;
 
 	// Restrict maximum movement speed
-	if (tmpVel.x > 512.0)
-	{
-		tmpVel.x = 512.0;
-	}
-	if (tmpVel.x < -512.0)
-	{
-		tmpVel.x = -512.0;
-	}
-
+	tmpVel.x = std::clamp(tmpVel.x, -512.0, 512.0);
 }
 
 void WLUW::SampleGame::Player::render(SDL_Renderer* renderer)
@@ -128,14 +105,18 @@ void WLUW::SampleGame::Player::render(SDL_Renderer* renderer)
 
 void WLUW::SampleGame::Player::OnCollide(WObject* target, Hitbox::CollisionData collisionData)
 {
-	// Check if colliding with ground
+	// Get direction of collision
 	if (target->getHitbox()->getInertia() == Hitbox::HARD)
 	{
-		// Get slope of colliding edge
-		double slope = (collisionData.edge.second.y - collisionData.edge.first.y) / (collisionData.edge.second.x - collisionData.edge.first.x);
-		if (abs(slope) <= 1)
-		{
-			grounded = true;
-		}
+		if (collisionData.direction == Hitbox::Direction::TOP)
+			collideTop = true;
+		else if (collisionData.direction == Hitbox::Direction::BOTTOM)
+			collideBottom = true;
+		else if (collisionData.direction == Hitbox::Direction::LEFT)
+			collideLeft = true;
+		else if (collisionData.direction == Hitbox::Direction::RIGHT)
+			collideRight = true;
+
+		//std::cout << "bottom=" << collideBottom << ", top=" << collideTop << ", left=" << collideLeft << ", right=" << collideRight << std::endl;
 	}
 }

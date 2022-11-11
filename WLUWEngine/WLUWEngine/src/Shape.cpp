@@ -384,3 +384,15 @@ Vector2 WLUW::Shape::swapPoint(int index, Vector2 point)
 
     return returned;
 }
+
+Vector2 WLUW::Shape::getCenter()
+{
+    Vector2 center;
+
+    for (auto& point : points)
+        center = center + point;
+
+    center = center / points.size();
+
+    return (pos + center);
+}

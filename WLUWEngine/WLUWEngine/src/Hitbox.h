@@ -16,6 +16,15 @@ namespace WLUW
             HARD
         };
 
+        enum Direction
+        {
+            NONE = 0,
+            TOP,
+            BOTTOM,
+            LEFT,
+            RIGHT
+        };
+
         class CollisionData
         {
         public:
@@ -24,6 +33,8 @@ namespace WLUW
             Vector2 pointOfIntersection;
             Vector2 distance;
             double timeOfImpact;
+            Direction direction;
+            double totalDistanceFromEdgeToShape;
         };
 
         // Constructors

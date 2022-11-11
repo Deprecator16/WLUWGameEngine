@@ -32,14 +32,18 @@ namespace WLUW::SampleGame
 		// Setters
 		void setPos(Vector2 pos) { hitbox.setPos(pos); }
 		void setTmpVel(Vector2 tmpVel) { this->tmpVel = tmpVel; }
-		void setGrounded(bool grounded) { this->grounded = grounded; }
+		void setGrounded(bool collideBottom) { this->collideBottom = collideBottom; }
 
 	private:
 		// Movement
-		float speed;
-		float jumpHeight;
+		double speed;
+		double jumpHeight;
+		double gravity;
 		Vector2 tmpVel;
-		bool grounded;
+		bool collideBottom;
+		bool collideTop;
+		bool collideLeft;
+		bool collideRight;
 
 		// Input manager
 		InputManager* inputManager;
