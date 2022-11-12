@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 #include <algorithm>
 
@@ -68,7 +69,8 @@ Orientation getOrientation(Vector2 point1, Vector2 point2, Vector2 point3)
 {
 	double val = (point2.y - point1.y) * (point3.x - point2.x) - (point2.x - point1.x) * (point3.y - point2.y);
 
-	if (val == 0) return Orientation::COLLINEAR;
+	if (abs(val) < 0.001f) // Make sure to compare to an episilon value (Acceptable error), otherwise the algorithm is buggy
+		return Orientation::COLLINEAR;
 
 	return (val > 0) ? Orientation::CLOCKWISE : Orientation::COUNTERCLOCKWISE;
 }
@@ -666,7 +668,8 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 			{
 				// Redirect soft object velocity
 				Vector2 slope = collider.second.edge.second - collider.second.edge.first;
-				softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope) * pow(1.0f/32.0f, deltaTime));
+				softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope));
+				//softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope) * pow(1.0f / 32.0f, deltaTime));
 
 				//std::cout << "slope: " << slope << std::endl;
 			}

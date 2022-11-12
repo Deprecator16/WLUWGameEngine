@@ -97,7 +97,7 @@ int main(int argc, char** argv)
 	WTimer timer;
 	double deltaTime = 0.0;
 	double timeElapsed = 0.0;
-	unsigned int framerate = 144;
+	unsigned int framerate = 0;
 
 	// Initialize input manager
 	WLUW::InputManager inputManager;
@@ -150,7 +150,7 @@ int main(int argc, char** argv)
 		do
 		{
 			deltaTime = timer.elapsed();
-		} while (deltaTime <= (1.0f / framerate));
+		} while (framerate != 0 && deltaTime <= (1.0f / framerate));
 
 		timeElapsed += timer.elapsed();
 		timer.reset();
