@@ -52,11 +52,8 @@ void WLUW::SampleGame::Game::freeObjects()
  */
 bool onSegment(Vector2 point, Edge edge)
 {
-	if (point.x <= std::max(edge.first.x, edge.second.x) && point.x >= std::min(edge.first.x, edge.second.x) &&
-		point.y <= std::max(edge.first.y, edge.second.y) && point.y >= std::min(edge.first.y, edge.second.y))
-		return true;
-
-	return false;
+	return (std::min(edge.first.x, edge.second.x) <= point.x && point.x <= std::max(edge.first.x, edge.second.x) &&
+		std::min(edge.first.y, edge.second.y) <= point.y && point.y <= std::max(edge.first.y, edge.second.y));
 }
 
 /**
@@ -69,8 +66,7 @@ bool onSegment(Vector2 point, Edge edge)
  */
 Orientation getOrientation(Vector2 point1, Vector2 point2, Vector2 point3)
 {
-	int val = (point2.y - point1.y) * (point3.x - point2.x) -
-		(point2.x - point1.x) * (point3.y - point2.y);
+	double val = (point2.y - point1.y) * (point3.x - point2.x) - (point2.x - point1.x) * (point3.y - point2.y);
 
 	if (val == 0) return Orientation::COLLINEAR;
 
@@ -102,14 +98,14 @@ bool areIntersecting(Edge edge1, Edge edge2)
 		return true;
 
 	// Special Cases
-	// p1, p2 and q1 are collinear and q1 lies on segment p1p2
-	if (o1 == 0 && onSegment(edge2.first, std::make_pair(edge1.first, edge1.second))) return true;
-	// p1, p2 and q2 are collinear and q2 lies on segment p1p2
-	if (o2 == 0 && onSegment(edge2.second, std::make_pair(edge1.first, edge1.second))) return true;
-	// q1, q2 and p1 are collinear and p1 lies on segment q1q2
-	if (o3 == 0 && onSegment(edge1.first, std::make_pair(edge2.first, edge2.second))) return true;
-	// q1, q2 and p2 are collinear and p2 lies on segment q1q2
-	if (o4 == 0 && onSegment(edge1.second, std::make_pair(edge2.first, edge2.second))) return true;
+	// edge2.first collinear with edge1
+	if (o1 == 0 && onSegment(edge2.first, edge1)) return true;
+	// edge2.second collinear with edge1
+	if (o2 == 0 && onSegment(edge2.second, edge1)) return true;
+	// edge1.first collinear with edge2
+	if (o3 == 0 && onSegment(edge1.first, edge2)) return true;
+	// edge1.second collinear with edge2
+	if (o4 == 0 && onSegment(edge1.second, edge2)) return true;
 
 	return false; // Doesn't fall in any of the above cases
 }
@@ -270,7 +266,7 @@ Hitbox::Direction getDirectionOfImpact(Hitbox* box, Edge edge, Vector2 pointOfIn
  */
 Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, double deltaTime)
 {
-	// Get a list of all edges that the soft box will collide with
+	// Get a list of all edges and points that the soft box will collide with
 	std::vector<Hitbox::CollisionData> colliders;
 	double minTimeOfImpact = INT_MAX;
 
@@ -387,7 +383,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, double 
 		// Get point in hard box
 		Vector2 point = hardBox->getPos() + hardBox->getBox()->getPoints()[i];
 
-		// Check if any edges in soft box will intersect current edge
+		// Check if any edges in soft box will intersect current point
 		for (unsigned int j = 0; j < softBox->getBox()->getPoints().size(); ++j)
 		{
 			// Get edge in soft box
@@ -462,18 +458,21 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, double 
 	}
 
 	/*
-	std::cout << "deltaTime=" << deltaTime <<
-		", numColliders=" << colliders.size() <<
-		", (point: x=" << bestCollider.point.x << ", y=" << bestCollider.point.y <<
-		", (predictedPoint: x=" << (bestCollider.point + softBox->getVel() * deltaTime).x << ", y=" << (bestCollider.point + softBox->getVel() * deltaTime).y <<
-		"), (edge: p1.x=" << bestCollider.edge.first.x << ", p1.y=" << bestCollider.edge.first.y <<
-		", p2.x=" << bestCollider.edge.second.x << ", p2.y=" << bestCollider.edge.second.y <<
-		"), (POI: x=" << bestCollider.pointOfIntersection.x << ", y=" << bestCollider.pointOfIntersection.y <<
-		"), (distance: x=" << bestCollider.distance.x << ", y=" << bestCollider.distance.y <<
-		"), (timeOfImpact=" << bestCollider.timeOfImpact <<
-		"), (direction=" << bestCollider.direction << ")" <<
-		"), (collisionType=" << bestCollider.collisionType << ")" << std::endl;
+	std::cout << std::endl <<
+		"[deltaTime=" << deltaTime << "]" <<
+		", [numColliders=" << colliders.size() << "]" <<
+		", [point: " << bestCollider.point << "]" <<
+		", [predictedPoint: " << bestCollider.point + softBox->getVel() * deltaTime << "]" <<
+		", [edge: p1: " << bestCollider.edge.first << "]" <<
+		", p2: " << bestCollider.edge.second << "]" <<
+		", [POI: " << bestCollider.pointOfIntersection << "]" <<
+		", [distance: " << bestCollider.distance << "]" <<
+		", [timeOfImpact=" << bestCollider.timeOfImpact << "]" <<
+		", [direction=" << bestCollider.direction << "]" <<
+		", [collisionType=" << bestCollider.collisionType << "]" <<
+		std::endl;
 		*/
+		
 
 	return bestCollider;
 }
@@ -644,6 +643,7 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 			// Check if time of impact is repeated
 			if (timeOfImpact == lastTimeOfImpact)
 				break;
+
 			lastTimeOfImpact = timeOfImpact;
 
 			// No more collisions need to be resolved
@@ -667,18 +667,16 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 				// Redirect soft object velocity
 				Vector2 slope = collider.second.edge.second - collider.second.edge.first;
 				softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope));
-				//softBox->setVel((softBox->getVel() - collider.second.distance).projectOntoAxis(collider.second.edge.second - collider.second.edge.first) * pow(0.03125, deltaTime));
+				std::cout << "slope: " << slope << std::endl;
 			}
 
-			//std::cout << "x = " << softBox->getVel().x << ", y = " << softBox->getVel().y << std::endl;
+			//std::cout << "vel = " << softBox->getVel() << std::endl;
+			//std::cout << colliders.size() << std::endl;
+			std::cout << "while loop" << std::endl;
 			
 			// Check if new position clips any other objects
 			if (clips(softBox, hardBoxes, deltaTime))
-			{
 				std::cout << "Object clips after collision resolution" << std::endl;
-			}
-
-			//std::cout << "while loop" << std::endl;
 		}
 		while (colliders.size() > 0);
 	}
@@ -755,10 +753,10 @@ bool WLUW::SampleGame::Game::loadGame()
 	}
 	// Min
 	item = ele->FirstChildElement("min");
-	item->QueryFloatAttribute("x", cameraMin);
+	item->QueryDoubleAttribute("x", cameraMin);
 	// Max
 	item = ele->FirstChildElement("max");
-	item->QueryFloatAttribute("x", cameraMax);
+	item->QueryDoubleAttribute("x", cameraMax);
 	*/
 
 	// Load player

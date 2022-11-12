@@ -64,10 +64,7 @@ void WLUW::Hitbox::move(double deltaTime)
 void WLUW::Hitbox::updatePredict(double deltaTime)
 {
 	predict = box;
-	predict.setPos(Vector2(
-		box.getPos().x + (vel.x * deltaTime),
-		box.getPos().y + (vel.y * deltaTime)
-	));
+	predict.setPos(box.getPos() + (vel * deltaTime));
 }
 
 std::pair<WLUW::Vector2, double> WLUW::Hitbox::checkCollision(Hitbox* target)

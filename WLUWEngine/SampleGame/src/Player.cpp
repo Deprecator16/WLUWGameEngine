@@ -34,11 +34,6 @@ void WLUW::SampleGame::Player::update(double deltaTime)
 	// Do physics
 	doPhysics(deltaTime);
 
-	//std::cout << "x = " << hitbox.getPos().x << ", y = " << hitbox.getPos().y << std::endl;
-	//std::cout << "x = " << hitbox.getVel().x << ", y = " << hitbox.getVel().y << std::endl;
-	//std::cout << "x = " << tmpVel.x << ", y = " << tmpVel.y << std::endl;
-	//std::cout << deltaTime << std::endl;
-
 	// State machine?
 
 	// Prime hitbox for movement
@@ -46,6 +41,11 @@ void WLUW::SampleGame::Player::update(double deltaTime)
 
 	// Reset collision states
 	collideBottom = collideTop = collideLeft = collideRight = false;
+
+	hitbox.updatePredict(deltaTime);
+	//std::cout << "Player pos: " << hitbox.getPos() << ", Player vel: " << hitbox.getVel() << ", predict pos: " << hitbox.getPredictPos() << std::endl;
+	//std::cout << "x = " << tmpVel.x << ", y = " << tmpVel.y << std::endl;
+	//std::cout << deltaTime << std::endl;
 }
 
 void WLUW::SampleGame::Player::handleInput(double deltaTime)

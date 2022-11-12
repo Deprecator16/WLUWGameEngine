@@ -27,7 +27,7 @@ namespace WLUW
         void free();
 
         // Rendering functions
-        void render(SDL_Renderer* renderer, int x, int y, float scale, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+        void render(SDL_Renderer* renderer, int x, int y, double scale, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
         void renderToRect(SDL_Renderer* renderer, SDL_Rect* dstrect, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
         // Manipulation functions
