@@ -79,15 +79,13 @@ void WLUW::SampleGame::Player::doPhysics(double deltaTime)
 	}
 
 	// Gravity
-	// Limit gravity
-	tmpVel.y = std::min(1024.0, tmpVel.y);
-
 	// Not on ground, increase y velocity based on gravity
 	if (!collideBottom)
 		tmpVel.y += gravity * 4096.0f * deltaTime;
 
-	// Restrict maximum movement speed
+	// Restrict maximum speed
 	tmpVel.x = std::clamp(tmpVel.x, -512.0, 512.0);
+	tmpVel.y = std::min(1024.0, tmpVel.y);
 }
 
 void WLUW::SampleGame::Player::render(SDL_Renderer* renderer)

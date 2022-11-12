@@ -666,13 +666,14 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 			{
 				// Redirect soft object velocity
 				Vector2 slope = collider.second.edge.second - collider.second.edge.first;
-				softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope));
-				std::cout << "slope: " << slope << std::endl;
+				softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope) * pow(1.0f/32.0f, deltaTime));
+
+				//std::cout << "slope: " << slope << std::endl;
 			}
 
 			//std::cout << "vel = " << softBox->getVel() << std::endl;
 			//std::cout << colliders.size() << std::endl;
-			std::cout << "while loop" << std::endl;
+			//std::cout << "while loop" << std::endl;
 			
 			// Check if new position clips any other objects
 			if (clips(softBox, hardBoxes, deltaTime))

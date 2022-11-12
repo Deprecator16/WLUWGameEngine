@@ -97,6 +97,7 @@ int main(int argc, char** argv)
 	WTimer timer;
 	double deltaTime = 0.0;
 	double timeElapsed = 0.0;
+	unsigned int framerate = 144;
 
 	// Initialize input manager
 	WLUW::InputManager inputManager;
@@ -145,17 +146,14 @@ int main(int argc, char** argv)
 		SDL_RenderPresent(renderer);
 
 		// Restart timer at the end of frame
-		deltaTime = timer.elapsed();
+		// Cap framerate
+		do
+		{
+			deltaTime = timer.elapsed();
+		} while (deltaTime <= (1.0f / framerate));
+
 		timeElapsed += timer.elapsed();
 		timer.reset();
-
-		/*
-		// Limit deltaTime
-		if (deltaTime > 1.0/144.0) // 144 fps
-		{
-			deltaTime = 1.0/144.0;
-		}
-		*/
 	}
 	win.setWindowSize(1920, 1080);
 
