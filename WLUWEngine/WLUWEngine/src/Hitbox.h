@@ -18,11 +18,19 @@ namespace WLUW
 
         enum Direction
         {
-            NONE = 0,
+            NO_DIRECTION = 0,
             TOP,
             BOTTOM,
             LEFT,
             RIGHT
+        };
+
+        enum CollisionType
+        {
+            NO_COLLISION = 0,
+            EDGE_EDGE,
+            POINT_EDGE,
+            EDGE_POINT
         };
 
         class CollisionData
@@ -33,8 +41,9 @@ namespace WLUW
             Vector2 pointOfIntersection;
             Vector2 distance;
             double timeOfImpact;
-            Direction direction;
             double totalDistanceFromEdgeToShape;
+            Direction direction;
+            CollisionType collisionType;
         };
 
         // Constructors

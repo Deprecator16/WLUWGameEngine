@@ -58,5 +58,11 @@
 			<point x="500" y="300"/>
 			<point x="0" y="300"/>
 		</item>
+        <item x="1300" y="500">
+			<point x="0" y="0"/>
+			<point x="100" y="0"/>
+			<point x="100" y="68"/>
+			<point x="0" y="68"/>
+		</item>
     </blocks>
 </root>

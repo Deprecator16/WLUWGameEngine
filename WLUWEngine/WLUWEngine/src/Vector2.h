@@ -6,6 +6,7 @@
  * \date   May 2021
  *********************************************************************/
 #pragma once
+#include <iostream>
 #include <math.h>
 #include <limits>
 
@@ -148,6 +149,13 @@ namespace WLUW
 
 			else if (index == 0) return x;
 			else return y;
+		}
+
+		// Output
+		friend std::ostream& operator<<(std::ostream& os, const Vector2& v)
+		{
+			os << "[" << v.x << ", " << v.y << "]";
+			return os;
 		}
 	};
 }
