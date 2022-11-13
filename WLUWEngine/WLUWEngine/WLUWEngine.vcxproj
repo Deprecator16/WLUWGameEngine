@@ -184,6 +184,7 @@
     <ClCompile Include="src\WObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Edge.h" />
     <ClInclude Include="src\Hitbox.h" />
     <ClInclude Include="src\InputManager.h" />
     <ClInclude Include="src\Shape.h" />

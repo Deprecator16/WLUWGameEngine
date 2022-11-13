@@ -7,16 +7,6 @@
 
 using namespace WLUW;
 
-enum Orientation
-{
-	COLLINEAR = 0,
-	CLOCKWISE,
-	COUNTERCLOCKWISE
-};
-
-// Aliases
-using Edge = std::pair<Vector2, Vector2>;
-
 WLUW::SampleGame::Game::Game(GameData gameData) :
 	window{gameData.window},
 	inputManager{gameData.inputManager}
@@ -42,117 +32,6 @@ void WLUW::SampleGame::Game::freeObjects()
 	for (auto& o : objects)
 	{
 		delete o;
-	}
-}
-
-/**
- * \brief Helper function that returns whether a given point lies on a given edge
- *
- * \param point: Specified point
- * \param edge: Specified edge
- * \return True if point lies on edge, false otherwise
- */
-bool onSegment(Vector2 point, Edge edge)
-{
-	// Check collinearity
-	double val = (edge.first.y - point.y) * (edge.second.x - edge.first.x) - (edge.first.x - point.x) * (edge.second.y - edge.first.y);
-	if (val != 0.0)
-		return false;
-
-	return (point - edge.first).size() + (point - edge.second).size() == (edge.second - edge.first).size();
-}
-
-/**
- * \brief Helper function that returns the orientation of an ordered triplet
- *
- * \param point1: First point in the triplet
- * \param point2: Second point in the triplet
- * \param point3: Third point in the triplet
- * \return Orientation object specifying the orientation of the given ordered triplet, or COLLINEAR if collinear
- */
-Orientation getOrientation(Vector2 point1, Vector2 point2, Vector2 point3)
-{
-	double val = (point2.y - point1.y) * (point3.x - point2.x) - (point2.x - point1.x) * (point3.y - point2.y);
-
-	if (abs(val) < 0.0001) // Make sure to compare to an episilon value (Acceptable error), otherwise the algorithm is buggy
-		return Orientation::COLLINEAR;
-
-	return (val > 0) ? Orientation::CLOCKWISE : Orientation::COUNTERCLOCKWISE;
-}
-
-/**
- * \brief Helper function that returns whether two edges intersect
- *
- * \param edge1: First edge
- * \param edge2: Second edge
- * \return True if edge1 and edge2 intersect, false otherwise
- */
-bool areIntersecting(Edge edge1, Edge edge2)
-{
-	// Check for parallelism
-	if (edge1.second - edge1.first == edge2.second - edge2.first ||
-		edge1.second - edge1.first == edge2.first - edge2.second)
-		return false;
-
-	// Find the four orientations needed for general and special cases
-	Orientation o1 = getOrientation(edge1.first, edge1.second, edge2.first);
-	Orientation o2 = getOrientation(edge1.first, edge1.second, edge2.second);
-	Orientation o3 = getOrientation(edge2.first, edge2.second, edge1.first);
-	Orientation o4 = getOrientation(edge2.first, edge2.second, edge1.second);
-
-	// General case
-	if (o1 != o2 && o3 != o4)
-		return true;
-
-	// Special Cases
-	// edge2.first collinear with edge1
-	if (o1 == 0 && onSegment(edge2.first, edge1)) return true;
-	// edge2.second collinear with edge1
-	if (o2 == 0 && onSegment(edge2.second, edge1)) return true;
-	// edge1.first collinear with edge2
-	if (o3 == 0 && onSegment(edge1.first, edge2)) return true;
-	// edge1.second collinear with edge2
-	if (o4 == 0 && onSegment(edge1.second, edge2)) return true;
-
-	return false; // Doesn't fall in any of the above cases
-}
-
-/**
- * \brief Helper function that returns the point of intersection between two edges
- *
- * \param edge1: First edge
- * \param edge2: Second edge
- * \return The point of intersection between edge1 and edge2
- */
-Vector2 getPointOfIntersection(Edge edge1, Edge edge2)
-{
-	// Line 1 represented as a1x + b1y = c1
-	double a1 = edge1.second.y - edge1.first.y;
-	double b1 = edge1.first.x - edge1.second.x;
-	double c1 = a1 * (edge1.first.x) + b1 * (edge1.first.y);
-
-	// Line 2 represented as a2x + b2y = c2
-	double a2 = edge2.second.y - edge2.first.y;
-	double b2 = edge2.first.x - edge2.second.x;
-	double c2 = a2 * (edge2.first.x) + b2 * (edge2.first.y);
-
-	double determinant = a1 * b2 - a2 * b1;
-
-	if (determinant == 0)
-	{
-		// The lines are parallel, no intersection
-		// Return the point that is closest to the first point in edge1
-		if ((edge2.first - edge1.first).size() <= (edge2.second - edge1.first).size())
-			return edge2.first;
-		return edge2.second;
-	}
-	else
-	{
-		// Get point of intersection
-		double x = (b2 * c1 - b1 * c2) / determinant;
-		double y = (a1 * c2 - a2 * c1) / determinant;
-
-		return Vector2(x, y);
 	}
 }
 
@@ -298,6 +177,12 @@ Hitbox::Direction getDirectionOfImpact(Hitbox* box, Edge edge, Vector2 pointOfIn
 	return direction;
 }
 
+/**
+ * \brief Comparison function to sort collision data
+ *
+ * \param a, b: Collision data objects being compared
+ * \return True if a should be placed before b
+ */
 bool compareCollisionData(const Hitbox::CollisionData& a, const Hitbox::CollisionData& b)
 {
 	if (a.timeOfImpact < b.timeOfImpact) return true;
@@ -328,7 +213,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 	{
 		// Get data from hard box
 		Vector2 hardPoint = hardBox->getPos() + hardBox->getBox()->getPoints()[i];
-		Edge hardEdge = std::make_pair(
+		Edge hardEdge = Edge(
 			hardBox->getPos() + hardBox->getBox()->getPoints()[i],
 			hardBox->getPos() + hardBox->getBox()->getPoints()[(i + 1) % hardBox->getBox()->getPoints().size()]
 		);
@@ -344,9 +229,9 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			Vector2 average = (point1 + point2) / 2;
 			Vector2 averagePredict = (point1Predict + point2Predict) / 2;
 
-			Edge softEdge = std::make_pair(point1, point2);
+			Edge softEdge = Edge(point1, point2);
 
-			Edge hardEdgePredict = std::make_pair(
+			Edge hardEdgePredict = Edge(
 				hardEdge.first + (-softBox->getVel() * deltaTime),
 				hardEdge.second + (-softBox->getVel() * deltaTime)
 			);
@@ -360,14 +245,14 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 
 			// Check if any points will intersect the opposite edge and get point of collision on soft box
 			Vector2 pointOfCollisionOnSoftBox;
-			if (areIntersecting(std::make_pair(point1, point1Predict), hardEdge))
+			if (Edge::areIntersecting(Edge(point1, point1Predict), hardEdge))
 				pointOfCollisionOnSoftBox = point1;
-			else if (areIntersecting(std::make_pair(point2, point2Predict), hardEdge))
+			else if (Edge::areIntersecting(Edge(point2, point2Predict), hardEdge))
 				pointOfCollisionOnSoftBox = point2;
-			else if (areIntersecting(std::make_pair(hardEdge.first, hardEdgePredict.first), softEdge))
-				pointOfCollisionOnSoftBox = getPointOfIntersection(std::make_pair(hardEdge.first, hardEdgePredict.first), softEdge);
-			else if (areIntersecting(std::make_pair(hardEdge.second, hardEdgePredict.second), softEdge))
-				pointOfCollisionOnSoftBox = getPointOfIntersection(std::make_pair(hardEdge.second, hardEdgePredict.second), softEdge);
+			else if (Edge::areIntersecting(Edge(hardEdge.first, hardEdgePredict.first), softEdge))
+				pointOfCollisionOnSoftBox = Edge::getPointOfIntersection(Edge(hardEdge.first, hardEdgePredict.first), softEdge);
+			else if (Edge::areIntersecting(Edge(hardEdge.second, hardEdgePredict.second), softEdge))
+				pointOfCollisionOnSoftBox = Edge::getPointOfIntersection(Edge(hardEdge.second, hardEdgePredict.second), softEdge);
 			else
 				continue;
 
@@ -375,7 +260,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			double totalDistanceFromEdgeToShape = getTotalDistanceFromEdgeToShape(hardEdge, softBox->getBox());
 
 			// Check if point is collinear to edge
-			if (onSegment(point1, hardEdge) || onSegment(point2, hardEdge) || onSegment(hardEdge.first, softEdge) || onSegment(hardEdge.second, softEdge))
+			if (hardEdge.onSegment(point1) || hardEdge.onSegment(point2) || softEdge.onSegment(hardEdge.first) || softEdge.onSegment(hardEdge.second))
 			{
 				// Clear colliders if we have a new minimum time of impact
 				if (minTimeOfImpact != 0.0)
@@ -394,28 +279,28 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			Vector2 pointOfIntersection;
 			double timeOfImpact = INT_MAX;
 			Vector2 distance;
-			if (areIntersecting(std::make_pair(point1, point1Predict), hardEdge))
+			if (Edge::areIntersecting(Edge(point1, point1Predict), hardEdge))
 			{
-				pointOfIntersection = getPointOfIntersection(std::make_pair(point1, point1Predict), hardEdge);
+				pointOfIntersection = Edge::getPointOfIntersection(Edge(point1, point1Predict), hardEdge);
 				timeOfImpact = getTimeOfImpact(point1, pointOfIntersection, softBox->getVel());
 				distance = pointOfIntersection - point1;
 			}
-			else if (areIntersecting(std::make_pair(point2, point2Predict), hardEdge))
+			else if (Edge::areIntersecting(Edge(point2, point2Predict), hardEdge))
 			{
-				pointOfIntersection = getPointOfIntersection(std::make_pair(point2, point2Predict), hardEdge);
+				pointOfIntersection = Edge::getPointOfIntersection(Edge(point2, point2Predict), hardEdge);
 				timeOfImpact = getTimeOfImpact(point2, pointOfIntersection, softBox->getVel());
 				distance = pointOfIntersection - point2;
 			}
-			else if (areIntersecting(std::make_pair(hardEdge.first, hardEdgePredict.first), softEdge))
+			else if (Edge::areIntersecting(Edge(hardEdge.first, hardEdgePredict.first), softEdge))
 			{
 				pointOfIntersection = hardEdge.first;
-				timeOfImpact = getTimeOfImpact(getPointOfIntersection(std::make_pair(hardEdge.first, hardEdgePredict.first), softEdge), hardEdge.first, softBox->getVel());
+				timeOfImpact = getTimeOfImpact(Edge::getPointOfIntersection(Edge(hardEdge.first, hardEdgePredict.first), softEdge), hardEdge.first, softBox->getVel());
 				distance = pointOfCollisionOnSoftBox - hardEdge.first;
 			}
-			else if (areIntersecting(std::make_pair(hardEdge.second, hardEdgePredict.second), softEdge))
+			else if (Edge::areIntersecting(Edge(hardEdge.second, hardEdgePredict.second), softEdge))
 			{
 				pointOfIntersection = hardEdge.second;
-				timeOfImpact = getTimeOfImpact(getPointOfIntersection(std::make_pair(hardEdge.second, hardEdgePredict.second), softEdge), hardEdge.second, softBox->getVel());
+				timeOfImpact = getTimeOfImpact(Edge::getPointOfIntersection(Edge(hardEdge.second, hardEdgePredict.second), softEdge), hardEdge.second, softBox->getVel());
 				distance = pointOfCollisionOnSoftBox - hardEdge.second;
 			}
 
@@ -439,14 +324,14 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			Vector2 pointPredict = softBox->getPredictPos() + softBox->getPredict()->getPoints()[j];
 
 			// Check if the point will intersect the edge
-			if (!areIntersecting(std::make_pair(point, pointPredict), hardEdge))
+			if (!Edge::areIntersecting(Edge(point, pointPredict), hardEdge))
 				continue;
 
 			// Get total distance from edge to shape
 			double totalDistanceFromEdgeToShape = getTotalDistanceFromEdgeToShape(hardEdge, softBox->getBox());
 
 			// Check if point is collinear to edge
-			if (onSegment(point, hardEdge))
+			if (hardEdge.onSegment(point))
 			{
 				// Clear colliders if we have a new minimum time of impact
 				if (minTimeOfImpact != 0.0)
@@ -458,7 +343,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			}
 
 			// Find point of intersection
-			Vector2 pointOfIntersection = getPointOfIntersection(std::make_pair(point, pointPredict), hardEdge);
+			Vector2 pointOfIntersection = Edge::getPointOfIntersection(Edge(point, pointPredict), hardEdge);
 
 			// Find time for original point to reach point of intersection
 			double timeOfImpact = getTimeOfImpact(point, pointOfIntersection, softBox->getVel());
@@ -479,11 +364,11 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 		for (unsigned int j = 0; j < softBox->getBox()->getPoints().size(); ++j)
 		{
 			// Get edge in soft box
-			Edge softEdge = std::make_pair(
+			Edge softEdge = Edge(
 				softBox->getPos() + softBox->getBox()->getPoints()[j],
 				softBox->getPos() + softBox->getBox()->getPoints()[(j + 1) % softBox->getBox()->getPoints().size()]
 			);
-			Edge softEdgePredict = std::make_pair(
+			Edge softEdgePredict = Edge(
 				softBox->getPredictPos() + softBox->getPredict()->getPoints()[j],
 				softBox->getPredictPos() + softBox->getPredict()->getPoints()[(j + 1) % softBox->getPredict()->getPoints().size()]
 			);
@@ -495,7 +380,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			Vector2 pointPredict = hardPoint + negVel * deltaTime;
 
 			// Check if the point will intersect the edge
-			if (!areIntersecting(std::make_pair(hardPoint, pointPredict), softEdge))
+			if (!Edge::areIntersecting(Edge(hardPoint, pointPredict), softEdge))
 			//if (!inSquare(point, edge.first, edge.second, softEdgePredict.second, softEdgePredict.first))
 				continue;
 
@@ -503,7 +388,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			double totalDistanceFromPointToShape = getTotalDistanceFromPointToShape(hardPoint, softBox->getBox());
 
 			// Check if point is collinear to edge
-			if (onSegment(hardPoint, softEdge))
+			if (softEdge.onSegment(hardPoint))
 			{
 				// Clear colliders if we have a new minimum time of impact
 				if (minTimeOfImpact != 0.0)
@@ -519,7 +404,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 				continue;
 
 			// Point of intersection lies on the edge of the soft box
-			Vector2 pointOfIntersection = getPointOfIntersection(std::make_pair(hardPoint, pointPredict), softEdge);
+			Vector2 pointOfIntersection = Edge::getPointOfIntersection(Edge(hardPoint, pointPredict), softEdge);
 
 			// Find time for original point to reach point of intersection
 			double timeOfImpact = getTimeOfImpact(pointOfIntersection, hardPoint, softBox->getVel());
@@ -554,7 +439,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			bestCollider = collider;
 	}
 
-	/*/
+	
 	std::cout <<
 		"[point: " << bestCollider.point << "]" <<
 		", [predictedPoint: " << bestCollider.point + softBox->getVel() * deltaTime << "]" <<
@@ -566,7 +451,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 		", [direction=" << bestCollider.direction << "]" <<
 		", [collisionType=" << bestCollider.collisionType << "]" <<
 		std::endl;
-		*/
+		
 		
 
 	return bestCollider;
@@ -806,7 +691,9 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 
 			// Check if new position clips any other objects
 			if (clips(softBox, hardBoxes, deltaTime))
+			{
 				std::cout << "Object clips after collision resolution" << std::endl;
+			}
 		}
 		while (colliders.size() > 0);
 	}

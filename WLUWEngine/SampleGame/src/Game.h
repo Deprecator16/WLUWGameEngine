@@ -1,11 +1,13 @@
 #pragma once
 
 #include <vector>
+#include "Block.h"
+#include "Edge.h"
 #include "Player.h"
 #include "SDL.h"
 #include "tinyxml2.h"
+#include "Vector2.h"
 #include "WObject.h"
-#include "Block.h"
 
 namespace WLUW::SampleGame
 {

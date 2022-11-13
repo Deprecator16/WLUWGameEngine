@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Edge.h"
 #include "SDL.h"
 #include "Shape.h"
 #include "Vector2.h"
@@ -38,7 +39,7 @@ namespace WLUW
         public:
             unsigned int hardBoxId;
             Vector2 point;
-            std::pair<Vector2, Vector2> edge;
+            Edge edge;
             Vector2 pointOfIntersection;
             Vector2 distance;
             double timeOfImpact;

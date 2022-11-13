@@ -9,10 +9,20 @@ WLUW::SampleGame::Player::Player(InputManager* inputManager) :
 {
 	// Initialize hitbox
 	Shape newShape;
+	
 	newShape.addPoint(Vector2(0.0, 0.0));
 	newShape.addPoint(Vector2(32.0, 0.0));
 	newShape.addPoint(Vector2(32.0, 32.0));
 	newShape.addPoint(Vector2(0.0, 32.0));
+	
+
+	/*
+	newShape.addPoint(Vector2(0.0, 0.0));
+	newShape.addPoint(Vector2(16.0, 16.0));
+	newShape.addPoint(Vector2(0.0, 32.0));
+	newShape.addPoint(Vector2(-16.0, 16.0));
+	*/
+
 	this->hitbox = Hitbox(newShape, Hitbox::SOFT);
 
 	// Initialize movement variables
@@ -99,7 +109,7 @@ void WLUW::SampleGame::Player::render(SDL_Renderer* renderer)
 		Vector2 p1 = points[i] + hitbox.getPos();
 		Vector2 p2 = points[(i + 1) % points.size()] + hitbox.getPos();
 
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+		SDL_SetRenderDrawColor(renderer, 180, 180, 255, SDL_ALPHA_OPAQUE);
 		SDL_RenderDrawLine(renderer, p1.x, p1.y, p2.x, p2.y);
 	}
 }
