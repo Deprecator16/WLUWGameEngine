@@ -53,8 +53,8 @@ void WLUW::SampleGame::Game::freeObjects()
  */
 bool onSegment(Vector2 point, Edge edge)
 {
-	return (std::min(edge.first.x, edge.second.x) <= point.x && point.x <= std::max(edge.first.x, edge.second.x) &&
-		std::min(edge.first.y, edge.second.y) <= point.y && point.y <= std::max(edge.first.y, edge.second.y));
+	double val = (edge.first.y - point.y) * (edge.second.x - edge.first.x) - (edge.first.x - point.x) * (edge.second.y - edge.first.y);
+	return val < 0.0001; // Make sure to compare to an episilon value (Acceptable error)
 }
 
 /**
@@ -69,7 +69,7 @@ Orientation getOrientation(Vector2 point1, Vector2 point2, Vector2 point3)
 {
 	double val = (point2.y - point1.y) * (point3.x - point2.x) - (point2.x - point1.x) * (point3.y - point2.y);
 
-	if (abs(val) < 0.001f) // Make sure to compare to an episilon value (Acceptable error), otherwise the algorithm is buggy
+	if (abs(val) < 0.0001) // Make sure to compare to an episilon value (Acceptable error), otherwise the algorithm is buggy
 		return Orientation::COLLINEAR;
 
 	return (val > 0) ? Orientation::CLOCKWISE : Orientation::COUNTERCLOCKWISE;

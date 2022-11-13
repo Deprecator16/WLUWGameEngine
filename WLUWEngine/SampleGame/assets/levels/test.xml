@@ -108,11 +108,87 @@
 		</item>
 		
 		// Spike floor
-        <item x="150" y="600">
+        <item x="300" y="600">
 			<point x="0" y="0"/>
-			<point x="50" y="0"/>
-			<point x="50" y="100"/>
-			<point x="0" y="100"/>
+			<point x="-5" y="10"/>
+			<point x="5" y="10"/>
+		</item>
+        <item x="310" y="600">
+			<point x="0" y="0"/>
+			<point x="-5" y="10"/>
+			<point x="5" y="10"/>
+		</item>
+        <item x="320" y="600">
+			<point x="0" y="0"/>
+			<point x="-5" y="10"/>
+			<point x="5" y="10"/>
+		</item>
+        <item x="330" y="600">
+			<point x="0" y="0"/>
+			<point x="-5" y="10"/>
+			<point x="5" y="10"/>
+		</item>
+        <item x="340" y="600">
+			<point x="0" y="0"/>
+			<point x="-5" y="10"/>
+			<point x="5" y="10"/>
+		</item>
+        <item x="350" y="600">
+			<point x="0" y="0"/>
+			<point x="-5" y="10"/>
+			<point x="5" y="10"/>
+		</item>
+        <item x="360" y="600">
+			<point x="0" y="0"/>
+			<point x="-5" y="10"/>
+			<point x="5" y="10"/>
+		</item>
+        <item x="370" y="600">
+			<point x="0" y="0"/>
+			<point x="-5" y="10"/>
+			<point x="5" y="10"/>
+		</item>
+		
+		// Spike floor2
+        <item x="500" y="600">
+			<point x="0" y="0"/>
+			<point x="0" y="10"/>
+			<point x="10" y="10"/>
+		</item>
+        <item x="510" y="600">
+			<point x="0" y="0"/>
+			<point x="0" y="10"/>
+			<point x="10" y="10"/>
+		</item>
+        <item x="520" y="600">
+			<point x="0" y="0"/>
+			<point x="0" y="10"/>
+			<point x="10" y="10"/>
+		</item>
+        <item x="530" y="600">
+			<point x="0" y="0"/>
+			<point x="0" y="10"/>
+			<point x="10" y="10"/>
+		</item>
+        <item x="540" y="600">
+			<point x="0" y="0"/>
+			<point x="0" y="10"/>
+			<point x="10" y="10"/>
+		</item>
+        <item x="550" y="600">
+			<point x="0" y="0"/>
+			<point x="0" y="10"/>
+			<point x="10" y="10"/>
+		</item>
+        <item x="560" y="600">
+			<point x="0" y="0"/>
+			<point x="0" y="10"/>
+			<point x="10" y="10"/>
+		</item>
+        <item x="570" y="600">
+			<point x="0" y="0"/>
+			<point x="0" y="10"/>
+			<point x="10" y="10"/>
 		</item>
 		
 		// Ramp
@@ -139,7 +215,15 @@
 			<point x="1000" y="0"/>
 			<point x="1000" y="100"/>
 			<point x="0" y="100"/>
-		</item>a
+		</item>
+		
+		// Thin pole
+        <item x="1500" y="600">
+			<point x="0" y="0"/>
+			<point x="10" y="0"/>
+			<point x="10" y="100"/>
+			<point x="0" y="100"/>
+		</item>
     </blocks>
 </root>
 
