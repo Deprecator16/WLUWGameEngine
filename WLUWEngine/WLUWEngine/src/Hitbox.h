@@ -36,6 +36,7 @@ namespace WLUW
         class CollisionData
         {
         public:
+            unsigned int hardBoxId;
             Vector2 point;
             std::pair<Vector2, Vector2> edge;
             Vector2 pointOfIntersection;
