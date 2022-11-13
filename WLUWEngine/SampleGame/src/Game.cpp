@@ -53,8 +53,12 @@ void WLUW::SampleGame::Game::freeObjects()
  */
 bool onSegment(Vector2 point, Edge edge)
 {
+	// Check collinearity
 	double val = (edge.first.y - point.y) * (edge.second.x - edge.first.x) - (edge.first.x - point.x) * (edge.second.y - edge.first.y);
-	return val < 0.0001; // Make sure to compare to an episilon value (Acceptable error)
+	if (val != 0.0)
+		return false;
+
+	return (point - edge.first).size() + (point - edge.second).size() == (edge.second - edge.first).size();
 }
 
 /**
@@ -230,6 +234,41 @@ double getTotalDistanceFromPointToShape(Vector2 point, Shape* shape)
 		totalDistance += abs((shapePoint - point).size());
 
 	return totalDistance;
+}
+
+/**
+ * \brief Helper function that returns the area of a triangle
+ *
+ * \param a, b, c: The points of the triangle
+ * \return The area of triangle abc
+ */
+double getTriangleArea(Vector2 a, Vector2 b, Vector2 c)
+{
+	return ((c.x * b.y - b.x * c.y) - (c.x * a.y - a.x * c.y) + (b.x * a.y - a.x * b.y)) / 2.0;
+}
+
+/**
+ * \brief Helper function that returns whether a point is inside a square
+ *
+ * \param point: Specified point
+ * \param a, b, c, d: Points of the square
+ * \return True if the point is inside square abcd
+ */
+bool inSquare(Vector2 point, Vector2 a, Vector2 b, Vector2 c, Vector2 d)
+{
+	// Get triangle areas
+	double areaABP = getTriangleArea(a, b, point);
+	double areaBCP = getTriangleArea(b, c, point);
+	double areaCDP = getTriangleArea(c, d, point);
+	double areaDAP = getTriangleArea(d, a, point);
+
+	// Check signs of triangles
+	if (areaABP >= 0.0 && areaBCP >= 0.0 && areaCDP >= 0.0 && areaDAP >= 0.0)
+		return true;
+	if (areaABP <= 0.0 && areaBCP <= 0.0 && areaCDP <= 0.0 && areaDAP <= 0.0)
+		return true;
+
+	return false;
 }
 
 /**
@@ -461,9 +500,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, double 
 
 	/*
 	std::cout << std::endl <<
-		"[deltaTime=" << deltaTime << "]" <<
-		", [numColliders=" << colliders.size() << "]" <<
-		", [point: " << bestCollider.point << "]" <<
+		"[point: " << bestCollider.point << "]" <<
 		", [predictedPoint: " << bestCollider.point + softBox->getVel() * deltaTime << "]" <<
 		", [edge: p1: " << bestCollider.edge.first << "]" <<
 		", p2: " << bestCollider.edge.second << "]" <<
@@ -488,7 +525,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, double 
  * \param deltaTime: deltaTime for velocity calculations
  * \return The minimum time of impact between the soft box and a hard box. Also modifies the external colliders vector
  */
-double getColliders(Hitbox* softBox, std::vector<Hitbox*> hardBoxes, std::vector<std::pair<Hitbox*, Hitbox::CollisionData>>& colliders, double deltaTime)
+double getColliders(Hitbox* softBox, std::vector<Hitbox*> hardBoxes, std::vector<Hitbox::CollisionData>& colliders, double deltaTime)
 {
 	double minTimeOfImpact = INT_MAX;
 
@@ -524,12 +561,12 @@ double getColliders(Hitbox* softBox, std::vector<Hitbox*> hardBoxes, std::vector
 			// New min time of impact found, reset colliders storage and add new box
 			minTimeOfImpact = collisionData.timeOfImpact;
 			colliders.clear();
-			colliders.push_back(std::make_pair(hardBox, collisionData));
+			colliders.push_back(collisionData);
 		}
 		else if (collisionData.timeOfImpact == minTimeOfImpact)
 		{
 			// Same time of impact as current min, add box to colliders storage
-			colliders.push_back(std::make_pair(hardBox, collisionData));
+			colliders.push_back(collisionData);
 		}
 	}
 
@@ -612,9 +649,6 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 		}
 	}
 
-	/*
-	The problem: The box may get pushed into another box due to collision with one box
-	*/
 
 	// TO DO: Implement sweep-based continuous collisiion detection
 	// https://docs.unity3d.com/Manual/ContinuousCollisionDetection.html
@@ -628,7 +662,7 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 	for (auto& softBox : softBoxes)
 	{
 		// For each soft object, get a vector of all hard objects that it will collide with
-		std::vector<std::pair<Hitbox*, Hitbox::CollisionData>> colliders;
+		std::vector<Hitbox::CollisionData> colliders;
 		double timeOfImpact = INT_MAX;
 		double lastTimeOfImpact = timeOfImpact;
 
@@ -654,11 +688,11 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 
 			// Resolve collision
 			// Find minimum distance
-			Vector2 minDistance = colliders[0].second.distance;
+			Vector2 minDistance = colliders[0].distance;
 			for (auto& collider : colliders)
 			{
-				if (collider.second.distance.size() < minDistance.size())
-					minDistance = collider.second.distance;
+				if (collider.distance.size() < minDistance.size())
+					minDistance = collider.distance;
 			}
 			
 			// Move soft box based on min distance
@@ -667,7 +701,7 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 			for (auto& collider : colliders)
 			{
 				// Redirect soft object velocity
-				Vector2 slope = collider.second.edge.second - collider.second.edge.first;
+				Vector2 slope = collider.edge.second - collider.edge.first;
 				softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope));
 				//softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope) * pow(1.0f / 32.0f, deltaTime));
 
