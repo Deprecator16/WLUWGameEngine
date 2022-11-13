@@ -211,10 +211,18 @@
 		</item>
 		
 		// Long tilted block
-        <item x="300" y="100">
-			<point x="800" y="0"/>
-			<point x="800" y="50"/>
+        <item x="500" y="100">
+			<point x="600" y="0"/>
+			<point x="600" y="50"/>
 			<point x="0" y="100"/>
+			<point x="0" y="50"/>
+		</item>
+		
+		// Short tilted block
+        <item x="100" y="100">
+			<point x="200" y="0"/>
+			<point x="200" y="50"/>
+			<point x="0" y="200"/>
 			<point x="0" y="50"/>
 		</item>
 		

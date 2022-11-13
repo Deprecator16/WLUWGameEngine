@@ -77,12 +77,10 @@ std::pair<WLUW::Vector2, double> WLUW::Hitbox::predictCollision(Hitbox* target)
 	return box.checkCollision(predict, *target->getPredict());
 }
 
-SDL_Rect WLUW::Hitbox::getAABB()
+std::pair<WLUW::Vector2, WLUW::Vector2> WLUW::Hitbox::getAABB()
 {
-	if (box.getPoints().size() > 0)
-	{
-		return SDL_Rect();
-	}
+	if (box.getPoints().size() == 0)
+		return std::make_pair(Vector2(), Vector2());
 
 	Vector2 min;
 	Vector2 max;
@@ -109,6 +107,6 @@ SDL_Rect WLUW::Hitbox::getAABB()
 			max.y = point.y;
 	}
 
-	return SDL_Rect(min.x, min.y, max.x - min.x, max.y - min.y);
+	return std::make_pair(min, max - min);
 }
 

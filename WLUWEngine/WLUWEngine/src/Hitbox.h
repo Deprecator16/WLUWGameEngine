@@ -72,7 +72,7 @@ namespace WLUW
         Vector2 getPos() { return box.getPos(); }
         Vector2 getPredictPos() { return predict.getPos(); }
         Vector2 getVel() { return vel; }
-        SDL_Rect getAABB();
+        std::pair<Vector2, Vector2> getAABB();
         Inertia getInertia() { return inertia; }
 
         // Setters
