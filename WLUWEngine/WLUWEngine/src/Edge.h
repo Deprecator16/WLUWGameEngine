@@ -23,6 +23,7 @@ namespace WLUW
 		Vector2 second;
 
 		// Helper functions
+		Vector2 slope() { return second - first; }
 		double size() { return (second - first).size(); }
 		Vector2 normal() const { return (second - first).normal(); }
 

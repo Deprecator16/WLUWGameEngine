@@ -163,15 +163,14 @@ Hitbox::Direction getDirectionOfImpact(Hitbox* box, Edge edge, Vector2 pointOfIn
 {
 	// Get slope of colliding edge
 	Hitbox::Direction direction = Hitbox::Direction::NO_DIRECTION;
-	double slope = (edge.second.y - edge.first.y) / (edge.second.x - edge.first.x);
 
-	if (abs(slope) <= 1 && pointOfIntersection.y > box->getBox()->getCenter().y)
+	if (abs(edge.slope().x) >= abs(edge.slope().y) && pointOfIntersection.y > box->getBox()->getCenter().y)
 		direction = Hitbox::Direction::BOTTOM;
-	else if (abs(slope) <= 1 && pointOfIntersection.y < box->getBox()->getCenter().y)
+	else if (abs(edge.slope().x) >= abs(edge.slope().y) && pointOfIntersection.y < box->getBox()->getCenter().y)
 		direction = Hitbox::Direction::TOP;
-	else if ((abs(slope) > 1 || edge.first.x == edge.second.x) && pointOfIntersection.x > box->getBox()->getCenter().x)
+	else if (abs(edge.slope().x) < abs(edge.slope().y) && pointOfIntersection.x > box->getBox()->getCenter().x)
 		direction = Hitbox::Direction::RIGHT;
-	else if ((abs(slope) > 1 || edge.first.x == edge.second.x) && pointOfIntersection.x < box->getBox()->getCenter().x)
+	else if (abs(edge.slope().x) < abs(edge.slope().y) && pointOfIntersection.x < box->getBox()->getCenter().x)
 		direction = Hitbox::Direction::LEFT;
 
 	return direction;
@@ -236,11 +235,8 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 				hardEdge.second + (-softBox->getVel() * deltaTime)
 			);
 
-			Vector2 hardSlope = (hardEdge.second - hardEdge.first).normalized();
-			Vector2 softSlope = (point2 - point1).normalized();
-
 			// Check if slopes are equal
-			if (softSlope != hardSlope && softSlope != -hardSlope)
+			if (softEdge.slope().normalized() != hardEdge.slope().normalized() && softEdge.slope().normalized() != -hardEdge.slope().normalized())
 				continue;
 
 			// Check if any points will intersect the opposite edge and get point of collision on soft box
@@ -443,8 +439,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 	std::cout <<
 		"[point: " << bestCollider.point << "]" <<
 		", [predictedPoint: " << bestCollider.point + softBox->getVel() * deltaTime << "]" <<
-		", [edge: p1: " << bestCollider.edge.first << "]" <<
-		", p2: " << bestCollider.edge.second << "]" <<
+		", [edge: " << bestCollider.edge << "]" <<
 		", [POI: " << bestCollider.pointOfIntersection << "]" <<
 		", [distance: " << bestCollider.distance << "]" <<
 		", [timeOfImpact=" << bestCollider.timeOfImpact << "]" <<
@@ -670,9 +665,8 @@ void WLUW::SampleGame::Game::handleCollisions(double deltaTime)
 			for (auto& collider : colliders)
 			{
 				// Redirect soft object velocity
-				Vector2 slope = collider.edge.second - collider.edge.first;
-				softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope));
-				//softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(slope) * pow(1.0f / 32.0f, deltaTime));
+				softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(collider.edge.slope()));
+				//softBox->setVel((softBox->getVel() - minDistance).projectOntoAxis(collider.edge.slope()) * pow(1.0f / 32.0f, deltaTime));
 			}
 
 			// Remove all colliders from the next loop
