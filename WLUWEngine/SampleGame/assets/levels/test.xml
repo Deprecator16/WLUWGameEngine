@@ -217,40 +217,24 @@
 			<point x="0" y="50"/>
 		</item>
 		
-		// Thin pole
-        <item x="1500" y="600">
+		// Blocks in middle
+        <item x="500" y="300">
 			<point x="0" y="0"/>
-			<point x="10" y="0"/>
-			<point x="10" y="100"/>
-			<point x="0" y="100"/>
+			<point x="132" y="0"/>
+			<point x="132" y="32"/>
+			<point x="0" y="32"/>
+		</item>
+        <item x="632" y="332">
+			<point x="0" y="0"/>
+			<point x="32" y="0"/>
+			<point x="32" y="132"/>
+			<point x="0" y="132"/>
+		</item>
+        <item x="664" y="300">
+			<point x="0" y="0"/>
+			<point x="132" y="0"/>
+			<point x="132" y="32"/>
+			<point x="0" y="32"/>
 		</item>
     </blocks>
 </root>
-
-        <item x="1200" y="300">
-			<point x="0" y="0"/>
-			<point x="100" y="0"/>
-			<point x="100" y="300"/>
-			<point x="0" y="300"/>
-		</item>
-        <item x="1300" y="600">
-			<point x="0" y="0"/>
-			<point x="500" y="0"/>
-			<point x="500" y="300"/>
-			<point x="0" y="300"/>
-		</item>
-        <item x="1300" y="500">
-			<point x="0" y="0"/>
-			<point x="100" y="0"/>
-			<point x="100" y="68"/>
-			<point x="0" y="68"/>
-		</item>
-		
-		
-        <item x="1300" y="100">
-			<point x="0" y="0"/>
-			<point x="200" y="0"/>
-			<point x="200" y="50"/>
-			<point x="0" y="50"/>
-		</item>
-		
