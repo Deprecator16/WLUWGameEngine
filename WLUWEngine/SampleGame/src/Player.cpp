@@ -81,7 +81,10 @@ void WLUW::SampleGame::Player::doPhysics(double deltaTime)
 	// Gravity
 	// Not on ground, increase y velocity based on gravity
 	if (!collideBottom)
-		tmpVel.y += gravity * 4096.0f * deltaTime;
+		tmpVel.y += gravity * 4096.0 * deltaTime;
+	// On ground
+	else
+		tmpVel.y += gravity * deltaTime; // Fixes unsmooth ramp collisions
 
 	// Restrict maximum speed
 	tmpVel.x = std::clamp(tmpVel.x, -512.0, 512.0);
