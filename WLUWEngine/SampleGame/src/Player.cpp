@@ -15,7 +15,6 @@ WLUW::SampleGame::Player::Player(InputManager* inputManager) :
 	newShape.addPoint(Vector2(32.0, 32.0));
 	newShape.addPoint(Vector2(0.0, 32.0));
 	
-
 	/*
 	newShape.addPoint(Vector2(0.0, 0.0));
 	newShape.addPoint(Vector2(16.0, 16.0));

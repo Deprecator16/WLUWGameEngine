@@ -26,14 +26,6 @@ namespace WLUW
             RIGHT
         };
 
-        enum CollisionType
-        {
-            NO_COLLISION = 0,
-            EDGE_EDGE,
-            POINT_EDGE,
-            EDGE_POINT
-        };
-
         class CollisionData
         {
         public:
@@ -45,7 +37,6 @@ namespace WLUW
             double timeOfImpact;
             double totalDistanceFromEdgeToShape;
             Direction direction;
-            CollisionType collisionType;
         };
 
         // Constructors
