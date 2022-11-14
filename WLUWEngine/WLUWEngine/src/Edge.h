@@ -123,14 +123,18 @@ namespace WLUW
 		// Overloads
 		// Addition
 		friend Edge operator+(const Edge edge1, const Edge edge2) { return Edge(edge1.first + edge2.first, edge1.second + edge2.second); }
+		friend Edge operator+(const Edge edge, const Vector2 vec) { return Edge(edge.first + vec, edge.second + vec); }
 		friend Edge operator+(const Edge edge, const double scalar) { return Edge(edge.first + scalar, edge.second + scalar); }
 		Edge& operator+=(const Edge& other) { this->first += other.first; this->second += other.second; return *this; }
+		Edge& operator+=(const Vector2& vec) { this->first += vec; this->second += vec; return *this; }
 		Edge& operator+=(const double& scalar) { this->first += scalar; this->second += scalar; return *this; }
 
 		// Subtraction
 		friend Edge operator-(const Edge edge1, const Edge edge2) { return edge1 + (-edge2); }
+		friend Edge operator-(const Edge edge, const Vector2 vec) { return Edge(edge.first - vec, edge.second - vec); }
 		friend Edge operator-(const Edge edge, const double scalar) { return Edge(edge.first - scalar, edge.second - scalar); }
 		Edge& operator-=(const Edge& other) { this->first -= other.first; this->second -= other.second; return *this; }
+		Edge& operator-=(const Vector2& vec) { this->first -= vec; this->second -= vec; return *this; }
 		Edge& operator-=(const double& scalar) { this->first -= scalar; this->second -= scalar; return *this; }
 
 		// Multiplication
