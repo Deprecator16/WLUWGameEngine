@@ -26,6 +26,14 @@ namespace WLUW
             RIGHT
         };
 
+        enum CollisionType
+        {
+            NO_COLLISION = 0,
+            EDGE_EDGE,
+            POINT_EDGE,
+            EDGE_POINT
+        };
+
         class CollisionData
         {
         public:
@@ -37,6 +45,20 @@ namespace WLUW
             double timeOfImpact;
             double totalDistanceFromEdgeToShape;
             Direction direction;
+            CollisionType collisionType;
+
+            friend bool operator==(const CollisionData data1, const CollisionData data2)
+            {
+                return data1.hardBoxId == data2.hardBoxId &&
+                    data1.point == data2.point &&
+                    data1.edge == data2.edge &&
+                    data1.pointOfIntersection == data2.pointOfIntersection &&
+                    data1.distance == data2.distance &&
+                    data1.timeOfImpact == data2.timeOfImpact &&
+                    data1.totalDistanceFromEdgeToShape == data2.totalDistanceFromEdgeToShape &&
+                    data1.direction == data2.direction &&
+                    data1.collisionType == data2.collisionType;
+            }
         };
 
         // Constructors

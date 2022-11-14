@@ -35,7 +35,12 @@ namespace WLUW
 		double size() const { return sqrt(pow(this->x, 2.0) + pow(this->y, 2.0)); }
 		double dot(Vector2 v) const { return this->x * v.x + this->y * v.y; }
 		Vector2 normal() const { return Vector2(-this->y, this->x); }
-		Vector2 normalized() const { return *this / this->size(); }
+		Vector2 normalized() const
+		{
+			if (this->size() == 0.0)
+				return Vector2();
+			return *this / this->size();
+		}
 		Vector2 projectOntoAxis(const Vector2 axis) const { return this->dot(axis) == 0.0 ? Vector2() : axis * (this->dot(axis)) / (axis.dot(axis)); }
 
 		/**

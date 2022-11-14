@@ -210,7 +210,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 	std::vector<Hitbox::CollisionData> colliders;
 	double minTimeOfImpact = INT_MAX;
 
-	// Loop through all points
+	// Loop through all hard box points
 	for (unsigned int i = 0; i < hardBox->getBox()->getPoints().size(); ++i)
 	{
 		// Get data from hard box
@@ -220,145 +220,191 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			hardBox->getPos() + hardBox->getBox()->getPoints()[(i + 1) % hardBox->getBox()->getPoints().size()]
 		);
 
-		// Check for edge-to-edge collisions
+		// Check if the soft box has to move through other edges to reach current edge
+		bool edgeValid = true;
 		for (unsigned int j = 0; j < softBox->getBox()->getPoints().size(); ++j)
 		{
-			// Create edge using the trajectory of current point
-			Vector2 point1 = softBox->getPos() + softBox->getBox()->getPoints()[j];
-			Vector2 point1Predict = softBox->getPredictPos() + softBox->getPredict()->getPoints()[j];
-			Vector2 point2 = softBox->getPos() + softBox->getBox()->getPoints()[(j + 1) % softBox->getBox()->getPoints().size()];
-			Vector2 point2Predict = softBox->getPredictPos() + softBox->getPredict()->getPoints()[(j + 1) % softBox->getBox()->getPoints().size()];
-			Vector2 average = (point1 + point2) / 2;
-			Vector2 averagePredict = (point1Predict + point2Predict) / 2;
+			// Create line from current soft point to the midpoint of current hard edge
+			Edge cut(softBox->getPos() + softBox->getBox()->getPoints()[j], hardEdge.midpoint());
 
-			Edge softEdge = Edge(point1, point2);
-
-			Edge hardEdgePredict = Edge(
-				hardEdge.first + (-softBox->getVel() * deltaTime),
-				hardEdge.second + (-softBox->getVel() * deltaTime)
-			);
-
-			// Check if slopes are equal
-			if (softEdge.slope().normalized() != hardEdge.slope().normalized() && softEdge.slope().normalized() != -hardEdge.slope().normalized())
+			if (cut.first == cut.second)
 				continue;
 
-			// Check if any points will intersect the opposite edge and get point of collision on soft box
-			Vector2 pointOfCollisionOnSoftBox;
-			if (Edge::areIntersecting(Edge(point1, point1Predict), hardEdge))
-				pointOfCollisionOnSoftBox = point1;
-			else if (Edge::areIntersecting(Edge(point2, point2Predict), hardEdge))
-				pointOfCollisionOnSoftBox = point2;
-			else if (Edge::areIntersecting(Edge(hardEdge.first, hardEdgePredict.first), softEdge))
-				pointOfCollisionOnSoftBox = Edge::getPointOfIntersection(Edge(hardEdge.first, hardEdgePredict.first), softEdge);
-			else if (Edge::areIntersecting(Edge(hardEdge.second, hardEdgePredict.second), softEdge))
-				pointOfCollisionOnSoftBox = Edge::getPointOfIntersection(Edge(hardEdge.second, hardEdgePredict.second), softEdge);
-			else
+			if (cut.slope().normalized() == hardEdge.slope().normalized() || cut.slope().normalized() == -hardEdge.slope().normalized())
 				continue;
 
-			// Get total distance from edge to shape
-			double totalDistanceFromEdgeToShape = getTotalDistanceFromEdgeToShape(hardEdge, softBox->getBox());
-
-			// Check if point is collinear to edge
-			if (hardEdge.onSegment(point1) || hardEdge.onSegment(point2) || softEdge.onSegment(hardEdge.first) || softEdge.onSegment(hardEdge.second))
+			for (unsigned int k = 0; k < hardBox->getBox()->getPoints().size(); ++k)
 			{
-				// Clear colliders if we have a new minimum time of impact
-				if (minTimeOfImpact != 0.0)
-					colliders.clear();
+				Edge edgeToBeChecked = Edge(
+					hardBox->getPos() + hardBox->getBox()->getPoints()[k],
+					hardBox->getPos() + hardBox->getBox()->getPoints()[(k + 1) % hardBox->getBox()->getPoints().size()]
+				);
 
-				// Add new collider
-				colliders.push_back(Hitbox::CollisionData(hardBoxId, average, hardEdge, average, Vector2(), 0.0, totalDistanceFromEdgeToShape, getDirectionOfImpact(softBox, hardEdge, average)));
-				minTimeOfImpact = 0.0;
+				if (edgeToBeChecked == hardEdge)
+					continue;
+
+				if (Edge::areIntersecting(cut, edgeToBeChecked))
+				{
+					edgeValid = false;
+					break;
+				}
 			}
 
-			// If we've already found a collision on segment, then we can ignore all other possible collisions
-			if (minTimeOfImpact == 0.0)
-				continue;
-
-			// Find point of intersection, time of impact, and distance
-			Vector2 pointOfIntersection;
-			double timeOfImpact = INT_MAX;
-			Vector2 distance;
-			if (Edge::areIntersecting(Edge(point1, point1Predict), hardEdge))
-			{
-				pointOfIntersection = Edge::getPointOfIntersection(Edge(point1, point1Predict), hardEdge);
-				timeOfImpact = getTimeOfImpact(point1, pointOfIntersection, softBox->getVel());
-				distance = pointOfIntersection - point1;
-			}
-			else if (Edge::areIntersecting(Edge(point2, point2Predict), hardEdge))
-			{
-				pointOfIntersection = Edge::getPointOfIntersection(Edge(point2, point2Predict), hardEdge);
-				timeOfImpact = getTimeOfImpact(point2, pointOfIntersection, softBox->getVel());
-				distance = pointOfIntersection - point2;
-			}
-			else if (Edge::areIntersecting(Edge(hardEdge.first, hardEdgePredict.first), softEdge))
-			{
-				pointOfIntersection = hardEdge.first;
-				timeOfImpact = getTimeOfImpact(Edge::getPointOfIntersection(Edge(hardEdge.first, hardEdgePredict.first), softEdge), hardEdge.first, softBox->getVel());
-				distance = hardEdge.first - pointOfCollisionOnSoftBox;
-			}
-			else if (Edge::areIntersecting(Edge(hardEdge.second, hardEdgePredict.second), softEdge))
-			{
-				pointOfIntersection = hardEdge.second;
-				timeOfImpact = getTimeOfImpact(Edge::getPointOfIntersection(Edge(hardEdge.second, hardEdgePredict.second), softEdge), hardEdge.second, softBox->getVel());
-				distance = hardEdge.second - pointOfCollisionOnSoftBox;
-			}
-
-			// Clear colliders if we have a new minimum time of impact
-			if (timeOfImpact < minTimeOfImpact)
-			{
-				colliders.clear();
-				minTimeOfImpact = timeOfImpact;
-			}
-
-			// Add new collider if its time of collision is not greater
-			if (timeOfImpact <= minTimeOfImpact)
-				colliders.push_back(Hitbox::CollisionData(hardBoxId, pointOfCollisionOnSoftBox, hardEdge, pointOfIntersection, distance, timeOfImpact, totalDistanceFromEdgeToShape, getDirectionOfImpact(softBox, hardEdge, pointOfIntersection)));
+			// Check if we have already invalidated current hard edge
+			if (!edgeValid)
+				break;
 		}
 
-		// Check for point-to-edge collisions
-		for (unsigned int j = 0; j < softBox->getBox()->getPoints().size(); ++j)
+
+
+
+
+
+
+
+
+		if (edgeValid)
 		{
-			// Create edge using the trajectory of current point
-			Vector2 point = softBox->getPos() + softBox->getBox()->getPoints()[j];
-			Vector2 pointPredict = softBox->getPredictPos() + softBox->getPredict()->getPoints()[j];
-
-			// Check if the point will intersect the edge
-			if (!Edge::areIntersecting(Edge(point, pointPredict), hardEdge))
-				continue;
-
-			// Get total distance from edge to shape
-			double totalDistanceFromEdgeToShape = getTotalDistanceFromEdgeToShape(hardEdge, softBox->getBox());
-
-			// Check if point is collinear to edge
-			if (hardEdge.onSegment(point))
+			// Check for edge-to-edge collisions
+			for (unsigned int j = 0; j < softBox->getBox()->getPoints().size(); ++j)
 			{
+				// Create edge using the trajectory of current point
+				Vector2 point1 = softBox->getPos() + softBox->getBox()->getPoints()[j];
+				Vector2 point1Predict = softBox->getPredictPos() + softBox->getPredict()->getPoints()[j];
+				Vector2 point2 = softBox->getPos() + softBox->getBox()->getPoints()[(j + 1) % softBox->getBox()->getPoints().size()];
+				Vector2 point2Predict = softBox->getPredictPos() + softBox->getPredict()->getPoints()[(j + 1) % softBox->getBox()->getPoints().size()];
+				Vector2 average = (point1 + point2) / 2;
+				Vector2 averagePredict = (point1Predict + point2Predict) / 2;
+
+				Edge softEdge = Edge(point1, point2);
+
+				Edge hardEdgePredict = Edge(
+					hardEdge.first + (-softBox->getVel() * deltaTime),
+					hardEdge.second + (-softBox->getVel() * deltaTime)
+				);
+
+				// Check if slopes are equal
+				if (softEdge.slope().normalized() != hardEdge.slope().normalized() && softEdge.slope().normalized() != -hardEdge.slope().normalized())
+					continue;
+
+				// Check if any points will intersect the opposite edge and get point of collision on soft box
+				Vector2 pointOfCollisionOnSoftBox;
+				if (Edge::areIntersecting(Edge(point1, point1Predict), hardEdge))
+					pointOfCollisionOnSoftBox = point1;
+				else if (Edge::areIntersecting(Edge(point2, point2Predict), hardEdge))
+					pointOfCollisionOnSoftBox = point2;
+				else if (Edge::areIntersecting(Edge(hardEdge.first, hardEdgePredict.first), softEdge))
+					pointOfCollisionOnSoftBox = Edge::getPointOfIntersection(Edge(hardEdge.first, hardEdgePredict.first), softEdge);
+				else if (Edge::areIntersecting(Edge(hardEdge.second, hardEdgePredict.second), softEdge))
+					pointOfCollisionOnSoftBox = Edge::getPointOfIntersection(Edge(hardEdge.second, hardEdgePredict.second), softEdge);
+				else
+					continue;
+
+				// Get total distance from edge to shape
+				double totalDistanceFromEdgeToShape = getTotalDistanceFromEdgeToShape(hardEdge, softBox->getBox());
+
+				// Check if point is collinear to edge
+				if (hardEdge.onSegment(point1) || hardEdge.onSegment(point2) || softEdge.onSegment(hardEdge.first) || softEdge.onSegment(hardEdge.second))
+				{
+					// Clear colliders if we have a new minimum time of impact
+					if (minTimeOfImpact != 0.0)
+						colliders.clear();
+
+					// Add new collider
+					colliders.push_back(Hitbox::CollisionData(hardBoxId, average, hardEdge, average, Vector2(), 0.0, totalDistanceFromEdgeToShape, getDirectionOfImpact(softBox, hardEdge, average), Hitbox::CollisionType::EDGE_EDGE));
+					minTimeOfImpact = 0.0;
+				}
+
+				// If we've already found a collision on segment, then we can ignore all other possible collisions
+				if (minTimeOfImpact == 0.0)
+					continue;
+
+				// Find point of intersection, time of impact, and distance
+				Vector2 pointOfIntersection;
+				double timeOfImpact = INT_MAX;
+				Vector2 distance;
+				if (Edge::areIntersecting(Edge(point1, point1Predict), hardEdge))
+				{
+					pointOfIntersection = Edge::getPointOfIntersection(Edge(point1, point1Predict), hardEdge);
+					timeOfImpact = getTimeOfImpact(point1, pointOfIntersection, softBox->getVel());
+					distance = pointOfIntersection - point1;
+				}
+				else if (Edge::areIntersecting(Edge(point2, point2Predict), hardEdge))
+				{
+					pointOfIntersection = Edge::getPointOfIntersection(Edge(point2, point2Predict), hardEdge);
+					timeOfImpact = getTimeOfImpact(point2, pointOfIntersection, softBox->getVel());
+					distance = pointOfIntersection - point2;
+				}
+				else if (Edge::areIntersecting(Edge(hardEdge.first, hardEdgePredict.first), softEdge))
+				{
+					pointOfIntersection = hardEdge.first;
+					timeOfImpact = getTimeOfImpact(Edge::getPointOfIntersection(Edge(hardEdge.first, hardEdgePredict.first), softEdge), hardEdge.first, softBox->getVel());
+					distance = hardEdge.first - pointOfCollisionOnSoftBox;
+				}
+				else if (Edge::areIntersecting(Edge(hardEdge.second, hardEdgePredict.second), softEdge))
+				{
+					pointOfIntersection = hardEdge.second;
+					timeOfImpact = getTimeOfImpact(Edge::getPointOfIntersection(Edge(hardEdge.second, hardEdgePredict.second), softEdge), hardEdge.second, softBox->getVel());
+					distance = hardEdge.second - pointOfCollisionOnSoftBox;
+				}
+
 				// Clear colliders if we have a new minimum time of impact
-				if (minTimeOfImpact != 0.0)
+				if (timeOfImpact < minTimeOfImpact)
+				{
 					colliders.clear();
+					minTimeOfImpact = timeOfImpact;
+				}
 
-				// Add new collider
-				colliders.push_back(Hitbox::CollisionData(hardBoxId, point, hardEdge, point, Vector2(), 0.0, totalDistanceFromEdgeToShape, getDirectionOfImpact(softBox, hardEdge, point)));
-				minTimeOfImpact = 0.0;
+				// Add new collider if its time of collision is not greater
+				if (timeOfImpact <= minTimeOfImpact)
+					colliders.push_back(Hitbox::CollisionData(hardBoxId, pointOfCollisionOnSoftBox, hardEdge, pointOfIntersection, distance, timeOfImpact, totalDistanceFromEdgeToShape, getDirectionOfImpact(softBox, hardEdge, pointOfIntersection), Hitbox::CollisionType::EDGE_EDGE));
 			}
 
-			// Find point of intersection
-			Vector2 pointOfIntersection = Edge::getPointOfIntersection(Edge(point, pointPredict), hardEdge);
-			Vector2 distance = pointOfIntersection - point;
-
-			// Find time for original point to reach point of intersection
-			double timeOfImpact = getTimeOfImpact(point, pointOfIntersection, softBox->getVel());
-
-			// Clear colliders if we have a new minimum time of impact
-			if (timeOfImpact < minTimeOfImpact)
+			// Check for point-to-edge collisions
+			for (unsigned int j = 0; j < softBox->getBox()->getPoints().size(); ++j)
 			{
-				colliders.clear();
-				minTimeOfImpact = timeOfImpact;
-			}
+				// Create edge using the trajectory of current point
+				Vector2 point = softBox->getPos() + softBox->getBox()->getPoints()[j];
+				Vector2 pointPredict = softBox->getPredictPos() + softBox->getPredict()->getPoints()[j];
 
-			// Add new collider if its time of collision is not greater
-			if (timeOfImpact <= minTimeOfImpact)
-			{
-				colliders.push_back(Hitbox::CollisionData(hardBoxId, point, hardEdge, pointOfIntersection, distance, timeOfImpact, totalDistanceFromEdgeToShape, getDirectionOfImpact(softBox, hardEdge, pointOfIntersection)));
+				// Check if the point will intersect the edge
+				if (!Edge::areIntersecting(Edge(point, pointPredict), hardEdge))
+					continue;
+
+				// Get total distance from edge to shape
+				double totalDistanceFromEdgeToShape = getTotalDistanceFromEdgeToShape(hardEdge, softBox->getBox());
+
+				// Check if point is collinear to edge
+				if (hardEdge.onSegment(point))
+				{
+					// Clear colliders if we have a new minimum time of impact
+					if (minTimeOfImpact != 0.0)
+						colliders.clear();
+
+					// Add new collider
+					colliders.push_back(Hitbox::CollisionData(hardBoxId, point, hardEdge, point, Vector2(), 0.0, totalDistanceFromEdgeToShape, getDirectionOfImpact(softBox, hardEdge, point), Hitbox::CollisionType::POINT_EDGE));
+					minTimeOfImpact = 0.0;
+				}
+
+				// Find point of intersection
+				Vector2 pointOfIntersection = Edge::getPointOfIntersection(Edge(point, pointPredict), hardEdge);
+				Vector2 distance = pointOfIntersection - point;
+
+				// Find time for original point to reach point of intersection
+				double timeOfImpact = getTimeOfImpact(point, pointOfIntersection, softBox->getVel());
+
+				// Clear colliders if we have a new minimum time of impact
+				if (timeOfImpact < minTimeOfImpact)
+				{
+					colliders.clear();
+					minTimeOfImpact = timeOfImpact;
+				}
+
+				// Add new collider if its time of collision is not greater
+				if (timeOfImpact <= minTimeOfImpact)
+				{
+					colliders.push_back(Hitbox::CollisionData(hardBoxId, point, hardEdge, pointOfIntersection, distance, timeOfImpact, totalDistanceFromEdgeToShape, getDirectionOfImpact(softBox, hardEdge, pointOfIntersection), Hitbox::CollisionType::POINT_EDGE));
+				}
 			}
 		}
 
@@ -383,7 +429,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 
 			// Check if the point will intersect the edge
 			if (!Edge::areIntersecting(Edge(hardPoint, pointPredict), softEdge))
-			//if (!inSquare(point, edge.first, edge.second, softEdgePredict.second, softEdgePredict.first))
+				//if (!inSquare(point, edge.first, edge.second, softEdgePredict.second, softEdgePredict.first))
 				continue;
 
 			// Get total distance from edge to shape
@@ -397,7 +443,7 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 					colliders.clear();
 
 				// Add new collider
-				colliders.push_back(Hitbox::CollisionData(hardBoxId, hardPoint, softEdge, hardPoint, Vector2(), 0.0, totalDistanceFromPointToShape, getDirectionOfImpact(softBox, softEdge, hardPoint)));
+				colliders.push_back(Hitbox::CollisionData(hardBoxId, hardPoint, softEdge, hardPoint, Vector2(), 0.0, totalDistanceFromPointToShape, getDirectionOfImpact(softBox, softEdge, hardPoint), Hitbox::CollisionType::EDGE_POINT));
 				minTimeOfImpact = 0.0;
 			}
 
@@ -421,13 +467,38 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 			// Add new collider if its time of collision is not greater
 			if (timeOfImpact <= minTimeOfImpact)
 			{
-				colliders.push_back(Hitbox::CollisionData(hardBoxId, hardPoint, softEdge, pointOfIntersection, hardPoint - pointOfIntersection, timeOfImpact, totalDistanceFromPointToShape, getDirectionOfImpact(softBox, softEdge, hardPoint)));
+				colliders.push_back(Hitbox::CollisionData(hardBoxId, hardPoint, softEdge, pointOfIntersection, hardPoint - pointOfIntersection, timeOfImpact, totalDistanceFromPointToShape, getDirectionOfImpact(softBox, softEdge, hardPoint), Hitbox::CollisionType::EDGE_POINT));
 			}
 		}
 	}
 
 	if (colliders.size() == 0)
 		return Hitbox::CollisionData();
+
+	/*
+	// Get rid of unnecessary edge-to-point collisions
+	for (unsigned int i = 0; i < colliders.size(); ++i)
+	{
+		if (colliders[i].collisionType != Hitbox::CollisionType::EDGE_POINT)
+			continue;
+
+		for (auto& collider2 : colliders)
+		{
+			if (collider2 == colliders[i])
+				continue;
+
+			if (collider2.collisionType == Hitbox::CollisionType::EDGE_POINT)
+				continue;
+
+			if (colliders[i].point == collider2.edge.first || colliders[i].point == collider2.edge.second)
+			{
+				colliders.erase(colliders.begin() + i);
+				--i;
+				break;
+			}
+		}
+	}
+	*/
 
 	// Narrow down colliders to one
 	Hitbox::CollisionData bestCollider = colliders[0];
@@ -439,16 +510,34 @@ Hitbox::CollisionData getCollisionData(Hitbox* softBox, Hitbox* hardBox, unsigne
 	}
 
 	/*
-	std::cout <<
-		"[point: " << bestCollider.point << "]" <<
-		", [predictedPoint: " << bestCollider.point + softBox->getVel() * deltaTime << "]" <<
-		", [edge: " << bestCollider.edge << "]" <<
-		", [POI: " << bestCollider.pointOfIntersection << "]" <<
-		", [distance: " << bestCollider.distance << "]" <<
-		", [timeOfImpact=" << bestCollider.timeOfImpact << "]" <<
-		", [direction=" << bestCollider.direction << "]" <<
-		std::endl;
-		*/
+	if (bestCollider.direction != 2)
+	{
+		for (auto& collider : colliders)
+		{
+			std::cout << colliders.size() <<
+				", [point: " << collider.point << "]" <<
+				", [predictedPoint: " << collider.point + softBox->getVel() * deltaTime << "]" <<
+				", [edge: " << collider.edge << "]" <<
+				", [POI: " << collider.pointOfIntersection << "]" <<
+				", [distance: " << collider.distance << "]" <<
+				", [timeOfImpact=" << collider.timeOfImpact << "]" <<
+				", [direction=" << collider.direction << "]" <<
+				std::endl;
+		}
+	}
+	*/
+		
+	/*
+	std::cout << 
+			"[point: " << bestCollider.point << "]" <<
+			", [predictedPoint: " << bestCollider.point + softBox->getVel() * deltaTime << "]" <<
+			", [edge: " << bestCollider.edge << "]" <<
+			", [POI: " << bestCollider.pointOfIntersection << "]" <<
+			", [distance: " << bestCollider.distance << "]" <<
+			", [timeOfImpact=" << bestCollider.timeOfImpact << "]" <<
+			", [direction=" << bestCollider.direction << "]" <<
+			std::endl;
+			*/
 		
 
 	return bestCollider;
