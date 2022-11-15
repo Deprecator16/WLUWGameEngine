@@ -51,7 +51,7 @@ void WLUW::SampleGame::Player::update(double deltaTime)
 	// Reset collision states
 	collideBottom = collideTop = collideLeft = collideRight = false;
 
-	//std::cout << "Player pos: " << hitbox.getPos() << ", Player vel: " << hitbox.getVel() << ", predict pos: " << hitbox.getPredictPos() << std::endl;
+	//std::cout << "Player pos: " << hitbox->getPos() << ", Player vel: " << hitbox->getVel() << std::endl;
 	//std::cout << "x = " << tmpVel.x << ", y = " << tmpVel.y << std::endl;
 	//std::cout << deltaTime << std::endl;
 }

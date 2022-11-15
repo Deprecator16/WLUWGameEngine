@@ -1,4 +1,5 @@
 #include "Hitbox.h"
+#include <algorithm>
 #include <iostream>
 #include "WObject.h"
 
@@ -61,7 +62,7 @@ WLUW::Hitbox& WLUW::Hitbox::operator=(Hitbox&& other) noexcept
 	return *this;
 }
 
-void WLUW::Hitbox::move(std::vector<WObject*> objects, double deltaTime)
+void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaTime)
 {
 	// Remove self from collidable objects
 	std::vector<WObject*> collidables = objects;
@@ -74,10 +75,39 @@ void WLUW::Hitbox::move(std::vector<WObject*> objects, double deltaTime)
 		}
 	}
 
-	RaycastHit hit = Physics::shapecast(collidables, *this, vel.normalized(), vel.size() * deltaTime);
-
-	if (hit.hitbox != nullptr) // Collision detected
+	// Find and resolve collisions until no more can be found
+	while (true)
 	{
+		// Get raycast hit
+		RaycastHit hit = Physics::shapecast(collidables, *this, vel.normalized(), vel.size() * deltaTime);
+
+		// No more collisions detected
+		if (hit.hitbox == nullptr)
+			break;
+
+		// Check for collision between a soft object and a hard object
+		bool ignore = true;
+		if (hit.hitbox->getInertia() != inertia)
+			ignore = false;
+
+		// Solve collision
+		if (inertia == Hitbox::Inertia::SOFT)
+		{
+			pos = pos + hit.separation;
+			vel = vel.projectOntoAxis(hit.normal.normal());
+		}
+		//Physics::solveCollision(Collision(this, hit.hitbox, hit.normal, hit.point, hit.separation, hit.fraction, ignore), deltaTime);
+
+		std::cout << hit.hitbox->getPos() << std::endl;
+		std::cout <<
+			"[centroid=" << hit.centroid << "], " <<
+			"[point=" << hit.point << "], " <<
+			"[normal=" << hit.normal << "], " <<
+			"[separation=" << hit.separation << "], " <<
+			"[fraction=" << hit.fraction << "]" <<
+			"[vel=" << vel << "]" <<
+			std::endl;
+
 		// Remove collider from collidables vector
 		for (unsigned int i = 0; i < collidables.size(); ++i)
 		{
@@ -88,17 +118,8 @@ void WLUW::Hitbox::move(std::vector<WObject*> objects, double deltaTime)
 			}
 		}
 
-		// Check for collision between a soft object and a hard object
-		bool ignore = true;
-		if (hit.hitbox->getInertia() != inertia)
-			ignore = false;
-
-		Physics::solveCollision(Collision(this, hit.hitbox, hit.normal, hit.point, hit.separation, ignore), collidables, deltaTime);
-
-		if (!ignore)
-			return;
+		// Stop loop if not moving anymore
+		if (vel == Vector2())
+			break;
 	}
-
-	// No collision detected
-	pos = pos + (vel * deltaTime);
 }

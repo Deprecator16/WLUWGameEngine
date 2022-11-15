@@ -23,6 +23,7 @@ namespace WLUW
         Vector2 normal;
         Vector2 point;
         Vector2 separation;
+        double fraction;
         bool ignore;
         // CONTACTS
 
@@ -44,6 +45,14 @@ namespace WLUW
                 collision1.totalDistanceFromEdgeToShape == collision2.totalDistanceFromEdgeToShape &&
                 collision1.direction == collision2.direction &&
                 collision1.collisionType == collision2.collisionType;*/
+        }
+
+        static bool compare(Collision collision1, Collision collision2)
+        {
+            if (collision1.box == nullptr) return false;
+            if (collision2.box == nullptr) return true;
+
+            return collision1.fraction < collision2.fraction;
         }
     };
 }

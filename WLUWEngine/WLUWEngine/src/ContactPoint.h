@@ -11,7 +11,7 @@ namespace WLUW
 	{
 	public:
 		Vector2 point;
-		Edge edge;
+		//Edge edge;
 		Vector2 normal;
 		Vector2 distance;
 		Vector2 relativeVel;

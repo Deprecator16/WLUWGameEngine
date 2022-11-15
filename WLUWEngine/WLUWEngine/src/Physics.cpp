@@ -184,6 +184,7 @@ WLUW::RaycastHit WLUW::Physics::shapecast(std::vector<WObject*> objects, Shape s
 	return hits[0];
 }
 
+// The comment below contains deprecated helper functions
 /*
 // Helper function that returns the time of impact (0 to 1) between two points given the first point's velocity
 double getTimeOfImpact(Vector2 point1, Vector2 point2, Vector2 vel)
@@ -303,26 +304,16 @@ bool clips(Hitbox* softBox, std::vector<Hitbox*> hardBoxes, double deltaTime)
 	return false;
 }
 
-void WLUW::Physics::solveCollision(Collision collision, std::vector<WObject*> objects, double deltaTime)
+void WLUW::Physics::solveCollision(Collision collision, double deltaTime)
 {
+
+	//std::cout << collision.separation << std::endl;
+	
 	// Check if we have a collision between a soft object and a hard object
-	if (!collision.ignore)
+	if (!collision.ignore && collision.box->getInertia() == Hitbox::Inertia::SOFT)
 	{
-		std::cout << collision.separation << std::endl;
-
-		if (collision.box->getInertia() == Hitbox::Inertia::SOFT)
-		{
-			collision.box->setPos(collision.box->getPos() + collision.separation);
-			collision.box->setVel((collision.box->getVel() - collision.separation).projectOntoAxis(collision.normal.normal()));
-		}
-		else
-		{
-			collision.otherBox->setPos(collision.otherBox->getPos() + collision.separation);
-			collision.otherBox->setVel((collision.otherBox->getVel() - collision.separation).projectOntoAxis(collision.normal.normal()));
-		}
-
-		collision.box->move(objects, deltaTime);
-		collision.otherBox->move(objects, deltaTime);
+		collision.box->setPos(collision.box->getPos() + collision.separation);
+		collision.box->setVel((collision.box->getVel() - collision.separation).projectOntoAxis(collision.normal.normal()));
 	}
 }
 

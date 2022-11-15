@@ -71,9 +71,13 @@ void WLUW::SampleGame::Game::update(double deltaTime)
 	for (auto& o : objects)
 		o->update(deltaTime);
 
+	// Handle collisions
+	for (auto& o : objects)
+		o->getHitbox()->handleCollisions(objects, deltaTime);
+
 	// Move all objects
 	for (auto& o : objects)
-		o->getHitbox()->move(objects, deltaTime);
+		o->getHitbox()->move(deltaTime);
 }
 
 void WLUW::SampleGame::Game::render(SDL_Renderer* renderer)
