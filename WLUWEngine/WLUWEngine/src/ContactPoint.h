@@ -4,9 +4,10 @@
 #include "Hitbox.h"
 #include "Vector2.h"
 
+/*
 namespace WLUW
 {
-	struct ContactPoint
+	class ContactPoint
 	{
 	public:
 		Vector2 point;
@@ -16,6 +17,6 @@ namespace WLUW
 		Vector2 relativeVel;
 		Hitbox* box;
 		Hitbox* otherBox;
-
 	};
 }
+*/

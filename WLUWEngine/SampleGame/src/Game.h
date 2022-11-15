@@ -30,7 +30,6 @@ namespace WLUW::SampleGame
 		void freeObjects();
 
 		// Updaters
-		void handleCollisions(double deltaTime);
 		void update(double deltaTime);
 		void render(SDL_Renderer* renderer);
 

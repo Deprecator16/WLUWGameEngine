@@ -175,6 +175,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Hitbox.cpp" />
+    <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Shape.cpp" />
     <ClCompile Include="src\tinyxml2.cpp" />
     <ClCompile Include="src\WAudioController.cpp" />
@@ -189,6 +190,8 @@
     <ClInclude Include="src\Edge.h" />
     <ClInclude Include="src\Hitbox.h" />
     <ClInclude Include="src\InputManager.h" />
+    <ClInclude Include="src\Physics.h" />
+    <ClInclude Include="src\RaycastHit.h" />
     <ClInclude Include="src\Shape.h" />
     <ClInclude Include="src\tinyxml2.h" />
     <ClInclude Include="src\Vector2.h" />

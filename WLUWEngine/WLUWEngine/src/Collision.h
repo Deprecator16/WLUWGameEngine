@@ -6,7 +6,7 @@
 
 namespace WLUW
 {
-    struct Collision
+    class Collision
     {
     public:
         enum Direction

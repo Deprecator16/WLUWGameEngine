@@ -1,14 +1,17 @@
 #pragma once
 
 #include "Edge.h"
+#include "Physics.h"
+#include "RaycastHit.h"
 #include "SDL.h"
 #include "Shape.h"
 #include "Vector2.h"
 
 namespace WLUW
 {
-    class Hitbox :
-        public Shape
+    class WObject;
+
+    class Hitbox : public Shape
     {
     public:
         enum Inertia
@@ -27,12 +30,13 @@ namespace WLUW
         Hitbox& operator=(const Hitbox& other);
         Hitbox& operator=(Hitbox&& other) noexcept;
 
-        // Update functions
-        void move(double deltaTime);
-        void updatePredict(double deltaTime);
-
+        // Helpers
         // Checks if self overlaps with target
         std::pair<Vector2, double> predictCollision(Hitbox* target) { return checkCollision(predict, *target->getPredict()); }
+
+        // Updaters
+        void move(std::vector<WObject*> objects, double deltaTime);
+        void updatePredict(double deltaTime);
 
         // Getters
         Shape* getPredict() { return &predict; }
