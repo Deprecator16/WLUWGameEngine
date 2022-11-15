@@ -17,50 +17,6 @@ namespace WLUW
             HARD
         };
 
-        enum Direction
-        {
-            NO_DIRECTION = 0,
-            TOP,
-            BOTTOM,
-            LEFT,
-            RIGHT
-        };
-
-        enum CollisionType
-        {
-            NO_COLLISION = 0,
-            EDGE_EDGE,
-            POINT_EDGE,
-            EDGE_POINT
-        };
-
-        class CollisionData
-        {
-        public:
-            unsigned int hardBoxId;
-            Vector2 point;
-            Edge edge;
-            Vector2 pointOfIntersection;
-            Vector2 distance;
-            double timeOfImpact;
-            double totalDistanceFromEdgeToShape;
-            Direction direction;
-            CollisionType collisionType;
-
-            friend bool operator==(const CollisionData data1, const CollisionData data2)
-            {
-                return data1.hardBoxId == data2.hardBoxId &&
-                    data1.point == data2.point &&
-                    data1.edge == data2.edge &&
-                    data1.pointOfIntersection == data2.pointOfIntersection &&
-                    data1.distance == data2.distance &&
-                    data1.timeOfImpact == data2.timeOfImpact &&
-                    data1.totalDistanceFromEdgeToShape == data2.totalDistanceFromEdgeToShape &&
-                    data1.direction == data2.direction &&
-                    data1.collisionType == data2.collisionType;
-            }
-        };
-
         // Constructors
         Hitbox();
         Hitbox(Shape box, Inertia inertia);
@@ -76,26 +32,20 @@ namespace WLUW
         void updatePredict(double deltaTime);
 
         // Checks if self overlaps with target
-        std::pair<Vector2, double> checkCollision(Hitbox* target);
-        std::pair<Vector2, double> predictCollision(Hitbox* target);
+        std::pair<Vector2, double> predictCollision(Hitbox* target) { return checkCollision(predict, *target->getPredict()); }
 
         // Getters
-        Shape* getBox() { return &box; }
         Shape* getPredict() { return &predict; }
-        Vector2 getPos() { return box.getPos(); }
         Vector2 getPredictPos() { return predict.getPos(); }
         Vector2 getVel() { return vel; }
         std::pair<Vector2, Vector2> getAABB();
         Inertia getInertia() { return inertia; }
 
         // Setters
-        void setBox(Shape box) { this->box = box; this->predict = box; }
-        void setPos(Vector2 pos) { box.setPos(pos); }
         void setPredictPos(Vector2 pos) { predict.setPos(pos); }
         void setVel(Vector2 vel) { this->vel = vel; }
 
     private:
-        Shape box;
         Shape predict;
 
         // Physics vectors

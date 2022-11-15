@@ -102,7 +102,7 @@ void WLUW::SampleGame::Player::doPhysics(double deltaTime)
 
 void WLUW::SampleGame::Player::render(SDL_Renderer* renderer)
 {
-	std::vector<Vector2> points = hitbox.getBox()->getPoints();
+	std::vector<Vector2> points = hitbox.getPoints();
 	for (int i = 0; i < points.size(); i++)
 	{
 		Vector2 p1 = points[i] + hitbox.getPos();
@@ -113,18 +113,18 @@ void WLUW::SampleGame::Player::render(SDL_Renderer* renderer)
 	}
 }
 
-void WLUW::SampleGame::Player::OnCollide(WObject* target, Hitbox::CollisionData collisionData)
+void WLUW::SampleGame::Player::OnCollide(WObject* target, Collision collisionData)
 {
 	// Get direction of collision
 	if (target->getHitbox()->getInertia() == Hitbox::HARD)
 	{
-		if (collisionData.direction == Hitbox::Direction::TOP)
+		if (collisionData.direction == Collision::Direction::TOP)
 			collideTop = true;
-		else if (collisionData.direction == Hitbox::Direction::BOTTOM)
+		else if (collisionData.direction == Collision::Direction::BOTTOM)
 			collideBottom = true;
-		else if (collisionData.direction == Hitbox::Direction::LEFT)
+		else if (collisionData.direction == Collision::Direction::LEFT)
 			collideLeft = true;
-		else if (collisionData.direction == Hitbox::Direction::RIGHT)
+		else if (collisionData.direction == Collision::Direction::RIGHT)
 			collideRight = true;
 
 		//std::cout << "bottom=" << collideBottom << ", top=" << collideTop << ", left=" << collideLeft << ", right=" << collideRight << std::endl;

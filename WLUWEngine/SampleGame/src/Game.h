@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "Block.h"
+#include "Collision.h"
 #include "Edge.h"
 #include "Player.h"
 #include "SDL.h"

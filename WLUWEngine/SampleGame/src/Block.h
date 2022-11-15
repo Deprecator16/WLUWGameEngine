@@ -9,8 +9,6 @@ namespace WLUW::SampleGame
 	public:
 		// Constructors
 		Block();
-		Block(Shape shape);
-		Block(Shape shape, WTexture* texture);
 		Block(Hitbox hitbox);
 		Block(Hitbox hitbox, WTexture* texture);
 
@@ -18,7 +16,7 @@ namespace WLUW::SampleGame
 		void render(SDL_Renderer* renderer);
 
 		// Event callbacks
-		virtual void OnCollide(WObject* target, Hitbox::CollisionData collisionData) {};
+		virtual void OnCollide(WObject* target, Collision collisionData) {};
 
 	private:
 		// Graphics

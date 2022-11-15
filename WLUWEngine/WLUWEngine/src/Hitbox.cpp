@@ -9,7 +9,7 @@ WLUW::Hitbox::Hitbox() :
 }
 
 WLUW::Hitbox::Hitbox(Shape box, Inertia inertia) :
-	box{ box },
+	Shape{ box },
 	predict{ box },
 	inertia{ inertia },
 	vel{ 0.0, 0.0 }
@@ -18,8 +18,8 @@ WLUW::Hitbox::Hitbox(Shape box, Inertia inertia) :
 }
 
 WLUW::Hitbox::Hitbox(const Hitbox& other) :
-	box{ other.box },
-	predict{ other.box },
+	Shape{ other },
+	predict{ other.predict },
 	inertia{ other.inertia },
 	vel{ 0.0, 0.0 }
 {
@@ -27,8 +27,8 @@ WLUW::Hitbox::Hitbox(const Hitbox& other) :
 }
 
 WLUW::Hitbox::Hitbox(Hitbox&& other) noexcept :
-	box{ other.box },
-	predict{ other.box },
+	Shape{ other },
+	predict{ other.predict },
 	inertia{ other.inertia },
 	vel{ 0.0, 0.0 }
 {
@@ -37,7 +37,12 @@ WLUW::Hitbox::Hitbox(Hitbox&& other) noexcept :
 
 WLUW::Hitbox& WLUW::Hitbox::operator=(const Hitbox& other)
 {
-	this->box = other.box;
+	this->type = other.type;
+	this->pos = other.pos;
+	this->radius = other.radius;
+	this->points = other.points;
+	this->normals = other.normals;
+
 	this->predict = other.predict;
 	this->inertia = other.inertia;
 	this->vel = other.vel;
@@ -47,7 +52,12 @@ WLUW::Hitbox& WLUW::Hitbox::operator=(const Hitbox& other)
 
 WLUW::Hitbox& WLUW::Hitbox::operator=(Hitbox&& other) noexcept
 {
-	this->box = other.box;
+	this->type = other.type;
+	this->pos = other.pos;
+	this->radius = other.radius;
+	std::swap(this->points, other.points);
+	std::swap(this->normals, other.normals);
+
 	this->predict = other.predict;
 	this->inertia = other.inertia;
 	this->vel = other.vel;
@@ -58,33 +68,23 @@ WLUW::Hitbox& WLUW::Hitbox::operator=(Hitbox&& other) noexcept
 void WLUW::Hitbox::move(double deltaTime)
 {
 	//std::cout << "moving hitbox with vel: x = " << vel.x << ", y = " << vel.y << std::endl;
-	box.setPos(box.getPos() + (vel * deltaTime));
+	pos = pos +(vel * deltaTime);
 }
 
 void WLUW::Hitbox::updatePredict(double deltaTime)
 {
-	predict = box;
-	predict.setPos(box.getPos() + (vel * deltaTime));
-}
-
-std::pair<WLUW::Vector2, double> WLUW::Hitbox::checkCollision(Hitbox* target)
-{
-	return box.checkCollision(box, *target->getBox());
-}
-
-std::pair<WLUW::Vector2, double> WLUW::Hitbox::predictCollision(Hitbox* target)
-{
-	return box.checkCollision(predict, *target->getPredict());
+	predict = *this;
+	predict.setPos(pos + (vel * deltaTime));
 }
 
 std::pair<WLUW::Vector2, WLUW::Vector2> WLUW::Hitbox::getAABB()
 {
-	if (box.getPoints().size() == 0)
+	if (points.size() == 0)
 		return std::make_pair(Vector2(), Vector2());
 
 	Vector2 min;
 	Vector2 max;
-	for (auto& point : box.getPoints())
+	for (auto& point : points)
 	{
 		if (point.x < min.x)
 			min.x = point.x;

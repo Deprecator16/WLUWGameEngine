@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Collision.h"
 #include "Hitbox.h"
 #include "SDL.h"
 #include "Shape.h"
@@ -23,7 +24,7 @@ namespace WLUW::SampleGame
 		void render(SDL_Renderer* renderer);
 
 		// Event callbacks
-		void OnCollide(WObject* target, Hitbox::CollisionData collisionData);
+		void OnCollide(WObject* target, Collision collisionData);
 
 		// Getters
 		Vector2 getPos() { return hitbox.getPos(); }

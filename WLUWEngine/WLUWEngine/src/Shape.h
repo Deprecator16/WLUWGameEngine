@@ -200,7 +200,7 @@ namespace WLUW
 
 		void setPos(Vector2 pos) { this->pos = pos; }
 
-	private:
+	protected:
 		ShapeType type;					/* Type of shape */
 		Vector2 pos;					/* Position of shape */
 		double radius;					/* Radius, if shape is circle */

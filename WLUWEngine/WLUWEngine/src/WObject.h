@@ -11,6 +11,7 @@
 #include <memory>
 #include <map>
 
+#include "Collision.h"
 #include "Hitbox.h"
 #include "SDL.h"
 #include "Shape.h"
@@ -66,7 +67,7 @@ namespace WLUW
 		bool isUIElement;
 
 		// Event callbacks
-		virtual void OnCollide(WObject* target, Hitbox::CollisionData collisionData) = 0;
+		virtual void OnCollide(WObject* target, Collision collisionData) = 0;
 
 		// Getters
 		WTexture* getTexture() { return texture; }
