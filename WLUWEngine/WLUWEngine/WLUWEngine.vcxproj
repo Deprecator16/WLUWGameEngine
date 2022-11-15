@@ -174,7 +174,6 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Collision.cpp" />
     <ClCompile Include="src\Hitbox.cpp" />
     <ClCompile Include="src\Shape.cpp" />
     <ClCompile Include="src\tinyxml2.cpp" />
@@ -186,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Collision.h" />
+    <ClInclude Include="src\ContactPoint.h" />
     <ClInclude Include="src\Edge.h" />
     <ClInclude Include="src\Hitbox.h" />
     <ClInclude Include="src\InputManager.h" />
