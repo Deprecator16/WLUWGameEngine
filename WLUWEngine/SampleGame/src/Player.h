@@ -27,11 +27,11 @@ namespace WLUW::SampleGame
 		void OnCollide(WObject* target, Collision collisionData);
 
 		// Getters
-		Vector2 getPos() { return hitbox.getPos(); }
+		Vector2 getPos() { return hitbox->getPos(); }
 		Vector2 getTmpVel() { return tmpVel; }
 
 		// Setters
-		void setPos(Vector2 pos) { hitbox.setPos(pos); }
+		void setPos(Vector2 pos) { hitbox->setPos(pos); }
 		void setTmpVel(Vector2 tmpVel) { this->tmpVel = tmpVel; }
 		void setGrounded(bool collideBottom) { this->collideBottom = collideBottom; }
 

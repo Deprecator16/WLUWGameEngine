@@ -32,24 +32,10 @@ namespace WLUW
 		//// Constructors
 		/////////////////////
 
-		/**
-		 * \brief Default constructor
-		 */
 		WObject();
-
-		/**
-		 * \brief Copy constructor
-		 *
-		 * \param obj Object to copy from
-		 */
 		WObject(const WObject& obj);
-
-		/**
-		 * \brief Move constructor
-		 *
-		 * \param obj Object to move
-		 */
 		WObject(WObject&& obj) noexcept;
+		~WObject();
 
 		///////////////////////////
 		//// Operators/Assignments
@@ -71,12 +57,12 @@ namespace WLUW
 
 		// Getters
 		WTexture* getTexture() { return texture; }
-		Hitbox* getHitbox() { return &hitbox; }
+		Hitbox* getHitbox() { return hitbox; }
 
 		void setTexture(WTexture* texture) { this->texture = texture; }
 
 	protected:
 		WTexture* texture;
-		Hitbox hitbox;
+		Hitbox* hitbox;
 	};
 }

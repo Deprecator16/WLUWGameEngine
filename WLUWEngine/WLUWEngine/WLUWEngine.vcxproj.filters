@@ -95,5 +95,8 @@
     <ClInclude Include="src\RaycastHit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

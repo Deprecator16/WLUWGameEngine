@@ -219,7 +219,7 @@
 		</item>
 		
 		// Short tilted block
-        <item x="100" y="200">
+        <item x="100" y="100">
 			<point x="0" y="0"/>
 			<point x="200" y="-50"/>
 			<point x="200" y="50"/>

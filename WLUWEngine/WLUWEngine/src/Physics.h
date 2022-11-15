@@ -34,7 +34,7 @@ namespace WLUW
         static RaycastHit shapecast(std::vector<WObject*> objects, Shape shape, Vector2 direction, double distance);
 
         //static Collision getCollisionData(Hitbox* softBox, Hitbox* hardBox, double deltaTime);
-		void solveCollision(Collision collision);
+		static void solveCollision(Collision collision, std::vector<WObject*> objects, double deltaTime);
 
 	private:
 

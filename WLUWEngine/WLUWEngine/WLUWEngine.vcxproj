@@ -188,6 +188,7 @@
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\ContactPoint.h" />
     <ClInclude Include="src\Edge.h" />
+    <ClInclude Include="src\Header.h" />
     <ClInclude Include="src\Hitbox.h" />
     <ClInclude Include="src\InputManager.h" />
     <ClInclude Include="src\Physics.h" />

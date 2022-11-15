@@ -9,8 +9,8 @@ namespace WLUW::SampleGame
 	public:
 		// Constructors
 		Block();
-		Block(Hitbox hitbox);
-		Block(Hitbox hitbox, WTexture* texture);
+		Block(Hitbox* hitbox);
+		Block(Hitbox* hitbox, WTexture* texture);
 
 		void update(double deltaTime) {};
 		void render(SDL_Renderer* renderer);

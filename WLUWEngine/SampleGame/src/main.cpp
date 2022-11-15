@@ -29,6 +29,8 @@ a safety pig has been provided below for your benefit
 #include "Game.h"
 #include "WTimer.h"
 
+SDL_Renderer* globalRenderer;
+
 // Initialize SDL
 bool init()
 {
@@ -92,6 +94,7 @@ int main(int argc, char** argv)
 	WLUW::WWindow win((char*)"Hello World");
 	//WLUW::WRenderer testRenderer(win);
 	SDL_Renderer* renderer = SDL_CreateRenderer(win.getWindow(), -1, 0);
+	globalRenderer = renderer;
 
 	// Initialize timer
 	WTimer timer;
