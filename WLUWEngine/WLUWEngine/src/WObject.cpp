@@ -11,7 +11,7 @@ WLUW::WObject::WObject(const WObject& obj) :
 	shouldDraw{ obj.shouldDraw },
 	isUIElement{ obj.isUIElement },
 	texture{ obj.texture },
-	hitbox{ new Hitbox(*obj.hitbox) }
+	hitbox{ obj.hitbox }
 {
 }
 
@@ -19,13 +19,8 @@ WLUW::WObject::WObject(WObject&& obj) noexcept :
 	shouldDraw{ obj.shouldDraw },
 	isUIElement{ obj.isUIElement },
 	texture{ obj.texture },
-	hitbox{ new Hitbox(*obj.hitbox) }
+	hitbox{ obj.hitbox }
 {
-}
-
-WLUW::WObject::~WObject()
-{
-	delete this->hitbox;
 }
 
 WLUW::WObject& WLUW::WObject::operator=(const WObject& other)
@@ -33,8 +28,7 @@ WLUW::WObject& WLUW::WObject::operator=(const WObject& other)
 	this->shouldDraw = other.shouldDraw;
 	this->isUIElement = other.isUIElement;
 	this->texture = other.texture;
-	delete this->hitbox;
-	this->hitbox = new Hitbox(*other.hitbox);
+	this->hitbox = other.hitbox;
 
 	return *this;
 }

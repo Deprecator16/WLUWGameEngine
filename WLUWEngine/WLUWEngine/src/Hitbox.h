@@ -53,6 +53,7 @@ namespace WLUW
 
         // Setters
         void setVel(Vector2 vel) { this->vel = vel; }
+        void setInertia(Inertia inertia) { this->inertia = inertia; }
 
     private:
         Vector2 vel;

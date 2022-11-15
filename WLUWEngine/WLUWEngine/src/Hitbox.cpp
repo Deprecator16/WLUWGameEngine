@@ -64,6 +64,10 @@ WLUW::Hitbox& WLUW::Hitbox::operator=(Hitbox&& other) noexcept
 
 void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaTime)
 {
+	// Only handle collisions for soft objects
+	if (inertia == Inertia::HARD)
+		return;
+
 	// Remove self from collidable objects
 	std::vector<WObject*> collidables = objects;
 	for (unsigned int i = 0; i < objects.size(); ++i)
@@ -98,7 +102,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		}
 		//Physics::solveCollision(Collision(this, hit.hitbox, hit.normal, hit.point, hit.separation, hit.fraction, ignore), deltaTime);
 
-		std::cout << hit.hitbox->getPos() << std::endl;
+		/*
 		std::cout <<
 			"[centroid=" << hit.centroid << "], " <<
 			"[point=" << hit.point << "], " <<
@@ -107,6 +111,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 			"[fraction=" << hit.fraction << "]" <<
 			"[vel=" << vel << "]" <<
 			std::endl;
+			*/
 
 		// Remove collider from collidables vector
 		for (unsigned int i = 0; i < collidables.size(); ++i)

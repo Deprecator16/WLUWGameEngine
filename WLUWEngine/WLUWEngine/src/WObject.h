@@ -35,7 +35,6 @@ namespace WLUW
 		WObject();
 		WObject(const WObject& obj);
 		WObject(WObject&& obj) noexcept;
-		~WObject();
 
 		///////////////////////////
 		//// Operators/Assignments
@@ -57,12 +56,12 @@ namespace WLUW
 
 		// Getters
 		WTexture* getTexture() { return texture; }
-		Hitbox* getHitbox() { return hitbox; }
+		Hitbox* getHitbox() { return &hitbox; }
 
 		void setTexture(WTexture* texture) { this->texture = texture; }
 
 	protected:
 		WTexture* texture;
-		Hitbox* hitbox;
+		Hitbox hitbox;
 	};
 }

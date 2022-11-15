@@ -8,21 +8,20 @@ WLUW::SampleGame::Player::Player(InputManager* inputManager) :
 	inputManager{inputManager}
 {
 	// Initialize hitbox
-	Shape newShape;
-	
-	newShape.addPoint(Vector2(0.0, 0.0));
-	newShape.addPoint(Vector2(32.0, 0.0));
-	newShape.addPoint(Vector2(32.0, 32.0));
-	newShape.addPoint(Vector2(0.0, 32.0));
+
+	this->hitbox.addPoint(Vector2(0.0, 0.0));
+	this->hitbox.addPoint(Vector2(32.0, 0.0));
+	this->hitbox.addPoint(Vector2(32.0, 32.0));
+	this->hitbox.addPoint(Vector2(0.0, 32.0));
 	
 	/*
-	newShape.addPoint(Vector2(0.0, 0.0));
-	newShape.addPoint(Vector2(16.0, 16.0));
-	newShape.addPoint(Vector2(0.0, 32.0));
-	newShape.addPoint(Vector2(-16.0, 16.0));
+	this->hitbox.addPoint(Vector2(0.0, 0.0));
+	this->hitbox.addPoint(Vector2(16.0, 16.0));
+	this->hitbox.addPoint(Vector2(0.0, 32.0));
+	this->hitbox.addPoint(Vector2(-16.0, 16.0));
 	*/
 
-	this->hitbox = new Hitbox(newShape, Hitbox::SOFT);
+	this->hitbox.setInertia(Hitbox::Inertia::SOFT);
 
 	// Initialize movement variables
 	this->speed = 1.0;
@@ -35,7 +34,7 @@ WLUW::SampleGame::Player::Player(InputManager* inputManager) :
 void WLUW::SampleGame::Player::update(double deltaTime)
 {
 	// Get hitbox vel
-	tmpVel = hitbox->getVel();
+	tmpVel = hitbox.getVel();
 
 	// Handle input
 	handleInput(deltaTime);
@@ -46,7 +45,7 @@ void WLUW::SampleGame::Player::update(double deltaTime)
 	// State machine?
 
 	// Prime hitbox for movement
-	hitbox->setVel(tmpVel);
+	hitbox.setVel(tmpVel);
 
 	// Reset collision states
 	collideBottom = collideTop = collideLeft = collideRight = false;
@@ -101,11 +100,11 @@ void WLUW::SampleGame::Player::doPhysics(double deltaTime)
 
 void WLUW::SampleGame::Player::render(SDL_Renderer* renderer)
 {
-	std::vector<Vector2> points = hitbox->getPoints();
+	std::vector<Vector2> points = hitbox.getPoints();
 	for (int i = 0; i < points.size(); i++)
 	{
-		Vector2 p1 = points[i] + hitbox->getPos();
-		Vector2 p2 = points[(i + 1) % points.size()] + hitbox->getPos();
+		Vector2 p1 = points[i] + hitbox.getPos();
+		Vector2 p2 = points[(i + 1) % points.size()] + hitbox.getPos();
 
 		SDL_SetRenderDrawColor(renderer, 180, 180, 255, SDL_ALPHA_OPAQUE);
 		SDL_RenderDrawLine(renderer, p1.x, p1.y, p2.x, p2.y);

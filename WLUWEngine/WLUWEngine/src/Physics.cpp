@@ -83,7 +83,7 @@ std::vector<WLUW::RaycastHit> WLUW::Physics::edgecastAll(std::vector<WObject*> o
 		if (mtv.second == 0) // No collision
 			continue;
 
-		// Get the best hit in the shape
+		// Get the best hits in the shape
 		std::vector<RaycastHit> shapeHits;
 
 		// Loop through all points and edges in object
@@ -124,6 +124,17 @@ std::vector<WLUW::RaycastHit> WLUW::Physics::edgecastAll(std::vector<WObject*> o
 
 		// Find the best hit in shape hits and add it to the final hits vector
 		std::sort(shapeHits.begin(), shapeHits.end(), RaycastHit::compare);
+
+		// Check if there are multiple points of contact
+		if (shapeHits.size() > 1)
+		{
+			if (shapeHits[0].fraction == shapeHits[1].fraction)
+			{
+				std::cout << "asgaasah" << std::endl;
+				shapeHits[0].normal = (shapeHits[1].point - shapeHits[0].point).normal().normalized();
+			}
+		}
+
 		hits.push_back(shapeHits[0]);
 	}
 

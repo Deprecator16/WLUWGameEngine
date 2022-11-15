@@ -171,13 +171,13 @@ bool WLUW::SampleGame::Game::loadGame()
 	item = ele->FirstChildElement("item");
 	while (item != nullptr)
 	{
-		Hitbox* newHitbox = new Hitbox();
+		Hitbox newHitbox;
 
 		// Read shape data from file
 		// Get position
 		item->QueryDoubleAttribute("x", &(pos.x));
 		item->QueryDoubleAttribute("y", &(pos.y));
-		newHitbox->setPos(pos);
+		newHitbox.setPos(pos);
 
 		// Get points
 		tinyxml2::XMLElement* point = item->FirstChildElement("point");
@@ -186,7 +186,7 @@ bool WLUW::SampleGame::Game::loadGame()
 			// Read point data from file
 			point->QueryDoubleAttribute("x", &(pos.x));
 			point->QueryDoubleAttribute("y", &(pos.y));
-			newHitbox->addPoint(pos);
+			newHitbox.addPoint(pos);
 
 			// Go to next node
 			point = point->NextSiblingElement("point");
@@ -195,9 +195,6 @@ bool WLUW::SampleGame::Game::loadGame()
 		// Append new block to blocks vector
 		Block* newBlock = new Block(newHitbox);
 		objects.push_back(newBlock);
-
-		// Make sure not to delete the block's hitbox upon popping the stack
-		newHitbox = nullptr;
 
 		// Reset storage variables
 		pos = Vector2();
