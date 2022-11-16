@@ -52,7 +52,7 @@ namespace WLUW
 		bool isUIElement;
 
 		// Event callbacks
-		virtual void OnCollide(WObject* target, Collision collisionData) = 0;
+		virtual void OnCollide(WObject* other, Collision collision) = 0;
 
 		// Getters
 		WTexture* getTexture() { return texture; }

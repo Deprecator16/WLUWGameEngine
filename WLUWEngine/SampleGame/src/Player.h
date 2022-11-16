@@ -24,7 +24,7 @@ namespace WLUW::SampleGame
 		void render(SDL_Renderer* renderer);
 
 		// Event callbacks
-		void OnCollide(WObject* target, Collision collisionData);
+		void OnCollide(WObject* other, Collision collision);
 
 		// Getters
 		Vector2 getPos() { return hitbox.getPos(); }

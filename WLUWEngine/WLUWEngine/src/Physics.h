@@ -24,6 +24,8 @@ namespace WLUW
         static std::vector<RaycastHit> raycastAll(std::vector<WObject*> objects, Vector2 origin, Vector2 direction, double distance);
         // Casts a ray and returns the first hit
         static RaycastHit raycast(std::vector<WObject*> objects, Vector2 origin, Vector2 direction, double distance);
+
+        /*
         // Casts an edge and returns all hits
         static std::vector<RaycastHit> edgecastAll(std::vector<WObject*> objects, Edge edge, Vector2 direction, double distance);
         // Casts an edge and returns the first hit
@@ -32,9 +34,17 @@ namespace WLUW
         static std::vector<RaycastHit> shapecastAll(std::vector<WObject*> objects, Shape shape, Vector2 direction, double distance);
         // Casts a shape and returns the first hit
         static RaycastHit shapecast(std::vector<WObject*> objects, Shape shape, Vector2 direction, double distance);
+        */
 
-        //static Collision getCollisionData(Hitbox* softBox, Hitbox* hardBox, double deltaTime);
-		static void solveCollision(Collision collision, double deltaTime);
+
+        static std::vector<WObject*> edgecastAll(std::vector<WObject*> objects, Edge edge, Vector2 direction, double distance);
+        static std::vector<WObject*> shapecastAll(std::vector<WObject*> objects, Shape shape, Vector2 direction, double distance);
+
+
+
+
+        static Collision getCollisionData(WObject* softObject, WObject* hardObject, double deltaTime);
+		//static void solveCollision(Collision collision, double deltaTime);
 
 	private:
 

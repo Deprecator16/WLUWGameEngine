@@ -2,17 +2,19 @@
 
 WLUW::SampleGame::Block::Block()
 {
-
+	this->hitbox.setLinkedObj(this);
 }
 
 WLUW::SampleGame::Block::Block(Hitbox& hitbox)
 {
 	this->hitbox = hitbox;
+	this->hitbox.setLinkedObj(this);
 }
 
 WLUW::SampleGame::Block::Block(Hitbox& hitbox, WTexture* texture)
 {
 	this->hitbox = hitbox;
+	this->hitbox.setLinkedObj(this);
 	this->texture = texture;
 }
 

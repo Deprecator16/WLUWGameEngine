@@ -22,7 +22,8 @@ namespace WLUW
 
         // Constructors
         Hitbox();
-        Hitbox(Shape box, Inertia inertia);
+        Hitbox(WObject* linkedObj);
+        Hitbox(WObject* linkedObj, Shape box, Inertia inertia);
         Hitbox(const Hitbox& other);
         Hitbox(Hitbox&& other) noexcept;
 
@@ -50,12 +51,15 @@ namespace WLUW
         // Getters
         Vector2 getVel() { return vel; }
         Inertia getInertia() { return inertia; }
+        WObject* getLinkedObj() { return linkedObj; };
 
         // Setters
         void setVel(Vector2 vel) { this->vel = vel; }
         void setInertia(Inertia inertia) { this->inertia = inertia; }
+        void setLinkedObj(WObject* obj) { this->linkedObj = linkedObj; };
 
     private:
+        WObject* linkedObj;
         Vector2 vel;
         Inertia inertia;
     };

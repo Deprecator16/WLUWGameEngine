@@ -3,7 +3,8 @@
 WLUW::WObject::WObject() :
 	shouldDraw{ true },
 	isUIElement{ false },
-	texture{ nullptr }
+	texture{ nullptr },
+	hitbox{ Hitbox(this) }
 {
 }
 
