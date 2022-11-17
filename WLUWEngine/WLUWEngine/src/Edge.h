@@ -53,12 +53,6 @@ namespace WLUW
 		 */
 		static bool areIntersecting(Edge edge1, Edge edge2)
 		{
-			/*
-			// Check for parallelism
-			if ((edge1.slope() == edge2.slope() || edge1.slope() == -edge2.slope()))
-				return false;
-				*/
-
 			// Find the four orientations needed for general and special cases
 			Vector2::Orientation o1 = Vector2::getOrientation(edge1.first, edge1.second, edge2.first);
 			Vector2::Orientation o2 = Vector2::getOrientation(edge1.first, edge1.second, edge2.second);
@@ -71,15 +65,37 @@ namespace WLUW
 
 			// Special Cases
 			// edge2.first collinear with edge1
-			if (o1 == 0 && edge1.onSegment(edge2.first)) return true;
+			if (o1 == Vector2::Orientation::COLLINEAR && edge1.onSegment(edge2.first)) return true;
 			// edge2.second collinear with edge1
-			if (o2 == 0 && edge1.onSegment(edge2.second)) return true;
+			if (o2 == Vector2::Orientation::COLLINEAR && edge1.onSegment(edge2.second)) return true;
 			// edge1.first collinear with edge2
-			if (o3 == 0 && edge2.onSegment(edge1.first)) return true;
+			if (o3 == Vector2::Orientation::COLLINEAR && edge2.onSegment(edge1.first)) return true;
 			// edge1.second collinear with edge2
-			if (o4 == 0 && edge2.onSegment(edge1.second)) return true;
+			if (o4 == Vector2::Orientation::COLLINEAR && edge2.onSegment(edge1.second)) return true;
 
 			return false; // Doesn't fall in any of the above cases
+		}
+
+		/**
+		 * \brief Helper function that returns whether two edges are parallel
+		 *
+		 * \param edge1: First edge
+		 * \param edge2: Second edge
+		 * \return True if edge1 and edge2 are parallel, false otherwise
+		 */
+		static bool areParallel(Edge edge1, Edge edge2)
+		{
+			// Line 1 represented as a1x + b1y = c1
+			double a1 = edge1.second.y - edge1.first.y;
+			double b1 = edge1.first.x - edge1.second.x;
+
+			// Line 2 represented as a2x + b2y = c2
+			double a2 = edge2.second.y - edge2.first.y;
+			double b2 = edge2.first.x - edge2.second.x;
+
+			double determinant = a1 * b2 - a2 * b1;
+
+			return abs(determinant) < pow(1.0, -8.0);
 		}
 
 		/**
@@ -103,22 +119,14 @@ namespace WLUW
 
 			double determinant = a1 * b2 - a2 * b1;
 
-			if (determinant == 0)
-			{
-				// The lines are parallel, no intersection
-				// Return the point that is closest to the first point in edge1
-				if ((edge2.first - edge1.first).size() <= (edge2.second - edge1.first).size())
-					return edge2.first;
-				return edge2.second;
-			}
-			else
-			{
-				// Get point of intersection
-				double x = (b2 * c1 - b1 * c2) / determinant;
-				double y = (a1 * c2 - a2 * c1) / determinant;
+			if (determinant == 0) // Check if lines are parallel
+				throw("Lines parallel");
 
-				return Vector2(x, y);
-			}
+			// Get point of intersection
+			double x = (b2 * c1 - b1 * c2) / determinant;
+			double y = (a1 * c2 - a2 * c1) / determinant;
+
+			return Vector2(x, y);
 		}
 
 		// Overloads
