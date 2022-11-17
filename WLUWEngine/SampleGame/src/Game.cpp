@@ -35,37 +35,28 @@ void WLUW::SampleGame::Game::freeObjects()
 
 void WLUW::SampleGame::Game::update(double deltaTime)
 {
-	
+	/*
 	std::vector<WObject*> newObjects;
 
-	Shape newShape(Vector2(0.0, 6.0));
+	Shape newShape(Vector2(0.0, 0.0));
 	newShape.addPoint(Vector2(0.0, 0.0));
+	newShape.addPoint(Vector2(1.0, -1.0));
 	newShape.addPoint(Vector2(2.0, 0.0));
 	newShape.addPoint(Vector2(2.0, 2.0));
 	newShape.addPoint(Vector2(0.0, 2.0));
 
 	Hitbox newHitbox;
-	newHitbox.addPoint(Vector2(0.0, 10.0));
-	newHitbox.addPoint(Vector2(10.0, 0.0));
-	newHitbox.addPoint(Vector2(10.0, 12.0));
+	newHitbox.addPoint(Vector2(0.0, 8.0));
 	newHitbox.addPoint(Vector2(0.0, 12.0));
+	newHitbox.addPoint(Vector2(2.0, 12.0));
 
 	Block* newBlock = new Block(newHitbox);
 	newObjects.push_back(newBlock);
 
 	//std::vector<ContactPoint> contacts = Physics::shapecastContacts(newBlock, newShape, Vector2(0.0, 1.0), 20.0);
-	std::vector<WObject*> colliders = Physics::shapecastAll(newObjects, newShape, Vector2(1.0, -1.0).normalized(), 10.0);
-	std::vector<ContactPoint> contacts = Physics::getContactPoints(&newShape, newBlock->getHitbox(), Vector2(1.0, -1.0).normalized(), 10.0);
+	std::vector<ContactPoint> contacts = Physics::getContactPoints(&newShape, newBlock->getHitbox(), Vector2(0.0, 1.0), 20.0);
 
-	std::cout << "COLLISIONS ==================================================" << std::endl;
-	for (auto& collider : colliders)
-	{
-		std::cout <<
-			"[point=" << collider->getHitbox()->getPoints()[0] << "]" <<
-			std::endl;
-	}
-
-	std::cout << "CONTACTS ==================================================" << std::endl;
+	std::cout << "==================================================" << std::endl;
 	for (auto& contact : contacts)
 	{
 		std::cout <<
@@ -77,15 +68,9 @@ void WLUW::SampleGame::Game::update(double deltaTime)
 			std::endl;
 	}
 
-	newShape.setPos(newShape.getPos() + (Vector2(1.0, -1.0).normalized() * 9.8));
-	for (auto& p : newShape.getPoints())
-	{
-		std::cout << p + newShape.getPos() << std::endl;
-	}
-
 	for (auto& o : newObjects)
 		delete o;
-		
+		*/
 
 
 

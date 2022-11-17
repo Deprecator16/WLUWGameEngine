@@ -53,9 +53,11 @@ namespace WLUW
 		 */
 		static bool areIntersecting(Edge edge1, Edge edge2)
 		{
+			/*
 			// Check for parallelism
-			if ((edge1.slope().normalized() == edge2.slope().normalized() || edge1.slope().normalized() == -edge2.slope().normalized()))
+			if ((edge1.slope() == edge2.slope() || edge1.slope() == -edge2.slope()))
 				return false;
+				*/
 
 			// Find the four orientations needed for general and special cases
 			Vector2::Orientation o1 = Vector2::getOrientation(edge1.first, edge1.second, edge2.first);

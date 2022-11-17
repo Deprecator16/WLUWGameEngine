@@ -131,7 +131,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		// Loop through each collision
 		for (auto& collision : collisions)
 		{
-			
+			/*
 			std::cout <<
 				objectsHit.size() << " " <<
 				"[point = " << collision.point << "], " <<
@@ -152,20 +152,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 			collision.otherObject->OnCollide(collision.object, collision);
 		}
 		*/
-
-		/*
-		std::cout <<
-			"objects: " << objectsHit.size() << ", " <<
-			"collisions: " << collisions.size() << ", " <<
-			"[point = " << collisions[0].point << "], " <<
-			"[normal=" << collisions[0].normal << "], " <<
-			"[separation=" << collisions[0].separation << "], " <<
-			"[fraction=" << collisions[0].fraction << "], " <<
-			"[direction=" << collisions[0].direction << "], " <<
-			"[collisionType=" << collisions[0].collisionType << "], " <<
-			"[vel=" << vel << "]" <<
-			std::endl;
-			*/
+				
 
 		// Redirect soft object velocity
 		vel = (vel - collisions[0].separation).projectOntoAxis(collisions[0].normal.normal());
