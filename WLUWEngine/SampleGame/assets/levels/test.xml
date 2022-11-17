@@ -200,7 +200,7 @@
 		</item>
         <item x="800" y="600">
 			<point x="0" y="0"/>
-			<point x="200" y="-100"/>
+			<point x="200" y="-200"/>
 			<point x="200" y="0"/>
 		</item>
         <item x="1000" y="400">

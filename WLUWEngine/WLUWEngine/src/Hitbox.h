@@ -31,7 +31,7 @@ namespace WLUW
         Hitbox& operator=(const Hitbox& other);
         Hitbox& operator=(Hitbox&& other) noexcept;
 
-        // Helpers
+        // Helpersd
         friend bool operator==(const Hitbox& lhs, const Hitbox& rhs) { return lhs.isEqual(rhs); }
         bool isEqual(Hitbox other) const
         {
