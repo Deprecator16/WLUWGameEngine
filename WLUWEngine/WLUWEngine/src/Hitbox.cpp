@@ -127,6 +127,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 			}
 		}
 
+		/*
 		// Loop through each collision
 		for (auto& collision : collisions)
 		{
@@ -141,7 +142,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 				"[collisionType=" << collision.collisionType << "], " <<
 				"[vel=" << vel << "]" <<
 				std::endl;
-				*/
+				
 
 			// Redirect soft object velocity
 			vel = (vel - collisions[0].separation).projectOntoAxis(collision.normal.normal());
@@ -150,6 +151,15 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 			collision.object->OnCollide(collision.otherObject, collision);
 			collision.otherObject->OnCollide(collision.object, collision);
 		}
+		*/
+				
+
+		// Redirect soft object velocity
+		vel = (vel - collisions[0].separation).projectOntoAxis(collisions[0].normal.normal());
+
+		// Trigger OnCollide callbacks
+		collisions[0].object->OnCollide(collisions[0].otherObject, collisions[0]);
+		collisions[0].otherObject->OnCollide(collisions[0].object, collisions[0]);
 
 		// Move soft box based on min distance
 		pos = pos + collisions[0].separation;
@@ -172,5 +182,10 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		// Stop loop if the soft box isn't moving anymore
 		if (vel == Vector2())
 			break;
+	}
+
+	if (Physics::clips(this, collidables))
+	{
+		std::cout << "Object clips" << std::endl;
 	}
 }

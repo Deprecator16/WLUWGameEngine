@@ -10,6 +10,8 @@
 
 using namespace WLUW;
 
+double epsilon = pow(1.0, -8.0);
+
 // Casts an edge and returns all hits
 std::vector<WLUW::WObject*> edgecastAll(std::vector<WObject*> objects, Edge edge, Vector2 direction, double distance)
 {
@@ -83,7 +85,7 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 
 			// Determine contact point type
 			ContactPoint::ContactType contactType = ContactPoint::ContactType::EDGE;
-			if ((edge.first - pointOfIntersection).size() < pow(1.0, -8.0) || (edge.second - pointOfIntersection).size() < pow(1.0, -8.0))
+			if ((edge.first - pointOfIntersection).size() < epsilon || (edge.second - pointOfIntersection).size() < epsilon)
 				contactType = ContactPoint::ContactType::POINT;
 
 			// Add to contacts
@@ -128,7 +130,8 @@ std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape*
 				continue;
 
 			// Test current point
-			if (Edge(softPoint, softPoint + (direction * distance)).onSegment(testPoint))
+			if (Edge(softPoint, softPoint + (direction * distance)).onSegment(testPoint) ||
+				(testPoint - softPoint).size() < epsilon || (testPoint - (softPoint + (direction * distance))).size() < epsilon)
 			{
 				validPoint = false;
 				break;
@@ -138,7 +141,9 @@ std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape*
 				continue;
 
 			// Test current edge
-			if (Edge::areIntersecting(testEdge, Edge(softPoint, softPoint + (direction * distance))))
+			if (Edge::areIntersecting(testEdge, Edge(softPoint, softPoint + (direction * distance))) ||
+				(testEdge.first - softPoint).size() < epsilon || (testEdge.first - (softPoint + (direction * distance))).size() < epsilon ||
+				(testEdge.second - softPoint).size() < epsilon || (testEdge.second - (softPoint + (direction * distance))).size() < epsilon)
 			{
 				validPoint = false;
 				break;
@@ -159,7 +164,7 @@ std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape*
 		bool exists = false;
 		for (unsigned int j = 0; j < contacts.size(); ++j)
 		{
-			if ((contacts[j].point - newContact.point).size() < pow(1.0, -8.0)) // Point exists
+			if ((contacts[j].point - newContact.point).size() < epsilon) // Point exists
 			{
 				// Check which fraction is smaller
 				if (newContact.fraction < contacts[j].fraction) // New hit is better, delete old hit
@@ -228,7 +233,7 @@ std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape*
 		bool exists = false;
 		for (unsigned int j = 0; j < contacts.size(); ++j)
 		{
-			if ((contacts[j].point - modifiedContact.point).size() < pow(1.0, -8.0)) // Point exists
+			if ((contacts[j].point - modifiedContact.point).size() < epsilon) // Point exists
 			{
 				// Check which fraction is smaller
 				if (modifiedContact.fraction < contacts[j].fraction) // New hit is better, delete old hit
@@ -311,7 +316,7 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 	}
 	if (contacts.size() > 1)
 	{
-		if (abs(contacts[1].fraction - contacts[0].fraction) < pow(1.0, -8))
+		if (abs(contacts[1].fraction - contacts[0].fraction) < epsilon)
 		{
 			std::cout << "THREE " << contacts[0].point << std::endl;
 			Vector2 normal = (contacts[1].point - contacts[0].point).normal().normalized();
@@ -376,4 +381,22 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 
 	std::cout << "SEVEN" << std::endl;
 	return Collision();
+}
+
+bool WLUW::Physics::clips(Hitbox* softBox, std::vector<WObject*> objects)
+{
+	// Check if softBox clips any hardBoxes
+	for (auto& obj : objects)
+	{
+		// Check if a collision occurs
+		std::pair<Vector2, double> mtv = Shape::checkCollision(*softBox, *obj->getHitbox());
+		if (mtv.second == 0) // No collision
+			continue;
+
+		//softBox->setPos(softBox->getPos() + (mtv.first * mtv.second));
+
+		return true;
+	}
+
+	return false;
 }

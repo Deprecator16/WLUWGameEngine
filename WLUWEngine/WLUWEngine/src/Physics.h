@@ -22,6 +22,8 @@ namespace WLUW
 
         static Collision getCollisionData(WObject* softObject, WObject* hardObject, double deltaTime);
 
+        static bool clips(Hitbox* softBox, std::vector<WObject*> objects);
+
 	private:
 
 	};
