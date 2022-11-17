@@ -37,6 +37,7 @@ namespace WLUW
         // CONTACTS
         */
 
+        /*
         WObject* object;
         WObject* otherObject;
         Vector2 point;
@@ -47,6 +48,20 @@ namespace WLUW
         double totalDistanceFromEdgeToShape;
         Direction direction;
         CollisionType collisionType;
+        */
+
+        WObject* object;
+        WObject* otherObject;
+        Vector2 pointOfIntersection;
+        Vector2 normal;
+        Vector2 separation;
+        double fraction;
+
+        /*
+        double totalDistanceFromEdgeToShape;
+        Direction direction;
+        CollisionType collisionType;
+        */
         
         /*
         friend bool operator==(const Collision collision1, const Collision collision2)
@@ -64,16 +79,17 @@ namespace WLUW
         }
         */
 
-        /*
+        
         static bool compare(Collision collision1, Collision collision2)
         {
-            if (collision1.box == nullptr) return false;
-            if (collision2.box == nullptr) return true;
+            if (collision1.object == nullptr) return false;
+            if (collision2.object == nullptr) return true;
 
             return collision1.fraction < collision2.fraction;
         }
-        */
+        
 
+        /*
         static bool compareCollisionData(const Collision& a, const Collision& b)
         {
             if (a.timeOfImpact < b.timeOfImpact) return true;
@@ -84,6 +100,7 @@ namespace WLUW
 
             return false;
         }
+        */
     };
 }
 

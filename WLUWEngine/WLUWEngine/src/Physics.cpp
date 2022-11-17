@@ -219,12 +219,15 @@ std::vector<WLUW::WObject*> WLUW::Physics::edgecastAll(std::vector<WObject*> obj
 	// Loop through all objects
 	for (auto& object : objects)
 	{
+		bool collisionDetected = false;
+
 		// Check if object overlaps with edgecastShape
 		std::pair<Vector2, double> mtv = Shape::checkCollision(*object->getHitbox(), edgecastShape);
-		if (mtv.second == 0) // No collision
-			continue;
+		if (mtv.second != 0) // Collision detected
+			collisionDetected = true;
 
-		objectsHit.push_back(object);
+		if (collisionDetected)
+			objectsHit.push_back(object);
 	}
 	return objectsHit;
 }
@@ -265,6 +268,326 @@ std::vector<WLUW::WObject*> WLUW::Physics::shapecastAll(std::vector<WObject*> ob
 
 	return objectsHit;
 }
+
+
+std::vector<ContactPoint> WLUW::Physics::edgecastContacts(WObject* object, Edge edge, Vector2 direction, double distance)
+{
+	std::vector<ContactPoint> contacts;
+
+	Shape edgecastShape(edge.first);
+	edgecastShape.addPoint(Vector2());
+	edgecastShape.addPoint(edge.second - edge.first);
+	edgecastShape.addPoint(edge.second + (direction * distance) - edge.first);
+	edgecastShape.addPoint(direction * distance);
+
+	// Loop through all points and edges in object
+	for (unsigned int i = 0; i < object->getHitbox()->getPoints().size(); ++i)
+	{
+		Vector2 boxPoint = object->getHitbox()->getPoints()[i];
+		Edge boxEdge = Edge(
+			object->getHitbox()->getPos() + object->getHitbox()->getPoints()[i],
+			object->getHitbox()->getPos() + object->getHitbox()->getPoints()[(i + 1) % object->getHitbox()->getPoints().size()]
+		);
+
+		// Check cast of box point towards specified edge
+		if (Edge::areIntersecting(edge, Edge(boxPoint, boxPoint - (direction * distance))))
+		{
+			Vector2 pointOfIntersection = Edge::getPointOfIntersection(edge, Edge(boxPoint, boxPoint - (direction * distance)));
+			Vector2 separation = boxPoint - pointOfIntersection;
+			contacts.push_back(ContactPoint(boxPoint, edge.normal().normalized(), separation, separation.size() / distance));
+		}
+
+		// Check cast of the two points in specified edge to box edge
+		if (Edge::areIntersecting(Edge(edge.first, edge.first + (direction * distance)), boxEdge))
+		{
+			Vector2 pointOfIntersection = Edge::getPointOfIntersection(Edge(edge.first, edge.first + (direction * distance)), boxEdge);
+			Vector2 separation = pointOfIntersection - edge.first;
+			contacts.push_back(ContactPoint(pointOfIntersection, boxEdge.normal().normalized(), separation, separation.size() / distance));
+		}
+		if (Edge::areIntersecting(Edge(edge.second, edge.second + (direction * distance)), boxEdge))
+		{
+			Vector2 pointOfIntersection = Edge::getPointOfIntersection(Edge(edge.second, (direction * distance) + edge.second), boxEdge);
+			Vector2 separation = pointOfIntersection - edge.second;
+			contacts.push_back(ContactPoint(pointOfIntersection, boxEdge.normal().normalized(), separation, separation.size() / distance));
+		}
+	}
+
+	// Check if there are no hits
+	if (contacts.size() == 0)
+		return std::vector<ContactPoint>();
+
+	// Sort
+	std::sort(contacts.begin(), contacts.end(), ContactPoint::compare);
+
+	return contacts;
+}
+
+std::vector<ContactPoint> WLUW::Physics::shapecastContacts(WObject* object, Shape shape, Vector2 direction, double distance)
+{
+	std::vector<ContactPoint> contacts;
+
+	// Loop through all edges in shape
+	for (unsigned int i = 0; i < shape.getPoints().size(); ++i)
+	{
+		Edge shapeEdge(Edge(
+			shape.getPos() + shape.getPoints()[i],
+			shape.getPos() + shape.getPoints()[(i + 1) % shape.getPoints().size()]
+		));
+
+		// Cast every edge
+		std::vector<ContactPoint> edgecastHits = edgecastContacts(object, shapeEdge, direction, distance);
+
+		// Add cast results to contacts
+		for (auto& edgecastHit : edgecastHits)
+		{
+			// Check if point already exists in contacts
+			bool exists = false;
+			for (unsigned int j = 0; j < contacts.size(); ++j)
+			{
+				if (edgecastHit.point == contacts[j].point) // Point exists
+				{
+					// Check which fraction is smaller
+					if (edgecastHit.fraction < contacts[j].fraction) // New hit is better, delete old hit
+						contacts.erase(contacts.begin() + j);
+					else // Existing hit is better
+						exists = true;
+
+					break;
+				}
+			}
+
+			if (exists) // Skip new entry
+				continue;
+
+			contacts.push_back(edgecastHit);
+		}
+	}
+
+	return contacts;
+}
+
+
+
+
+
+
+
+
+std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 end)
+{
+	std::vector<ContactPoint> contacts;
+
+	// Loop through all edges in object
+	for (unsigned int i = 0; i < shape->getPoints().size(); ++i)
+	{
+		Edge edge(Edge(
+			shape->getPos() + shape->getPoints()[i],
+			shape->getPos() + shape->getPoints()[(i + 1) % shape->getPoints().size()]
+		));
+
+		if (Edge::areIntersecting(Edge(start, end), edge))
+		{
+			// Find point of intersection of line with edge
+			Vector2 pointOfIntersection = Edge::getPointOfIntersection(Edge(start, end), edge);
+
+			// Determine contact point type
+			ContactPoint::ContactType contactType = ContactPoint::ContactType::EDGE;
+			if (pointOfIntersection == edge.first || pointOfIntersection == edge.second)
+				contactType = ContactPoint::ContactType::POINT;
+
+			// Add to contacts
+			contacts.push_back(ContactPoint(pointOfIntersection, edge.normal().normalized(), pointOfIntersection - start, (pointOfIntersection - start).size() / (end - start).size(), contactType));
+		}
+	}
+
+	// Sort the hits by fraction
+	std::sort(contacts.begin(), contacts.end(), ContactPoint::compare);
+
+	return contacts;
+}
+
+ContactPoint linecastContact(Shape* shape, Vector2 start, Vector2 end)
+{
+	std::vector<ContactPoint> contacts = linecastContacts(shape, start, end);
+	if (contacts.size() == 0)
+		return ContactPoint();
+	return contacts[0];
+}
+
+
+std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape* hardBox, Vector2 direction, double distance)
+{
+	std::vector<ContactPoint> contacts;
+
+	// Loop through all points in soft box
+	for (unsigned int i = 0; i < softBox->getPoints().size(); ++i)
+	{
+		Vector2 softPoint = softBox->getPos() + softBox->getPoints()[i];
+
+		// Check if the line cast from current soft point will interesect an edge or another point in soft box
+		bool validPoint = true;
+		for (unsigned int j = 0; j < softBox->getPoints().size(); ++j)
+		{
+			Vector2 testPoint = softBox->getPos() + softBox->getPoints()[j];
+			Edge testEdge = Edge(
+				softBox->getPos() + softBox->getPoints()[j],
+				softBox->getPos() + softBox->getPoints()[(j + 1) % softBox->getPoints().size()]
+			);
+
+			if (testPoint == softPoint) // Don't test the soft point itself
+				continue;
+
+			// Test current point
+			if (Edge(softPoint, softPoint + (direction * distance)).onSegment(testPoint))
+			{
+				validPoint = false;
+				break;
+			}
+
+			if (testEdge.first == softPoint || testEdge.second == softPoint) // Don't test any edges that the soft point is an endpoint of
+				continue;
+
+			// Test current edge
+			if (Edge::areIntersecting(testEdge, Edge(softPoint, softPoint + (direction * distance))))
+			{
+				validPoint = false;
+				break;
+			}
+		}
+
+		if (!validPoint) // Point was invalidated in the checks above
+			continue;
+
+		// Cast every line
+		ContactPoint newContact = linecastContact(hardBox, softPoint, softPoint + (direction * distance));
+
+		// Check if no contact was found
+		if (newContact.contactType == ContactPoint::ContactType::NO_CONTACT)
+			continue;
+
+		// Check if point already exists in contacts
+		bool exists = false;
+		for (unsigned int j = 0; j < contacts.size(); ++j)
+		{
+			if (newContact.point == contacts[j].point) // Point exists
+			{
+				// Check which fraction is smaller
+				if (newContact.fraction < contacts[j].fraction) // New hit is better, delete old hit
+					contacts.erase(contacts.begin() + j);
+				else // Existing hit is better
+					exists = true;
+
+				break;
+			}
+		}
+
+		if (!exists) // Add new entry to list
+			contacts.push_back(newContact);
+	}
+
+	// Loop through all points in hard box
+	for (unsigned int i = 0; i < hardBox->getPoints().size(); ++i)
+	{
+		Vector2 hardPoint = hardBox->getPos() + hardBox->getPoints()[i];
+
+		// Check if the line cast from current hard point will interesect an edge or another point in hard box
+		bool validPoint = true;
+		for (unsigned int j = 0; j < hardBox->getPoints().size(); ++j)
+		{
+			Vector2 testPoint = hardBox->getPos() + hardBox->getPoints()[j];
+			Edge testEdge = Edge(
+				hardBox->getPos() + hardBox->getPoints()[j],
+				hardBox->getPos() + hardBox->getPoints()[(j + 1) % hardBox->getPoints().size()]
+			);
+
+			if (testPoint == hardPoint) // Don't test the hard point itself
+				continue;
+
+			// Test current point
+			if (Edge(hardPoint, hardPoint - (direction * distance)).onSegment(testPoint))
+			{
+				validPoint = false;
+				break;
+			}
+
+			if (testEdge.first == hardPoint || testEdge.second == hardPoint) // Don't test any edges that the hard point is an endpoint of
+				continue;
+
+			// Test current edge
+			if (Edge::areIntersecting(testEdge, Edge(hardPoint, hardPoint - (direction * distance))))
+			{
+				validPoint = false;
+				break;
+			}
+		}
+		
+		if (!validPoint) // Point was invalidated in the checks above
+			continue;
+
+		// Cast every line
+		ContactPoint newContact = linecastContact(softBox, hardPoint, hardPoint - (direction * distance));
+
+		// Check if no contact was found
+		if (newContact.contactType == ContactPoint::ContactType::NO_CONTACT)
+			continue;
+
+		// Modify point since we are casting backwards
+		ContactPoint modifiedContact = ContactPoint(hardPoint, newContact.normal, -newContact.separation, newContact.fraction, ContactPoint::ContactType::POINT);
+
+		// Check if point already exists in contacts
+		bool exists = false;
+		for (unsigned int j = 0; j < contacts.size(); ++j)
+		{
+			if (modifiedContact.point == contacts[j].point) // Point exists
+			{
+				// Check which fraction is smaller
+				if (modifiedContact.fraction < contacts[j].fraction) // New hit is better, delete old hit
+					contacts.erase(contacts.begin() + j);
+				else // Existing hit is better
+					exists = true;
+
+				break;
+			}
+		}
+
+		if (!exists) // Add new entry to list
+			contacts.push_back(modifiedContact);
+	}
+
+	return contacts;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObject, double deltaTime)
+{
+	std::vector<ContactPoint> contacts = shapecastContacts(hardObject, *softObject->getHitbox(), softObject->getHitbox()->getVel().normalized(), softObject->getHitbox()->getVel().size());
+
+	// Check if no contacts were detected
+	if (contacts.size() == 0)
+		return Collision();
+
+
+
+	WObject* object;
+	WObject* otherObject;
+	Vector2 pointOfIntersection;
+	Vector2 normal;
+	Vector2 separation;
+	double fraction;
+}
+
+
 
 
 
@@ -370,14 +693,8 @@ bool inSquare(Vector2 point, Vector2 a, Vector2 b, Vector2 c, Vector2 d)
 	return false;
 }
 
-/**
- * \brief Helper function that returns collision data of the collision between a soft hitbox and a hard hitbo
- *
- * \param softBox: Moving soft hitbox
- * \param hardBox: Stationary hard hitbox
- * \param deltaTime: deltaTime for velocity calculations
- * \return CollisionData object with details of the collision between softBox and hardBox (See Hitbox.h for details)
- */
+/*
+// Helper function that returns collision data of the collision between a soft hitbox and a hard hitbox
 Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObject, double deltaTime)
 {
 	Hitbox* softBox = softObject->getHitbox();
@@ -672,7 +989,10 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 			}
 		}
 	}
-	*/
+
+
+
+
 
 	// Narrow down colliders to one
 	Collision bestCollider = colliders[0];
@@ -699,7 +1019,10 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 				std::endl;
 		}
 	}
-	*/
+
+
+
+
 
 	/*
 	std::cout <<
@@ -711,11 +1034,15 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 			", [timeOfImpact=" << bestCollider.timeOfImpact << "]" <<
 			", [direction=" << bestCollider.direction << "]" <<
 			std::endl;
-			*/
+
+
+
 
 
 	return bestCollider;
 }
+*/
+
 
 bool clips(Hitbox* softBox, std::vector<Hitbox*> hardBoxes, double deltaTime)
 {

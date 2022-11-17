@@ -32,10 +32,9 @@ namespace WLUW
 		 * \brief Helper function that returns whether a given point lies on a given edge
 		 *
 		 * \param point: Specified point
-		 * \param edge: Specified edge
 		 * \return True if point lies on edge, false otherwise
 		 */
-		bool onSegment(Vector2& point)
+		bool onSegment(Vector2 point)
 		{
 			// Check collinearity
 			double val = (this->first.y - point.y) * (this->second.x - this->first.x) - (this->first.x - point.x) * (this->second.y - this->first.y);
@@ -54,10 +53,11 @@ namespace WLUW
 		 */
 		static bool areIntersecting(Edge edge1, Edge edge2)
 		{
+			/*
 			// Check for parallelism
-			if (edge1.second - edge1.first == edge2.second - edge2.first ||
-				edge1.second - edge1.first == edge2.first - edge2.second)
+			if ((edge1.slope() == edge2.slope() || edge1.slope() == -edge2.slope()))
 				return false;
+				*/
 
 			// Find the four orientations needed for general and special cases
 			Vector2::Orientation o1 = Vector2::getOrientation(edge1.first, edge1.second, edge2.first);
@@ -71,9 +71,9 @@ namespace WLUW
 
 			// Special Cases
 			// edge2.first collinear with edge1
-			if (o1 == 0 && edge1. onSegment(edge2.first)) return true;
+			if (o1 == 0 && edge1.onSegment(edge2.first)) return true;
 			// edge2.second collinear with edge1
-			if (o2 == 0 && edge1. onSegment(edge2.second)) return true;
+			if (o2 == 0 && edge1.onSegment(edge2.second)) return true;
 			// edge1.first collinear with edge2
 			if (o3 == 0 && edge2.onSegment(edge1.first)) return true;
 			// edge1.second collinear with edge2

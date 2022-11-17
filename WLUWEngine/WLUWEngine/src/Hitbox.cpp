@@ -78,6 +78,7 @@ WLUW::Hitbox& WLUW::Hitbox::operator=(Hitbox&& other) noexcept
 
 void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaTime)
 {
+	/*
 	// Only handle collisions for soft objects
 	if (inertia == Inertia::HARD)
 		return;
@@ -107,18 +108,6 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 			if (collisionData.direction == Collision::Direction::NO_DIRECTION)
 				continue;
 			collisions.push_back(collisionData);
-
-			/*
-			std::cout <<
-				", [point: " << collisionData.point << "]" <<
-				", [predictedPoint: " << collisionData.point + vel * deltaTime << "]" <<
-				", [normal: " << collisionData.normal << "]" <<
-				", [POI: " << collisionData.pointOfIntersection << "]" <<
-				", [distance: " << collisionData.distance << "]" <<
-				", [timeOfImpact=" << collisionData.timeOfImpact << "]" <<
-				", [direction=" << collisionData.direction << "]" <<
-				std::endl;
-				*/
 		}
 
 		// No more collisions detected
@@ -127,8 +116,6 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 
 		// Sort
 		std::sort(collisions.begin(), collisions.end(), Collision::compareCollisionData);
-
-		std::vector<Collision> collisionsBackup = collisions;
 
 		// Remove unnecessary collisions
 		for (unsigned int i = 0; i < collisions.size(); ++i)
@@ -149,30 +136,24 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 			}
 		}
 
-		std::cout << collisions.size() << std::endl;
-
-		// Find minimum distance
+		// Loop through each collision
 		Vector2 minDistance = collisions[0].distance;
 		for (auto& collision : collisions)
 		{
-			if (collision.distance.size() < minDistance.size())
-				minDistance = collision.distance;
-		}
-
-		// Move soft box based on min distance
-		pos = pos + minDistance;
-
-		// Redirect soft object velocity
-		for (auto& collision : collisions)
+			// Redirect soft object velocity
 			vel = (vel - minDistance).projectOntoAxis(collision.normal.normal());
 
-		// Trigger OnCollide callbacks
-		for (auto& collision : collisions)
-		{
+			// Find minimum distance
+			if (collision.distance.size() < minDistance.size())
+				minDistance = collision.distance;
+
+			// Trigger OnCollide callbacks
 			collision.object->OnCollide(collision.otherObject, collision);
 			collision.otherObject->OnCollide(collision.object, collision);
 		}
 
+		// Move soft box based on min distance
+		pos = pos + minDistance;
 		
 		// Remove all colliders from the next loop
 		for (unsigned int i = 0; i < collidables.size(); ++i)
@@ -187,59 +168,9 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 			}
 		}
 		
-
 		// Stop loop if the soft box isn't moving anymore
 		if (vel == Vector2())
 			break;
-
-
-
-		/*
-		// Get raycast hit
-		RaycastHit hit = Physics::shapecast(collidables, *this, vel.normalized(), vel.size() * deltaTime);
-
-		// No more collisions detected
-		if (hit.hitbox == nullptr)
-			break;
-
-		// Check for collision between a soft object and a hard object
-		bool ignore = true;
-		if (hit.hitbox->getInertia() != inertia)
-			ignore = false;
-
-		// Solve collision
-		if (inertia == Hitbox::Inertia::SOFT)
-		{
-			pos = pos + hit.separation;
-			vel = vel.projectOntoAxis(hit.normal.normal());
-		}
-		//Physics::solveCollision(Collision(this, hit.hitbox, hit.normal, hit.point, hit.separation, hit.fraction, ignore), deltaTime);
-
-		
-		std::cout <<
-			"[centroid=" << hit.centroid << "], " <<
-			"[point=" << hit.point << "], " <<
-			"[normal=" << hit.normal << "], " <<
-			"[separation=" << hit.separation << "], " <<
-			"[fraction=" << hit.fraction << "], " <<
-			"[vel=" << vel << "], " <<
-			"[hitbox pos=" << hit.hitbox->getPos() << "]" <<
-			std::endl;
-			
-
-		// Remove collider from collidables vector
-		for (unsigned int i = 0; i < collidables.size(); ++i)
-		{
-			if (collidables[i]->getHitbox() == hit.hitbox)
-			{
-				collidables.erase(collidables.begin() + i);
-				break;
-			}
-		}
-
-		// Stop loop if not moving anymore
-		if (vel == Vector2())
-			break;
-			*/
 	}
+	*/
 }

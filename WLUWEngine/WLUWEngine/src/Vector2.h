@@ -41,6 +41,7 @@ namespace WLUW
 				return Vector2();
 			return *this / this->size();
 		}
+
 		Vector2 projectOntoAxis(const Vector2 axis) const { return this->dot(axis) == 0.0 ? Vector2() : axis * (this->dot(axis)) / (axis.dot(axis)); }
 
 		/**

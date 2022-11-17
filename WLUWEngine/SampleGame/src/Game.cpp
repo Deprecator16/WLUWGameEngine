@@ -35,37 +35,43 @@ void WLUW::SampleGame::Game::freeObjects()
 
 void WLUW::SampleGame::Game::update(double deltaTime)
 {
-	/*
 	std::vector<WObject*> newObjects;
 
 	Shape newShape(Vector2(0.0, 0.0));
 	newShape.addPoint(Vector2(0.0, 0.0));
+	newShape.addPoint(Vector2(1.0, -1.0));
 	newShape.addPoint(Vector2(2.0, 0.0));
-	newShape.addPoint(Vector2(1.0, 2.0));
+	newShape.addPoint(Vector2(2.0, 2.0));
+	newShape.addPoint(Vector2(0.0, 2.0));
 
 	Hitbox newHitbox;
-
 	newHitbox.addPoint(Vector2(0.0, 8.0));
-	newHitbox.addPoint(Vector2(4.0, 8.0));
-	newHitbox.addPoint(Vector2(4.0, 12.0));
 	newHitbox.addPoint(Vector2(0.0, 12.0));
+	newHitbox.addPoint(Vector2(2.0, 12.0));
 
 	Block* newBlock = new Block(newHitbox);
 	newObjects.push_back(newBlock);
 
-	RaycastHit newHit = Physics::shapecast(newObjects, newShape, Vector2(0.0, 1.0), 20.0);
+	//std::vector<ContactPoint> contacts = Physics::shapecastContacts(newBlock, newShape, Vector2(0.0, 1.0), 20.0);
+	std::vector<ContactPoint> contacts = Physics::getContactPoints(&newShape, newBlock->getHitbox(), Vector2(0.0, 1.0), 20.0);
 
-	std::cout <<
-		"[centroid=" << newHit.centroid << "], " <<
-		"[point=" << newHit.point << "], " <<
-		"[normal=" << newHit.normal << "], " <<
-		"[separation=" << newHit.separation << "], " <<
-		"[fraction=" << newHit.fraction << "]" <<
-		"[hitbox=" << newHit.hitbox << "]" << std::endl;
+	std::cout << "==================================================" << std::endl;
+	for (auto& contact : contacts)
+	{
+		std::cout <<
+			"[point=" << contact.point << "], " <<
+			"[normal=" << contact.normal << "], " <<
+			"[separation=" << contact.separation << "], " <<
+			"[fraction=" << contact.fraction << "], " <<
+			"[contactType=" << contact.contactType << "]" <<
+			std::endl;
+	}
 
 	for (auto& o : newObjects)
 		delete o;
-		*/
+
+
+
 
 	// Update all objects
 	for (auto& o : objects)
