@@ -1,5 +1,6 @@
 #include "Hitbox.h"
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include "WObject.h"
 
@@ -78,7 +79,6 @@ WLUW::Hitbox& WLUW::Hitbox::operator=(Hitbox&& other) noexcept
 
 void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaTime)
 {
-	/*
 	// Only handle collisions for soft objects
 	if (inertia == Inertia::HARD)
 		return;
@@ -105,7 +105,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		for (auto& obj : objectsHit)
 		{
 			Collision collisionData = Physics::getCollisionData(linkedObj, obj, deltaTime);
-			if (collisionData.direction == Collision::Direction::NO_DIRECTION)
+			if (collisionData.collisionType == Collision::CollisionType::NO_COLLISION)
 				continue;
 			collisions.push_back(collisionData);
 		}
@@ -115,21 +115,12 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 			break;
 
 		// Sort
-		std::sort(collisions.begin(), collisions.end(), Collision::compareCollisionData);
+		std::sort(collisions.begin(), collisions.end(), Collision::compare);
 
 		// Remove unnecessary collisions
 		for (unsigned int i = 0; i < collisions.size(); ++i)
 		{
-			if (collisions[i].timeOfImpact != collisions[0].timeOfImpact)
-			{
-				collisions.erase(collisions.begin() + i);
-				--i;
-			}
-		}
-		double bestTotalDistance = collisions[0].totalDistanceFromEdgeToShape;
-		for (unsigned int i = 0; i < collisions.size(); ++i)
-		{
-			if (collisions[i].totalDistanceFromEdgeToShape != bestTotalDistance)
+			if (collisions[i].fraction != collisions[0].fraction)
 			{
 				collisions.erase(collisions.begin() + i);
 				--i;
@@ -137,15 +128,21 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		}
 
 		// Loop through each collision
-		Vector2 minDistance = collisions[0].distance;
 		for (auto& collision : collisions)
 		{
-			// Redirect soft object velocity
-			vel = (vel - minDistance).projectOntoAxis(collision.normal.normal());
+			std::cout <<
+				objectsHit.size() << " " <<
+				"[point = " << collision.point << "], " <<
+				"[normal=" << collision.normal << "], " <<
+				"[separation=" << collision.separation << "], " <<
+				"[fraction=" << collision.fraction << "], " <<
+				"[direction=" << collision.direction << "], " <<
+				"[collisionType=" << collision.collisionType << "], " <<
+				"[vel=" << vel << "]" <<
+				std::endl;
 
-			// Find minimum distance
-			if (collision.distance.size() < minDistance.size())
-				minDistance = collision.distance;
+			// Redirect soft object velocity
+			vel = (vel - collisions[0].separation).projectOntoAxis(collision.normal.normal());
 
 			// Trigger OnCollide callbacks
 			collision.object->OnCollide(collision.otherObject, collision);
@@ -153,8 +150,9 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		}
 
 		// Move soft box based on min distance
-		pos = pos + minDistance;
+		pos = pos + collisions[0].separation;
 		
+		/*
 		// Remove all colliders from the next loop
 		for (unsigned int i = 0; i < collidables.size(); ++i)
 		{
@@ -167,10 +165,10 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 				}
 			}
 		}
+		*/
 		
 		// Stop loop if the soft box isn't moving anymore
 		if (vel == Vector2())
 			break;
 	}
-	*/
 }

@@ -82,7 +82,7 @@ bool WLUW::operator==(const Shape& lhs, const Shape& rhs)
  */
 bool isOverlapping(Proj a, Proj b)
 {
-    if (b.first > a.second || a.first > b.second)
+    if (b.first >= a.second || a.first >= b.second)
         return false;
     return true;
 }
@@ -96,7 +96,7 @@ bool isOverlapping(Proj a, Proj b)
  */
 double getOverlap(Proj a, Proj b)
 {
-    if (b.first > a.second || a.first > b.second)
+    if (b.first >= a.second || a.first >= b.second)
     {
         throw("Proj a and b are not overlapping! Use isOverlapping() to assert that they overlap before calling getOverlap()");
         return std::numeric_limits<double>::quiet_NaN();

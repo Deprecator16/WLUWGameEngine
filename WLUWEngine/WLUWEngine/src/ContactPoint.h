@@ -12,8 +12,8 @@ namespace WLUW
 		enum ContactType
 		{
 			NO_CONTACT = 0,
-			POINT,
-			EDGE
+			EDGE,
+			POINT
 		};
 
 		Vector2 point;
@@ -22,18 +22,18 @@ namespace WLUW
 		double fraction;
 		ContactType contactType;
 
-		/*
-		Vector2 relativeVel;
-		Hitbox* box;
-		Hitbox* otherBox;
-		*/
-
 		static bool compare(ContactPoint& a, ContactPoint& b)
 		{
 			if (a.contactType == NO_CONTACT) return false;
 			if (b.contactType == NO_CONTACT) return true;
 
-			return a.fraction < b.fraction;
+			if (a.fraction < b.fraction) return true;
+			if (a.fraction > b.fraction) return false;
+
+			if (a.contactType == ContactType::EDGE && b.contactType == ContactType::POINT) return true;
+			if (a.contactType == ContactType::POINT && b.contactType == ContactType::EDGE) return false;
+
+			return false;
 		}
 	};
 }

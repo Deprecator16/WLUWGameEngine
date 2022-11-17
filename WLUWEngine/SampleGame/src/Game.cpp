@@ -35,6 +35,7 @@ void WLUW::SampleGame::Game::freeObjects()
 
 void WLUW::SampleGame::Game::update(double deltaTime)
 {
+	/*
 	std::vector<WObject*> newObjects;
 
 	Shape newShape(Vector2(0.0, 0.0));
@@ -69,7 +70,7 @@ void WLUW::SampleGame::Game::update(double deltaTime)
 
 	for (auto& o : newObjects)
 		delete o;
-
+		*/
 
 
 

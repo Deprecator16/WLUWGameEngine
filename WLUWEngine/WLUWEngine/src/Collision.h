@@ -21,86 +21,32 @@ namespace WLUW
         enum CollisionType
         {
             NO_COLLISION = 0,
-            EDGE_EDGE,
-            POINT_EDGE,
-            EDGE_POINT
+            EDGE,
+            POINT
         };
 
-        /*
-        Hitbox* box;
-        Hitbox* otherBox;
-        Vector2 normal;
-        Vector2 point;
-        Vector2 separation;
-        double fraction;
-        bool ignore;
-        // CONTACTS
-        */
-
-        /*
         WObject* object;
         WObject* otherObject;
         Vector2 point;
         Vector2 normal;
-        Vector2 pointOfIntersection;
-        Vector2 distance;
-        double timeOfImpact;
-        double totalDistanceFromEdgeToShape;
-        Direction direction;
-        CollisionType collisionType;
-        */
-
-        WObject* object;
-        WObject* otherObject;
-        Vector2 pointOfIntersection;
-        Vector2 normal;
         Vector2 separation;
         double fraction;
-
-        /*
-        double totalDistanceFromEdgeToShape;
         Direction direction;
         CollisionType collisionType;
-        */
-        
-        /*
-        friend bool operator==(const Collision collision1, const Collision collision2)
-        {
-            return collision1.box == collision2.box &&
-                collision1.otherBox == collision2.otherBox &&
-                collision1.normal == collision2.normal &&
-                collision1.point == collision2.point &&
-                collision1.separation == collision2.separation &&
-
-                collision1.timeOfImpact == collision2.timeOfImpact &&
-                collision1.totalDistanceFromEdgeToShape == collision2.totalDistanceFromEdgeToShape &&
-                collision1.direction == collision2.direction &&
-                collision1.collisionType == collision2.collisionType;
-        }
-        */
-
         
         static bool compare(Collision collision1, Collision collision2)
         {
-            if (collision1.object == nullptr) return false;
-            if (collision2.object == nullptr) return true;
+            if (collision1.collisionType == CollisionType::NO_COLLISION) return false;
+            if (collision1.collisionType == CollisionType::NO_COLLISION) return true;
 
-            return collision1.fraction < collision2.fraction;
-        }
-        
+            if (collision1.fraction < collision2.fraction) return true;
+            if (collision1.fraction > collision2.fraction) return false;
 
-        /*
-        static bool compareCollisionData(const Collision& a, const Collision& b)
-        {
-            if (a.timeOfImpact < b.timeOfImpact) return true;
-            if (a.timeOfImpact > b.timeOfImpact) return false;
-
-            if (a.totalDistanceFromEdgeToShape < b.totalDistanceFromEdgeToShape) return true;
-            if (a.totalDistanceFromEdgeToShape > b.totalDistanceFromEdgeToShape) return false;
+            if (collision1.collisionType == CollisionType::EDGE && collision2.collisionType == CollisionType::POINT) return true;
+            if (collision1.collisionType == CollisionType::POINT && collision2.collisionType == CollisionType::EDGE) return false;
 
             return false;
         }
-        */
     };
 }
 

@@ -113,7 +113,6 @@ void WLUW::SampleGame::Player::render(SDL_Renderer* renderer)
 
 void WLUW::SampleGame::Player::OnCollide(WObject* other, Collision collision)
 {
-	/*
 	// Get direction of collision
 	if (other->getHitbox()->getInertia() == Hitbox::HARD)
 	{
@@ -124,5 +123,4 @@ void WLUW::SampleGame::Player::OnCollide(WObject* other, Collision collision)
 
 		//std::cout << "bottom=" << collideBottom << ", top=" << collideTop << ", left=" << collideLeft << ", right=" << collideRight << std::endl;
 	}
-	*/
 }
