@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDL.h"
-#include "SDL_image.h"
+#include <cmath>
 
-extern SDL_Renderer* globalRenderer;
+const double epsilon = pow(1.0, -5.0);
+

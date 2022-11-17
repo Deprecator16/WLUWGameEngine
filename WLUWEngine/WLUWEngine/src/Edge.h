@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Header.h"
+
 #include "Vector2.h"
 
 namespace WLUW
@@ -95,7 +97,7 @@ namespace WLUW
 
 			double determinant = a1 * b2 - a2 * b1;
 
-			return abs(determinant) < pow(1.0, -8.0);
+			return abs(determinant) < epsilon;
 		}
 
 		/**

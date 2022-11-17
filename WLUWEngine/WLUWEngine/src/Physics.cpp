@@ -10,8 +10,6 @@
 
 using namespace WLUW;
 
-double epsilon = pow(1.0, -8.0);
-
 // Casts an edge and returns all hits
 std::vector<WLUW::WObject*> edgecastAll(std::vector<WObject*> objects, Edge edge, Vector2 direction, double distance)
 {
@@ -85,8 +83,6 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 
 			if (Edge::areParallel(Edge(start, end), edge))
 			{
-				std::cout << "LINES PARALLEL " << start << std::endl;
-
 				if (edge.onSegment(start))
 					pointOfIntersection = start;
 				else
@@ -97,11 +93,13 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 
 			// Determine contact point type
 			ContactPoint::ContactType contactType = ContactPoint::ContactType::EDGE;
-			if (pointOfIntersection  == edge.first|| pointOfIntersection == edge.second)
+			if (pointOfIntersection  == edge.first || pointOfIntersection == edge.second)
 				contactType = ContactPoint::ContactType::POINT;
 
+			Vector2 separation = pointOfIntersection - start;
+
 			// Add to contacts
-			contacts.push_back(ContactPoint(pointOfIntersection, edge.normal().normalized(), pointOfIntersection - start, (pointOfIntersection - start).size() / (end - start).size(), contactType));
+			contacts.push_back(ContactPoint(pointOfIntersection, edge.normal().normalized(), separation, separation.size() / (end - start).size(), contactType));
 		}
 	}
 
@@ -306,8 +304,10 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 	// Sort
 	std::sort(contacts.begin(), contacts.end(), ContactPoint::compare);
 
+	std::cout << "CONTACTS ==================================================" << std::endl;
 	for (auto& contact : contacts)
 	{
+		
 		std::cout <<
 			contacts.size() << " " <<
 			"[point = " << contact.point << "], " <<
@@ -318,6 +318,7 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 			"[pos=" << softObject->getHitbox()->getPos() << "], " <<
 			"[vel=" << softObject->getHitbox()->getVel() << "]" <<
 			std::endl;
+			
 	}
 
 	// Check for edge collisions

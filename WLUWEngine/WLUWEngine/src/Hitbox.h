@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Header.h"
+
 #include "Edge.h"
 #include "Physics.h"
 #include "RaycastHit.h"

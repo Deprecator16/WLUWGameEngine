@@ -120,7 +120,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		// Remove unnecessary collisions
 		for (unsigned int i = 0; i < collisions.size(); ++i)
 		{
-			if (collisions[i].fraction != collisions[0].fraction)
+			if (collisions[i].fraction > collisions[0].fraction)
 			{
 				collisions.erase(collisions.begin() + i);
 				--i;
@@ -152,7 +152,25 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 			collision.otherObject->OnCollide(collision.object, collision);
 		}
 		*/
-				
+
+		std::cout << "COLLISIONS ==================================================" << std::endl;
+		bool posSnapped = (pos == Vector2(600, 332));
+		std::cout << "pos=" << pos << ", (pos == 600, 332)= " << posSnapped << std::endl;
+		for (auto& collision : collisions)
+		{
+			std::cout <<
+				"[numObjectsHit=" << objectsHit.size() << "], " <<
+				"[numCollisions=" << collisions.size() << "], " <<
+				"[collidierPos=" << collision.otherObject->getHitbox()->getPos() << "], " <<
+				"[point=" << collision.point << "], " <<
+				"[normal=" << collision.normal << "], " <<
+				"[separation=" << collision.separation << "], " <<
+				"[fraction=" << collision.fraction << "], " <<
+				"[direction=" << collision.direction << "], " <<
+				"[collisionType=" << collision.collisionType << "], " <<
+				"[vel=" << vel << "]" <<
+				std::endl;
+		}
 
 		// Redirect soft object velocity
 		vel = (vel - collisions[0].separation).projectOntoAxis(collisions[0].normal.normal());
@@ -163,6 +181,11 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 
 		// Move soft box based on min distance
 		pos = pos + collisions[0].separation;
+
+		if (Physics::clips(this, collidables))
+		{
+			std::cout << "Object clips" << std::endl;
+		}
 		
 		/*
 		// Remove all colliders from the next loop
@@ -182,10 +205,5 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		// Stop loop if the soft box isn't moving anymore
 		if (vel == Vector2())
 			break;
-	}
-
-	if (Physics::clips(this, collidables))
-	{
-		std::cout << "Object clips" << std::endl;
 	}
 }

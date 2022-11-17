@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Header.h"
+
 #include <vector>
 #include "ContactPoint.h"
 #include "Edge.h"

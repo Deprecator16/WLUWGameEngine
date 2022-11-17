@@ -7,6 +7,8 @@
  *********************************************************************/
 #pragma once
 
+#include "Header.h"
+
 #include <iostream>
 #include <math.h>
 #include <limits>
@@ -56,7 +58,7 @@ namespace WLUW
 		{
 			double val = (point2.y - point1.y) * (point3.x - point2.x) - (point2.x - point1.x) * (point3.y - point2.y);
 
-			if (abs(val) < pow(1.0, -8.0)) // Make sure to compare to an episilon value (Acceptable error), otherwise the algorithm is buggy
+			if (abs(val) < epsilon) // Make sure to compare to an episilon value (Acceptable error), otherwise the algorithm is buggy
 				return Orientation::COLLINEAR;
 
 			return (val > 0) ? Orientation::CLOCKWISE : Orientation::COUNTERCLOCKWISE;
