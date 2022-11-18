@@ -76,18 +76,16 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 			shape->getPos() + shape->getPoints()[(i + 1) % shape->getPoints().size()]
 		));
 
+		if (Edge::areParallel(Edge(start, end), edge))
+			continue;
+
 		if (Edge::areIntersecting(Edge(start, end), edge))
 		{
 			// Find point of intersection of line with edge
 			Vector2 pointOfIntersection;
 
-			if (Edge::areParallel(Edge(start, end), edge))
-			{
-				if (edge.onSegment(start))
-					pointOfIntersection = start;
-				else
-					continue;
-			}
+			if (edge.onSegment(start))
+				pointOfIntersection = start;
 			else
 				pointOfIntersection = Edge::getPointOfIntersection(Edge(start, end), edge);
 
@@ -97,9 +95,10 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 				contactType = ContactPoint::ContactType::POINT;
 
 			Vector2 separation = pointOfIntersection - start;
+			double fraction = separation.size() / (end - start).size();
 
 			// Add to contacts
-			contacts.push_back(ContactPoint(pointOfIntersection, edge.normal().normalized(), separation, separation.size() / (end - start).size(), contactType));
+			contacts.push_back(ContactPoint(pointOfIntersection, edge.normal().normalized(), separation, fraction, contactType));
 		}
 	}
 

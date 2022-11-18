@@ -97,7 +97,7 @@ namespace WLUW
 
 			double determinant = a1 * b2 - a2 * b1;
 
-			return abs(determinant) < epsilon;
+			return determinant == 0.0;
 		}
 
 		/**

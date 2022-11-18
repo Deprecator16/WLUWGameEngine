@@ -154,8 +154,8 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		*/
 
 		std::cout << "COLLISIONS ==================================================" << std::endl;
-		bool posSnapped = (pos == Vector2(600, 332));
-		std::cout << "pos=" << pos << ", (pos == 600, 332)= " << posSnapped << std::endl;
+		bool posSnapped = (pos - Vector2(600, 332)).size() < epsilon;
+		std::cout << "pos=" << pos << ", (pos == 600, 332)=" << posSnapped << ", exact size=" << (pos - Vector2(600, 332)).size() << std::endl;
 		for (auto& collision : collisions)
 		{
 			std::cout <<
