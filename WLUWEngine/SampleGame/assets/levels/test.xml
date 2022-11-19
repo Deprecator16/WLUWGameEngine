@@ -167,8 +167,8 @@
         <item x="700" y="600">
 			<point x="0" y="0"/>
 			<point x="100" y="0"/>
-			<point x="100" y="200"/>
-			<point x="0" y="200"/>
+			<point x="100" y="100"/>
+			<point x="0" y="100"/>
 		</item>
         <item x="800" y="600">
 			<point x="0" y="0"/>

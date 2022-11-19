@@ -36,6 +36,25 @@ void WLUW::SampleGame::Game::freeObjects()
 void WLUW::SampleGame::Game::update(double deltaTime)
 {
 	/*
+	double dist1 = 10.0;
+	double dist2 = 20.0;
+	Shape newShape1(Vector2(0.0, 0.0));
+	newShape1.addPoint(Vector2(0.0, 0.0));
+	newShape1.addPoint(Vector2(dist1, dist1));
+	newShape1.addPoint(Vector2(dist1, dist1 + 2.0));
+	newShape1.addPoint(Vector2(0.0, 2.0));
+	Shape newShape2(Vector2(-2.0, 0.0));
+	newShape2.addPoint(Vector2(0.0, 0.0));
+	newShape2.addPoint(Vector2(dist2, dist2));
+	newShape2.addPoint(Vector2(0.0, dist2));
+	std::pair<Vector2, double> mtv = Shape::checkCollision(newShape1, newShape2);
+	if (mtv.second != 0.0) // No collision
+		std::cout << "COLLIISION DETECTED: " << mtv.first << " " << mtv.second << std::endl;
+	else
+		std::cout << "ALL GOOD" << std::endl;
+		*/
+
+	/*
 	std::vector<WObject*> newObjects;
 
 	Shape newShape(Vector2(0.0, 0.0));
@@ -73,7 +92,9 @@ void WLUW::SampleGame::Game::update(double deltaTime)
 		*/
 
 
+	std::cout << "NEW FRAME ====================================================================================================" << std::endl;
 
+	
 	// Update all objects
 	for (auto& o : objects)
 		o->update(deltaTime);
@@ -84,7 +105,9 @@ void WLUW::SampleGame::Game::update(double deltaTime)
 
 	// Move all objects
 	for (auto& o : objects)
-		o->getHitbox()->move(deltaTime);
+		o->getHitbox()->move(objects, deltaTime);
+		//o->getHitbox()->move(deltaTime);
+		
 }
 
 void WLUW::SampleGame::Game::render(SDL_Renderer* renderer)

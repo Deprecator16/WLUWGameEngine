@@ -154,8 +154,6 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		*/
 
 		std::cout << "COLLISIONS ==================================================" << std::endl;
-		bool posSnapped = (pos - Vector2(600, 332)).size() < epsilon;
-		std::cout << "pos=" << pos << ", (pos == 600, 332)=" << posSnapped << ", exact size=" << (pos - Vector2(600, 332)).size() << std::endl;
 		for (auto& collision : collisions)
 		{
 			std::cout <<
@@ -165,6 +163,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 				"[point=" << collision.point << "], " <<
 				"[normal=" << collision.normal << "], " <<
 				"[separation=" << collision.separation << "], " <<
+				"[separationSize=" << collision.separation.size() << "], " <<
 				"[fraction=" << collision.fraction << "], " <<
 				"[direction=" << collision.direction << "], " <<
 				"[collisionType=" << collision.collisionType << "], " <<
@@ -173,7 +172,8 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		}
 
 		// Redirect soft object velocity
-		vel = (vel - collisions[0].separation).projectOntoAxis(collisions[0].normal.normal());
+		vel = vel.projectOntoAxis(collisions[0].normal.normal());
+		//vel = (vel - (collisions[0].separation / deltaTime)).projectOntoAxis(collisions[0].normal.normal());
 
 		// Trigger OnCollide callbacks
 		collisions[0].object->OnCollide(collisions[0].otherObject, collisions[0]);
@@ -182,9 +182,11 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		// Move soft box based on min distance
 		pos = pos + collisions[0].separation;
 
+
+
 		if (Physics::clips(this, collidables))
 		{
-			std::cout << "Object clips" << std::endl;
+			std::cout << "Object clips during solving loop" << std::endl;
 		}
 		
 		/*
@@ -205,5 +207,44 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 		// Stop loop if the soft box isn't moving anymore
 		if (vel == Vector2())
 			break;
+	}
+
+	if (Physics::clips(this, collidables))
+	{
+		std::cout << "Object clips after solving loop" << std::endl;
+	}
+
+	bool xyEqual = (vel.x == vel.y) || (vel.x == -vel.y);
+	std::cout << "vel after solving loop: " << vel << ", vel.x == vel.y: " << xyEqual << std::endl;
+}
+
+void WLUW::Hitbox::move(std::vector<WObject*> objects, double deltaTime)
+{
+	if (inertia == Inertia::HARD)
+		return;
+
+	// Remove self from collidable objects
+	std::vector<WObject*> collidables = objects;
+	for (unsigned int i = 0; i < objects.size(); ++i)
+	{
+		if (objects[i]->getHitbox() == this)
+		{
+			collidables.erase(collidables.begin() + i);
+			break;
+		}
+	}
+
+	if (Physics::clips(this, collidables))
+	{
+		std::cout << "Object clips before movement" << std::endl;
+	}
+
+
+	pos = pos + (vel * deltaTime);
+
+
+	if (Physics::clips(this, collidables))
+	{
+		std::cout << "Object clips after movement" << std::endl;
 	}
 }

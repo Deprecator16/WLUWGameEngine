@@ -140,7 +140,7 @@ std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape*
 
 			// Test current point
 			if (Edge(softPoint, softPoint + (direction * distance)).onSegment(testPoint) ||
-				(testPoint - softPoint).size() < epsilon || (testPoint - (softPoint + (direction * distance))).size() < epsilon)
+				testPoint == softPoint || testPoint == (softPoint + (direction * distance)))
 			{
 				validPoint = false;
 				break;
@@ -151,8 +151,8 @@ std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape*
 
 			// Test current edge
 			if (Edge::areIntersecting(testEdge, Edge(softPoint, softPoint + (direction * distance))) ||
-				(testEdge.first - softPoint).size() < epsilon || (testEdge.first - (softPoint + (direction * distance))).size() < epsilon ||
-				(testEdge.second - softPoint).size() < epsilon || (testEdge.second - (softPoint + (direction * distance))).size() < epsilon)
+				testEdge.first == softPoint || testEdge.first == (softPoint + (direction * distance)) ||
+				testEdge.second == softPoint || testEdge.second == (softPoint + (direction * distance)))
 			{
 				validPoint = false;
 				break;
@@ -404,6 +404,8 @@ bool WLUW::Physics::clips(Hitbox* softBox, std::vector<WObject*> objects)
 		std::pair<Vector2, double> mtv = Shape::checkCollision(*softBox, *obj->getHitbox());
 		if (mtv.second == 0) // No collision
 			continue;
+
+		std::cout << "Object clips in direction: " << mtv.first << " by: " << mtv.second << std::endl;
 
 		//softBox->setPos(softBox->getPos() + (mtv.first * mtv.second));
 

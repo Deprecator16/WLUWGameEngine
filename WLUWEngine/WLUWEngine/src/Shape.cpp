@@ -6,6 +6,8 @@
  * \date   January 2022
  *********************************************************************/
 
+#include "Header.h"
+
 #include <iostream>
 #include <algorithm>
 #include <limits>
@@ -82,8 +84,10 @@ bool WLUW::operator==(const Shape& lhs, const Shape& rhs)
  */
 bool isOverlapping(Proj a, Proj b)
 {
+    //if ((b.first - a.second) > epsilon || (a.first - b.second) > epsilon)
     if (b.first > a.second || a.first > b.second)
         return false;
+
     return true;
 }
 
@@ -96,10 +100,12 @@ bool isOverlapping(Proj a, Proj b)
  */
 double getOverlap(Proj a, Proj b)
 {
+    //if ((b.first - a.second) > epsilon || (a.first - b.second) > epsilon)
     if (b.first > a.second || a.first > b.second)
     {
         throw("Proj a and b are not overlapping! Use isOverlapping() to assert that they overlap before calling getOverlap()");
-        return std::numeric_limits<double>::quiet_NaN();
+        //return std::numeric_limits<double>::quiet_NaN();
+        return 0.0;
     }
 
     double start = std::max(a.first, b.first);
