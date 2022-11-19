@@ -10,8 +10,40 @@
 
 using namespace WLUW;
 
+bool isOverlapping(Vector2 a, Vector2 b)
+{
+	if (b.x > a.y || a.x > b.y)
+		return false;
+	return true;
+}
+
+bool WLUW::Physics::checkCollision(Shape& shape1, Shape& shape2)
+{
+	std::vector<Vector2> axes1 = shape1.getAxes();
+	std::vector<Vector2> axes2 = shape2.getAxes();
+
+	for (unsigned int i = 0; i < axes1.size(); ++i)
+	{
+		Vector2 proj1 = shape1.projectPolygon(axes1[i]);
+		Vector2 proj2 = shape2.projectPolygon(axes1[i]);
+
+		if (!isOverlapping(proj1, proj2))
+			return false;
+	}
+	for (unsigned int i = 0; i < axes2.size(); ++i)
+	{
+		Vector2 proj1 = shape1.projectPolygon(axes2[i]);
+		Vector2 proj2 = shape2.projectPolygon(axes2[i]);
+
+		if (!isOverlapping(proj1, proj2))
+			return false;
+	}
+
+	return true;
+}
+
 // Casts an edge and returns all hits
-std::vector<WLUW::WObject*> edgecastAll(std::vector<WObject*> objects, Edge edge, Vector2 direction, double distance)
+std::vector<WLUW::WObject*> edgecastAll(std::vector<WObject*> objects, Edge edge, Vector2 direction, float distance)
 {
 	std::vector<WObject*> objectsHit;
 
@@ -27,19 +59,29 @@ std::vector<WLUW::WObject*> edgecastAll(std::vector<WObject*> objects, Edge edge
 		bool collisionDetected = false;
 
 		// Check if object overlaps with edgecastShape
-		std::pair<Vector2, double> mtv = Shape::checkCollision(*object->getHitbox(), edgecastShape);
+		std::pair<Vector2, float> mtv = Shape::checkCollision(*object->getHitbox(), edgecastShape);
 
 		if (mtv.second != 0) // Collision detected
 			collisionDetected = true;
 
 		if (collisionDetected)
 			objectsHit.push_back(object);
+
+		if (object->getHitbox()->getPos() == Vector2(800, 600))
+		{
+			std::cout << "intersectionSize=" << mtv.second << std::endl;
+
+			for (auto& p : edgecastShape.getPoints())
+			{
+				std::cout << edgecastShape.getPos() + p << std::endl;
+			}
+		}
 	}
 	return objectsHit;
 }
 
 // Casts a shape and returns all hits
-std::vector<WLUW::WObject*> WLUW::Physics::shapecastAll(std::vector<WObject*> objects, Shape shape, Vector2 direction, double distance)
+std::vector<WLUW::WObject*> WLUW::Physics::shapecastAll(std::vector<WObject*> objects, Shape shape, Vector2 direction, float distance)
 {
 	std::vector<WObject*> objectsHit;
 
@@ -95,7 +137,7 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 				contactType = ContactPoint::ContactType::POINT;
 
 			Vector2 separation = pointOfIntersection - start;
-			double fraction = separation.size() / (end - start).size();
+			float fraction = separation.size() / (end - start).size();
 
 			// Add to contacts
 			contacts.push_back(ContactPoint(pointOfIntersection, edge.normal().normalized(), separation, fraction, contactType));
@@ -116,7 +158,7 @@ ContactPoint linecastContact(Shape* shape, Vector2 start, Vector2 end)
 	return contacts[0];
 }
 
-std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape* hardBox, Vector2 direction, double distance)
+std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape* hardBox, Vector2 direction, float distance)
 {
 	std::vector<ContactPoint> contacts;
 
@@ -289,7 +331,7 @@ Collision::Direction getDirectionOfImpact(Hitbox* box, Vector2 point, Vector2 no
 	return direction;
 }
 
-Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObject, double deltaTime)
+Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObject, float deltaTime)
 {
 	std::vector<ContactPoint> contacts = getContactPoints(softObject->getHitbox(), hardObject->getHitbox(), softObject->getHitbox()->getVel().normalized(), softObject->getHitbox()->getVel().size() * deltaTime);
 
@@ -401,7 +443,7 @@ bool WLUW::Physics::clips(Hitbox* softBox, std::vector<WObject*> objects)
 	for (auto& obj : objects)
 	{
 		// Check if a collision occurs
-		std::pair<Vector2, double> mtv = Shape::checkCollision(*softBox, *obj->getHitbox());
+		std::pair<Vector2, float> mtv = Shape::checkCollision(*softBox, *obj->getHitbox());
 		if (mtv.second == 0) // No collision
 			continue;
 

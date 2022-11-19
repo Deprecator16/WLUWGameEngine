@@ -33,11 +33,11 @@ void WLUW::SampleGame::Game::freeObjects()
 		delete o;
 }
 
-void WLUW::SampleGame::Game::update(double deltaTime)
+void WLUW::SampleGame::Game::update(float deltaTime)
 {
 	/*
-	double dist1 = 10.0;
-	double dist2 = 20.0;
+	float dist1 = 10.0;
+	float dist2 = 20.0;
 	Shape newShape1(Vector2(0.0, 0.0));
 	newShape1.addPoint(Vector2(0.0, 0.0));
 	newShape1.addPoint(Vector2(dist1, dist1));
@@ -47,7 +47,7 @@ void WLUW::SampleGame::Game::update(double deltaTime)
 	newShape2.addPoint(Vector2(0.0, 0.0));
 	newShape2.addPoint(Vector2(dist2, dist2));
 	newShape2.addPoint(Vector2(0.0, dist2));
-	std::pair<Vector2, double> mtv = Shape::checkCollision(newShape1, newShape2);
+	std::pair<Vector2, float> mtv = Shape::checkCollision(newShape1, newShape2);
 	if (mtv.second != 0.0) // No collision
 		std::cout << "COLLIISION DETECTED: " << mtv.first << " " << mtv.second << std::endl;
 	else
@@ -94,7 +94,6 @@ void WLUW::SampleGame::Game::update(double deltaTime)
 
 	std::cout << "NEW FRAME ====================================================================================================" << std::endl;
 
-	
 	// Update all objects
 	for (auto& o : objects)
 		o->update(deltaTime);
@@ -107,7 +106,6 @@ void WLUW::SampleGame::Game::update(double deltaTime)
 	for (auto& o : objects)
 		o->getHitbox()->move(objects, deltaTime);
 		//o->getHitbox()->move(deltaTime);
-		
 }
 
 void WLUW::SampleGame::Game::render(SDL_Renderer* renderer)
@@ -163,10 +161,10 @@ bool WLUW::SampleGame::Game::loadGame()
 	}
 	// Min
 	item = ele->FirstChildElement("min");
-	item->QueryDoubleAttribute("x", cameraMin);
+	item->QueryFloatAttribute("x", cameraMin);
 	// Max
 	item = ele->FirstChildElement("max");
-	item->QueryDoubleAttribute("x", cameraMax);
+	item->QueryFloatAttribute("x", cameraMax);
 	*/
 
 	// Load player
@@ -181,8 +179,8 @@ bool WLUW::SampleGame::Game::loadGame()
 	Player* player = new Player(inputManager);
 
 	item = ele->FirstChildElement("item");
-	item->QueryDoubleAttribute("x", &(pos.x));
-	item->QueryDoubleAttribute("y", &(pos.y));
+	item->QueryFloatAttribute("x", &(pos.x));
+	item->QueryFloatAttribute("y", &(pos.y));
 
 	player->setPos(pos);
 	objects.push_back(player);
@@ -205,8 +203,8 @@ bool WLUW::SampleGame::Game::loadGame()
 
 		// Read shape data from file
 		// Get position
-		item->QueryDoubleAttribute("x", &(pos.x));
-		item->QueryDoubleAttribute("y", &(pos.y));
+		item->QueryFloatAttribute("x", &(pos.x));
+		item->QueryFloatAttribute("y", &(pos.y));
 		newHitbox.setPos(pos);
 
 		// Get points
@@ -214,8 +212,8 @@ bool WLUW::SampleGame::Game::loadGame()
 		while (point != nullptr)
 		{
 			// Read point data from file
-			point->QueryDoubleAttribute("x", &(pos.x));
-			point->QueryDoubleAttribute("y", &(pos.y));
+			point->QueryFloatAttribute("x", &(pos.x));
+			point->QueryFloatAttribute("y", &(pos.y));
 			newHitbox.addPoint(pos);
 
 			// Go to next node

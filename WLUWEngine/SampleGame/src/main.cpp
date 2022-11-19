@@ -98,8 +98,8 @@ int main(int argc, char** argv)
 
 	// Initialize timer
 	WTimer timer;
-	double deltaTime = 0.0;
-	double timeElapsed = 0.0;
+	float deltaTime = 0.0;
+	float timeElapsed = 0.0;
 	unsigned int framerate = 0;
 
 	// Initialize input manager

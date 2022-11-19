@@ -19,8 +19,8 @@ using namespace WLUW;
 
 // Aliases
 using Axis = Vector2;
-using Proj = std::pair<double, double>;
-using MTV = std::pair<Vector2, double>;
+using Proj = std::pair<float, float>;
+using MTV = std::pair<Vector2, float>;
 
 WLUW::Shape::Shape(Vector2 pos)
     : type(ShapeType::POLYGON), radius(0.f), pos(pos)
@@ -40,7 +40,7 @@ WLUW::Shape::Shape(std::vector<Vector2>& points, Vector2 pos)
     points.erase(points.begin(), points.end());
 }
 
-WLUW::Shape::Shape(double radius, Vector2 pos) : type(ShapeType::CIRCLE), radius(radius)
+WLUW::Shape::Shape(float radius, Vector2 pos) : type(ShapeType::CIRCLE), radius(radius)
 {
 }
 
@@ -98,18 +98,18 @@ bool isOverlapping(Proj a, Proj b)
  * \param b second range/projection
  * \return length of the union of a and b, or NaN if no overlap
  */
-double getOverlap(Proj a, Proj b)
+float getOverlap(Proj a, Proj b)
 {
     //if ((b.first - a.second) > epsilon || (a.first - b.second) > epsilon)
     if (b.first > a.second || a.first > b.second)
     {
         throw("Proj a and b are not overlapping! Use isOverlapping() to assert that they overlap before calling getOverlap()");
-        //return std::numeric_limits<double>::quiet_NaN();
+        //return std::numeric_limits<float>::quiet_NaN();
         return 0.0;
     }
 
-    double start = std::max(a.first, b.first);
-    double end = std::min(a.second, b.second);
+    float start = std::max(a.first, b.first);
+    float end = std::min(a.second, b.second);
 
     return end - start;
 }
@@ -126,7 +126,7 @@ Axis calcCircleToCircleCollisionAxis(const Shape& a, const Shape& b)
     if (a.getShapeType() != ShapeType::CIRCLE || b.getShapeType() != ShapeType::CIRCLE)
     {
         throw("Atleast one of the shapes was not a circle");
-        return Axis(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
+        return Axis(std::numeric_limits<float>::quiet_NaN(), std::numeric_limits<float>::quiet_NaN());
     }
 
     return a.getPos() - b.getPos();
@@ -166,7 +166,7 @@ std::vector<Axis> calcCircleToPolygonCollisionAxis(const Shape& circle, const Sh
 
 MTV WLUW::Shape::checkCollision(const Shape& a, const Shape& b)
 {
-    double mtvOverlap = std::numeric_limits<double>::max();
+    float mtvOverlap = std::numeric_limits<float>::max();
     Axis mtvAxis;
     std::vector<Axis> allAxes, axes1, axes2;
 
@@ -229,7 +229,7 @@ MTV WLUW::Shape::checkCollision(const Shape& a, const Shape& b)
             return MTV(Axis(0, 0), 0);
 
         // Get overlapping distance
-        double overlap = getOverlap(p1, p2);
+        float overlap = getOverlap(p1, p2);
 
         // Check for minimum
         // We want to return the smallest overlap length
@@ -297,16 +297,16 @@ Proj WLUW::Shape::projectOntoAxis(Vector2 axis) const
         if (this->points.size() <= 0)
         {
             throw("Not enough points");
-            return std::make_pair(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN());
+            return std::make_pair(std::numeric_limits<float>::quiet_NaN(), std::numeric_limits<float>::quiet_NaN());
         }
 
         // Project the points onto the axis and keep the min and max points along the axis
-        double min = axis.dot(this->points[0] + this->pos);
-        double max = min;
+        float min = axis.dot(this->points[0] + this->pos);
+        float max = min;
 
         for (int i = 1; i < this->points.size(); i++)
         {
-            double p = axis.dot(this->points[i] + this->pos);
+            float p = axis.dot(this->points[i] + this->pos);
             if (p < min)
                 min = p;
             else if (p > max)
@@ -319,8 +319,8 @@ Proj WLUW::Shape::projectOntoAxis(Vector2 axis) const
     else
     {
         // Project either end of the circle onto the axis
-        double min = axis.dot(this->pos + axis * this->radius);
-        double max = axis.dot(this->pos - axis * this->radius);
+        float min = axis.dot(this->pos + axis * this->radius);
+        float max = axis.dot(this->pos - axis * this->radius);
 
         if (min > max) std::swap(min, max); // Swap if min is larger
 
@@ -402,3 +402,41 @@ Vector2 WLUW::Shape::getCenter()
 
     return (pos + center);
 }
+
+
+
+
+
+
+std::vector<Vector2> WLUW::Shape::getAxes()
+{
+    // Check if we have less than 3 points in shape
+    if (points.size() < 3)
+        return std::vector<Vector2>();
+
+    std::vector<Vector2> axes;
+
+    // Get all normals
+    for (unsigned int i = 0; i < points.size(); ++i)
+        axes.push_back((points[(i + 1) % points.size()] - points[i]).normal().normalized());
+
+    return axes;
+}
+
+
+
+Vector2 WLUW::Shape::projectPolygon(Vector2 axis)
+{
+    float min = axis.dot(points[0]);
+    float max = min;
+    for (unsigned int i = 1; i < points.size(); ++i)
+    {
+        // NOTE: the axis must be normalized to get accurate projections
+        float p = axis.dot(points[i]);
+        min = std::min(p, min);
+        max = std::max(p, max);
+    }
+    return Vector2(min, max);
+}
+
+

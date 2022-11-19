@@ -47,9 +47,9 @@ namespace WLUW
         }
 
         // Updaters
-        void handleCollisions(std::vector<WObject*> objects, double deltaTime);
-        //void move(double deltaTime) { pos = pos + (vel * deltaTime); }
-        void move(std::vector<WObject*> objects, double deltaTime);
+        void handleCollisions(std::vector<WObject*> objects, float deltaTime);
+        //void move(float deltaTime) { pos = pos + (vel * deltaTime); }
+        void move(std::vector<WObject*> objects, float deltaTime);
 
         // Getters
         Vector2 getVel() { return vel; }

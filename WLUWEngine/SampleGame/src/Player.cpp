@@ -31,7 +31,7 @@ WLUW::SampleGame::Player::Player(InputManager* inputManager) :
 	this->collideBottom = false;
 }
 
-void WLUW::SampleGame::Player::update(double deltaTime)
+void WLUW::SampleGame::Player::update(float deltaTime)
 {
 	// Get hitbox vel
 	tmpVel = hitbox.getVel();
@@ -55,7 +55,7 @@ void WLUW::SampleGame::Player::update(double deltaTime)
 	//std::cout << deltaTime << std::endl;
 }
 
-void WLUW::SampleGame::Player::handleInput(double deltaTime)
+void WLUW::SampleGame::Player::handleInput(float deltaTime)
 {
 	// A, D
 	if (inputManager->getKey(SDLK_a) && !collideLeft)
@@ -69,7 +69,7 @@ void WLUW::SampleGame::Player::handleInput(double deltaTime)
 		tmpVel.y = -1024.0f * jumpHeight;
 }
 
-void WLUW::SampleGame::Player::doPhysics(double deltaTime)
+void WLUW::SampleGame::Player::doPhysics(float deltaTime)
 {
 	// Decrease X velocity
 	if ((!inputManager->getKey(SDLK_a) && !inputManager->getKey(SDLK_d)) ||
@@ -94,8 +94,8 @@ void WLUW::SampleGame::Player::doPhysics(double deltaTime)
 		tmpVel.y += gravity * deltaTime; // Fixes unsmooth ramp collisions
 
 	// Restrict maximum speed
-	tmpVel.x = std::clamp(tmpVel.x, -512.0, 512.0);
-	tmpVel.y = std::min(1024.0, tmpVel.y);
+	tmpVel.x = std::clamp(tmpVel.x, -512.0f, 512.0f);
+	tmpVel.y = std::min(1024.0f, tmpVel.y);
 }
 
 void WLUW::SampleGame::Player::render(SDL_Renderer* renderer)

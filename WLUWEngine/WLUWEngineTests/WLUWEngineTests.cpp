@@ -23,8 +23,8 @@ namespace WLUWEngineTests
 		}
 		TEST_METHOD(FloatConstructor_T)
 		{
-			double x = -0.73f;
-			double y = 9.383f;
+			float x = -0.73f;
+			float y = 9.383f;
 			WLUW::Vector2 v(x, y);
 			Assert::AreEqual(x, v.x);
 			Assert::AreEqual(y, v.y);
@@ -33,8 +33,8 @@ namespace WLUWEngineTests
 		TEST_METHOD(size_T)
 		{
 			WLUW::Vector2 v(-0.73, 9.383);
-			double size = v.size();
-			double squareroot = sqrt(pow(v.x, 2.0) + pow(v.y, 2.0));
+			float size = v.size();
+			float squareroot = sqrt(pow(v.x, 2.0) + pow(v.y, 2.0));
 
 			Assert::AreEqual(size, squareroot);
 		}
@@ -51,7 +51,7 @@ namespace WLUWEngineTests
 		TEST_METHOD(AdditionWithFloatOperator_T)
 		{
 			WLUW::Vector2 v(-0.73f, 9.383f);
-			double a = 3.7f;
+			float a = 3.7f;
 			WLUW::Vector2 comparator(v.x + a, v.y + a);
 
 			Assert::AreEqual(v + a, comparator);
@@ -69,7 +69,7 @@ namespace WLUWEngineTests
 		TEST_METHOD(SubtractionWithFloatOperator_T)
 		{
 			WLUW::Vector2 v(-0.73f, 9.383f);
-			double a = 3.7f;
+			float a = 3.7f;
 			WLUW::Vector2 comparator(v.x - a, v.y - a);
 
 			Assert::AreEqual(v - a, comparator);
@@ -87,7 +87,7 @@ namespace WLUWEngineTests
 		TEST_METHOD(MultiplicationWithFloatOperator_T)
 		{
 			WLUW::Vector2 v(-0.73f, 9.383f);
-			double a = 3.7f;
+			float a = 3.7f;
 			WLUW::Vector2 comparator(v.x * a, v.y * a);
 
 			Assert::AreEqual(v * a, comparator);
@@ -105,7 +105,7 @@ namespace WLUWEngineTests
 		TEST_METHOD(DivisionWithFloatOperator_T)
 		{
 			WLUW::Vector2 v(-0.73f, 9.383f);
-			double a = 3.7f;
+			float a = 3.7f;
 			WLUW::Vector2 comparator(v.x / a, v.y / a);
 
 			Assert::AreEqual(v / a, comparator);

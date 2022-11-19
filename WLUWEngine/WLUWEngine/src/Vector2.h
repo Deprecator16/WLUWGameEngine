@@ -27,15 +27,15 @@ namespace WLUW
 
 		// Constructors
 		Vector2() { x = 0.0; y = 0.0; }
-		Vector2(double x, double y) { this->x = x; this->y = y; }
+		Vector2(float x, float y) { this->x = x; this->y = y; }
 
 		// Core variables
-		double x;
-		double y;
+		float x;
+		float y;
 
 		// Helper functions
-		double size() const { return sqrt(pow(this->x, 2.0) + pow(this->y, 2.0)); }
-		double dot(Vector2 v) const { return this->x * v.x + this->y * v.y; }
+		float size() const { return sqrt(pow(this->x, 2.0) + pow(this->y, 2.0)); }
+		float dot(Vector2 v) const { return this->x * v.x + this->y * v.y; }
 		Vector2 normal() const { return Vector2(-this->y, this->x); }
 		Vector2 normalized() const
 		{
@@ -56,7 +56,7 @@ namespace WLUW
 		 */
 		static Orientation getOrientation(Vector2 point1, Vector2 point2, Vector2 point3)
 		{
-			double val = (point2.y - point1.y) * (point3.x - point2.x) - (point2.x - point1.x) * (point3.y - point2.y);
+			float val = (point2.y - point1.y) * (point3.x - point2.x) - (point2.x - point1.x) * (point3.y - point2.y);
 
 			if (abs(val) < epsilon) // Make sure to compare to an episilon value (Acceptable error), otherwise the algorithm is buggy
 				return Orientation::COLLINEAR;
@@ -67,20 +67,20 @@ namespace WLUW
 		// Overloads
 		// Addition
 		friend Vector2 operator+(const Vector2 vec1, const Vector2 vec2) { return Vector2(vec1.x + vec2.x, vec1.y + vec2.y); }
-		friend Vector2 operator+(const Vector2 vec, const double scalar) { return Vector2(vec.x + scalar, vec.y + scalar); }
+		friend Vector2 operator+(const Vector2 vec, const float scalar) { return Vector2(vec.x + scalar, vec.y + scalar); }
 		Vector2& operator+=(const Vector2& other) { this->x += other.x; this->y += other.y; return *this; }
-		Vector2& operator+=(const double& scalar) { this->x += scalar; this->y += scalar; return *this; }
+		Vector2& operator+=(const float& scalar) { this->x += scalar; this->y += scalar; return *this; }
 
 		// Subtraction
 		friend Vector2 operator-(const Vector2 vec1, const Vector2 vec2) { return vec1 + (-vec2); }
-		friend Vector2 operator-(const Vector2 vec, const double scalar) { return Vector2(vec.x - scalar, vec.y - scalar); }
+		friend Vector2 operator-(const Vector2 vec, const float scalar) { return Vector2(vec.x - scalar, vec.y - scalar); }
 		Vector2& operator-=(const Vector2& other) { this->x -= other.x; this->y -= other.y; return *this; }
-		Vector2& operator-=(const double& scalar) { this->x -= scalar; this->y -= scalar; return *this; }
+		Vector2& operator-=(const float& scalar) { this->x -= scalar; this->y -= scalar; return *this; }
 
 		// Multiplication
 		friend Vector2 operator*(const Vector2 vec1, const Vector2 vec2) { return Vector2(vec1.x * vec2.x, vec1.y * vec2.y); }
-		friend Vector2 operator*(const Vector2 vec, const double scalar) { return Vector2(vec.x * scalar, vec.y * scalar); }
-		Vector2& operator*=(const double& scalar) { this->x *= scalar; this->y *= scalar; return *this; }
+		friend Vector2 operator*(const Vector2 vec, const float scalar) { return Vector2(vec.x * scalar, vec.y * scalar); }
+		Vector2& operator*=(const float& scalar) { this->x *= scalar; this->y *= scalar; return *this; }
 
 		// Division
 		friend Vector2 operator/(const Vector2 vec1, const Vector2 vec2)
@@ -93,13 +93,13 @@ namespace WLUW
 				return Vector2(vec1.x / vec2.x, 0.0);
 			return Vector2(vec1.x / vec2.x, vec1.y / vec2.y);
 		}
-		friend Vector2 operator/(const Vector2 vec, const double scalar)
+		friend Vector2 operator/(const Vector2 vec, const float scalar)
 		{
 			if (scalar == 0.0)
 				throw("Division by zero");
 			return Vector2(vec.x / scalar, vec.y / scalar);
 		}
-		Vector2& operator/=(const double& scalar)
+		Vector2& operator/=(const float& scalar)
 		{
 			if (scalar == 0.0)
 				throw("Division by zero");
@@ -115,7 +115,7 @@ namespace WLUW
 		friend bool operator==(const Vector2 vec1, const Vector2 vec2) { return vec1.x == vec2.x && vec1.y == vec2.y; }
 
 		// Index
-		double& operator[](int index)
+		float& operator[](int index)
 		{
 			if (index > 1 || index < 0)
 			{
@@ -125,7 +125,7 @@ namespace WLUW
 			if (index == 0) return x;
 			else return y;
 		}
-		const double& operator[](int index) const
+		const float& operator[](int index) const
 		{
 			if (index > 1 || index < 0)
 			{

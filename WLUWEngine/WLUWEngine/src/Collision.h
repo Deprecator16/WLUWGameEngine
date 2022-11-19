@@ -30,7 +30,7 @@ namespace WLUW
         Vector2 point;
         Vector2 normal;
         Vector2 separation;
-        double fraction;
+        float fraction;
         Direction direction;
         CollisionType collisionType;
         

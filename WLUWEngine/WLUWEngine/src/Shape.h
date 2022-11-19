@@ -63,7 +63,7 @@ namespace WLUW
 		 * \param radius radius of circle to create
 		 * \param pos position of circle
 		 */
-		Shape(double radius, Vector2 pos = Vector2());
+		Shape(float radius, Vector2 pos = Vector2());
 
 		/**
 		 * \brief Constructor for a shape with only the type defined
@@ -106,7 +106,7 @@ namespace WLUW
 		 * \param b Second shape
 		 * \return The MTV containing the axis with the minimum translation distance and the distance
 		 */
-		static std::pair<Vector2, double> checkCollision(const Shape& a, const Shape& b);
+		static std::pair<Vector2, float> checkCollision(const Shape& a, const Shape& b);
 
 		/**
 		 * \brief Calculate the normals of the edges of the shape and swap them into this->points
@@ -117,9 +117,9 @@ namespace WLUW
 		 * \brief Gets projection of shape onto an axis
 		 *
 		 * \param axis axis to project shape on to
-		 * \return pair of doubles representing the min and max of the projection
+		 * \return pair of floats representing the min and max of the projection
 		 */
-		std::pair<double, double> projectOntoAxis(Vector2 axis) const;
+		std::pair<float, float> projectOntoAxis(Vector2 axis) const;
 
 		/**
 		 * \brief Equality check
@@ -183,7 +183,7 @@ namespace WLUW
 		Vector2 getPos() const { return pos; };
 		
 		/**\return radius, if type is circle */
-		double getRadius() const { return radius; };
+		float getRadius() const { return radius; };
 
 		/**\return points defining polygon */
 		std::vector<Vector2> const& getPoints() const { return points; };
@@ -200,10 +200,18 @@ namespace WLUW
 
 		void setPos(Vector2 pos) { this->pos = pos; }
 
+
+
+		std::vector<Vector2> getAxes();
+		Vector2 projectPolygon(Vector2 axis);
+
+
+
+
 	protected:
 		ShapeType type;					/* Type of shape */
 		Vector2 pos;					/* Position of shape */
-		double radius;					/* Radius, if shape is circle */
+		float radius;					/* Radius, if shape is circle */
 		std::vector<Vector2> points;	/* Points defining polygon */
 		std::vector<Vector2> normals;	/* List of unique normal vectors for every edge */
 	};

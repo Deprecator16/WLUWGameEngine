@@ -16,7 +16,7 @@ public:
         startTime = timer::now();
     }
 
-    double elapsed() const
+    float elapsed() const
     {
         return std::chrono::duration_cast<second>
             (timer::now() - startTime).count();
@@ -24,6 +24,6 @@ public:
 
 private:
     typedef std::chrono::high_resolution_clock timer;
-    typedef std::chrono::duration<double, std::ratio<1> > second;
+    typedef std::chrono::duration<float, std::ratio<1> > second;
     std::chrono::time_point<timer> startTime;
 };

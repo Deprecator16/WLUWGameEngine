@@ -1,6 +1,6 @@
 #include "WAudioController.h"
 
-WAudioController::WAudioController(double sVolume, double mVolume) :
+WAudioController::WAudioController(float sVolume, float mVolume) :
 	sfxVolume(sVolume),
 	musicVolume(mVolume)
 {
@@ -128,12 +128,12 @@ Mix_Music* WAudioController::getMusic(string key)
 
 /**
 * Set volume of SFX
-* @param volume New volume to set, as double from 0 to 1
+* @param volume New volume to set, as float from 0 to 1
 * @return Previous volume
 */
-double WAudioController::setSfxVolume(double volume)
+float WAudioController::setSfxVolume(float volume)
 {
-	double prev = sfxVolume; //Old volume
+	float prev = sfxVolume; //Old volume
 
 	//Keep volume within bounds of 0 to 1
 	if (volume < 0.0f)
@@ -143,7 +143,7 @@ double WAudioController::setSfxVolume(double volume)
 
 	sfxVolume = volume; //Set volume
 
-	//Convert from double to integral fraction of MIX_MAX_VOLUME, max volume defined by SDL_Mixer
+	//Convert from float to integral fraction of MIX_MAX_VOLUME, max volume defined by SDL_Mixer
 	int vol = roundf(MIX_MAX_VOLUME * volume);
 	Mix_Volume(-1, vol); //Set volume of all channels
 
@@ -152,12 +152,12 @@ double WAudioController::setSfxVolume(double volume)
 
 /**
 * Set volume of music
-* @param volume New volume to set, as double from 0 to 1
+* @param volume New volume to set, as float from 0 to 1
 * @return Previous volume
 */
-double WAudioController::setMusicVolume(double volume)
+float WAudioController::setMusicVolume(float volume)
 {
-	double prev = musicVolume; //Old volume
+	float prev = musicVolume; //Old volume
 
 	//Keep volume within bounds of 0 to 1
 	if (volume < 0.0f)
@@ -167,7 +167,7 @@ double WAudioController::setMusicVolume(double volume)
 
 	musicVolume = volume; //Set volume
 
-	//Convert from double to integral fraction of MIX_MAX_VOLUME(128), max volume defined by SDL_Mixer
+	//Convert from float to integral fraction of MIX_MAX_VOLUME(128), max volume defined by SDL_Mixer
 	int vol = roundf(MIX_MAX_VOLUME * volume);
 	Mix_VolumeMusic(vol); //Set volume of all channels
 
@@ -176,18 +176,18 @@ double WAudioController::setMusicVolume(double volume)
 
 /**
 * Get sfx volume
-* @return SFX volume as a double from 0 to 1
+* @return SFX volume as a float from 0 to 1
 */
-double WAudioController::getSfxVolume()
+float WAudioController::getSfxVolume()
 {
 	return sfxVolume;
 }
 
 /**
 * Get music volume
-* @return Music volume as a double from 0 to 1
+* @return Music volume as a float from 0 to 1
 */
-double WAudioController::getMusicVolume()
+float WAudioController::getMusicVolume()
 {
 	return musicVolume;
 }

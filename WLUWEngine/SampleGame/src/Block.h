@@ -12,7 +12,7 @@ namespace WLUW::SampleGame
 		Block(Hitbox& hitbox);
 		Block(Hitbox& hitbox, WTexture* texture);
 
-		void update(double deltaTime) {};
+		void update(float deltaTime) {};
 		void render(SDL_Renderer* renderer);
 
 		// Event callbacks

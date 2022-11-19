@@ -45,7 +45,7 @@ namespace WLUW
 		WObject& operator=(WObject&& other) noexcept;
 
 		// Update functions
-		virtual void update(double deltaTime) = 0;
+		virtual void update(float deltaTime) = 0;
 		virtual void render(SDL_Renderer* renderer) = 0;
 
 		bool shouldDraw;

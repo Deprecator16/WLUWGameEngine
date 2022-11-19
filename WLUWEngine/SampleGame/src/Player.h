@@ -18,9 +18,9 @@ namespace WLUW::SampleGame
 		Player(InputManager* inputManager);
 
 		// Updaters
-		void update(double deltaTime);
-		void handleInput(double deltaTime);
-		void doPhysics(double deltaTime);
+		void update(float deltaTime);
+		void handleInput(float deltaTime);
+		void doPhysics(float deltaTime);
 		void render(SDL_Renderer* renderer);
 
 		// Event callbacks
@@ -37,9 +37,9 @@ namespace WLUW::SampleGame
 
 	private:
 		// Movement
-		double speed;
-		double jumpHeight;
-		double gravity;
+		float speed;
+		float jumpHeight;
+		float gravity;
 		Vector2 tmpVel;
 		bool collideBottom;
 		bool collideTop;

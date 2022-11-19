@@ -30,7 +30,7 @@ namespace WLUW::SampleGame
 		void freeObjects();
 
 		// Updaters
-		void update(double deltaTime);
+		void update(float deltaTime);
 		void render(SDL_Renderer* renderer);
 
 		// Loaders

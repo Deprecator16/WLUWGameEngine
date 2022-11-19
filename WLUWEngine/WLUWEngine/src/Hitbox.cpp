@@ -77,7 +77,7 @@ WLUW::Hitbox& WLUW::Hitbox::operator=(Hitbox&& other) noexcept
 	return *this;
 }
 
-void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaTime)
+void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, float deltaTime)
 {
 	// Only handle collisions for soft objects
 	if (inertia == Inertia::HARD)
@@ -218,7 +218,7 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, double deltaT
 	std::cout << "vel after solving loop: " << vel << ", vel.x == vel.y: " << xyEqual << std::endl;
 }
 
-void WLUW::Hitbox::move(std::vector<WObject*> objects, double deltaTime)
+void WLUW::Hitbox::move(std::vector<WObject*> objects, float deltaTime)
 {
 	if (inertia == Inertia::HARD)
 		return;

@@ -26,7 +26,7 @@ namespace WLUW
 
 		// Helper functions
 		Vector2 slope() { return second - first; }
-		double size() { return (second - first).size(); }
+		float size() { return (second - first).size(); }
 		Vector2 midpoint() { return first + ((second - first) / 2.0); }
 		Vector2 normal() const { return (second - first).normal(); }
 
@@ -39,7 +39,7 @@ namespace WLUW
 		bool onSegment(Vector2 point)
 		{
 			// Check collinearity
-			double val = (this->first.y - point.y) * (this->second.x - this->first.x) - (this->first.x - point.x) * (this->second.y - this->first.y);
+			float val = (this->first.y - point.y) * (this->second.x - this->first.x) - (this->first.x - point.x) * (this->second.y - this->first.y);
 			if (val != 0.0)
 				return false;
 
@@ -88,14 +88,14 @@ namespace WLUW
 		static bool areParallel(Edge edge1, Edge edge2)
 		{
 			// Line 1 represented as a1x + b1y = c1
-			double a1 = edge1.second.y - edge1.first.y;
-			double b1 = edge1.first.x - edge1.second.x;
+			float a1 = edge1.second.y - edge1.first.y;
+			float b1 = edge1.first.x - edge1.second.x;
 
 			// Line 2 represented as a2x + b2y = c2
-			double a2 = edge2.second.y - edge2.first.y;
-			double b2 = edge2.first.x - edge2.second.x;
+			float a2 = edge2.second.y - edge2.first.y;
+			float b2 = edge2.first.x - edge2.second.x;
 
-			double determinant = a1 * b2 - a2 * b1;
+			float determinant = a1 * b2 - a2 * b1;
 
 			return determinant == 0.0;
 		}
@@ -110,23 +110,23 @@ namespace WLUW
 		static Vector2 getPointOfIntersection(Edge edge1, Edge edge2)
 		{
 			// Line 1 represented as a1x + b1y = c1
-			double a1 = edge1.second.y - edge1.first.y;
-			double b1 = edge1.first.x - edge1.second.x;
-			double c1 = a1 * (edge1.first.x) + b1 * (edge1.first.y);
+			float a1 = edge1.second.y - edge1.first.y;
+			float b1 = edge1.first.x - edge1.second.x;
+			float c1 = a1 * (edge1.first.x) + b1 * (edge1.first.y);
 
 			// Line 2 represented as a2x + b2y = c2
-			double a2 = edge2.second.y - edge2.first.y;
-			double b2 = edge2.first.x - edge2.second.x;
-			double c2 = a2 * (edge2.first.x) + b2 * (edge2.first.y);
+			float a2 = edge2.second.y - edge2.first.y;
+			float b2 = edge2.first.x - edge2.second.x;
+			float c2 = a2 * (edge2.first.x) + b2 * (edge2.first.y);
 
-			double determinant = a1 * b2 - a2 * b1;
+			float determinant = a1 * b2 - a2 * b1;
 
 			if (determinant == 0) // Check if lines are parallel
 				throw("Lines parallel");
 
 			// Get point of intersection
-			double x = (b2 * c1 - b1 * c2) / determinant;
-			double y = (a1 * c2 - a2 * c1) / determinant;
+			float x = (b2 * c1 - b1 * c2) / determinant;
+			float y = (a1 * c2 - a2 * c1) / determinant;
 
 			return Vector2(x, y);
 		}
@@ -135,31 +135,31 @@ namespace WLUW
 		// Addition
 		friend Edge operator+(const Edge edge1, const Edge edge2) { return Edge(edge1.first + edge2.first, edge1.second + edge2.second); }
 		friend Edge operator+(const Edge edge, const Vector2 vec) { return Edge(edge.first + vec, edge.second + vec); }
-		friend Edge operator+(const Edge edge, const double scalar) { return Edge(edge.first + scalar, edge.second + scalar); }
+		friend Edge operator+(const Edge edge, const float scalar) { return Edge(edge.first + scalar, edge.second + scalar); }
 		Edge& operator+=(const Edge& other) { this->first += other.first; this->second += other.second; return *this; }
 		Edge& operator+=(const Vector2& vec) { this->first += vec; this->second += vec; return *this; }
-		Edge& operator+=(const double& scalar) { this->first += scalar; this->second += scalar; return *this; }
+		Edge& operator+=(const float& scalar) { this->first += scalar; this->second += scalar; return *this; }
 
 		// Subtraction
 		friend Edge operator-(const Edge edge1, const Edge edge2) { return edge1 + (-edge2); }
 		friend Edge operator-(const Edge edge, const Vector2 vec) { return Edge(edge.first - vec, edge.second - vec); }
-		friend Edge operator-(const Edge edge, const double scalar) { return Edge(edge.first - scalar, edge.second - scalar); }
+		friend Edge operator-(const Edge edge, const float scalar) { return Edge(edge.first - scalar, edge.second - scalar); }
 		Edge& operator-=(const Edge& other) { this->first -= other.first; this->second -= other.second; return *this; }
 		Edge& operator-=(const Vector2& vec) { this->first -= vec; this->second -= vec; return *this; }
-		Edge& operator-=(const double& scalar) { this->first -= scalar; this->second -= scalar; return *this; }
+		Edge& operator-=(const float& scalar) { this->first -= scalar; this->second -= scalar; return *this; }
 
 		// Multiplication
-		friend Edge operator*(const Edge edge, const double scalar) { return Edge(edge.first * scalar, edge.second * scalar); }
-		Edge& operator*=(const double& scalar) { this->first *= scalar; this->second *= scalar; return *this; }
+		friend Edge operator*(const Edge edge, const float scalar) { return Edge(edge.first * scalar, edge.second * scalar); }
+		Edge& operator*=(const float& scalar) { this->first *= scalar; this->second *= scalar; return *this; }
 
 		// Division
-		friend Edge operator/(const Edge edge, const double scalar)
+		friend Edge operator/(const Edge edge, const float scalar)
 		{
 			if (scalar == 0.0)
 				throw("Division by zero");
 			return Edge(edge.first / scalar, edge.second / scalar);
 		}
-		Edge& operator/=(const double& scalar)
+		Edge& operator/=(const float& scalar)
 		{
 			if (scalar == 0.0)
 				throw("Division by zero");

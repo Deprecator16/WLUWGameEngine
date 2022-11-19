@@ -18,11 +18,11 @@ namespace WLUW
 	class Physics
 	{
 	public:
-        static std::vector<WObject*> shapecastAll(std::vector<WObject*> objects, Shape shape, Vector2 direction, double distance);
+        static bool checkCollision(Shape& a, Shape& b);
 
-        static std::vector<ContactPoint> getContactPoints(Shape* softBox, Shape* hardBox, Vector2 direction, double distance);
-
-        static Collision getCollisionData(WObject* softObject, WObject* hardObject, double deltaTime);
+        static std::vector<WObject*> shapecastAll(std::vector<WObject*> objects, Shape shape, Vector2 direction, float distance);
+        static std::vector<ContactPoint> getContactPoints(Shape* softBox, Shape* hardBox, Vector2 direction, float distance);
+        static Collision getCollisionData(WObject* softObject, WObject* hardObject, float deltaTime);
 
         static bool clips(Hitbox* softBox, std::vector<WObject*> objects);
 

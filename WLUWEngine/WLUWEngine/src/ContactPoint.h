@@ -19,7 +19,7 @@ namespace WLUW
 		Vector2 point;
 		Vector2 normal;
 		Vector2 separation;
-		double fraction;
+		float fraction;
 		ContactType contactType;
 
 		static bool compare(ContactPoint& a, ContactPoint& b)

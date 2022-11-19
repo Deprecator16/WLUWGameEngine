@@ -14,11 +14,11 @@ public:
 	unordered_map<string, Mix_Chunk*> sfx; //Dictionary of sound effects
 	unordered_map<string, Mix_Music*> music; //Dictionary of music
 
-	double sfxVolume = 1.0f; //SFX volume
-	double musicVolume = 1.0f; //Music volume
+	float sfxVolume = 1.0f; //SFX volume
+	float musicVolume = 1.0f; //Music volume
 
 	//Constructors and destructor
-	WAudioController(double sVolume = 1.0f, double mVolume = 1.0f);
+	WAudioController(float sVolume = 1.0f, float mVolume = 1.0f);
 	~WAudioController();
 
 	//Sound file loading functions
@@ -34,10 +34,10 @@ public:
 	Mix_Music* getMusic(string key);
 
 	//Volume functions
-	double setSfxVolume(double volume);
-	double setMusicVolume(double volume);
-	double getSfxVolume();
-	double getMusicVolume();
+	float setSfxVolume(float volume);
+	float setMusicVolume(float volume);
+	float getSfxVolume();
+	float getMusicVolume();
 
 	//Play SFX functions
 	int playSfxLooped(string key, int loops);

@@ -13,7 +13,7 @@ namespace WLUW
 		Vector2 point;
 		Vector2 normal;
 		Vector2 separation;
-		double fraction; // The fraction along the ray where the hit occurred
+		float fraction; // The fraction along the ray where the hit occurred
 		Hitbox* hitbox;
 
 		static bool compare(RaycastHit hit1, RaycastHit hit2)
