@@ -16,7 +16,8 @@ namespace WLUW
 			POINT
 		};
 
-		Vector2 point;
+		Vector2 pointOfContact;
+		Vector2 pointDoingContact;
 		Vector2 normal;
 		Vector2 separation;
 		float fraction;

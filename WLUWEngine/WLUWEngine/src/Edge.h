@@ -43,7 +43,7 @@ namespace WLUW
 			if (val != 0.0)
 				return false;
 
-			return (point - this->first).size() + (point - this->second).size() == (this->second - this->first).size();
+			return ((point - this->first).size() + (point - this->second).size() == (this->second - this->first).size());
 		}
 
 		/**
@@ -55,6 +55,17 @@ namespace WLUW
 		 */
 		static bool areIntersecting(Edge edge1, Edge edge2)
 		{
+			/*
+			// Check AABB
+			Edge aabb1 = edge1.getAABB();
+			Edge aabb2 = edge2.getAABB();
+			if (!(aabb1.second.x >= aabb2.first.x &&
+				aabb2.second.x >= aabb1.first.x &&
+				aabb1.second.y >= aabb2.first.y &&
+				aabb2.second.y >= aabb1.first.y))
+				return false;
+				*/
+
 			// Find the four orientations needed for general and special cases
 			Vector2::Orientation o1 = Vector2::getOrientation(edge1.first, edge1.second, edge2.first);
 			Vector2::Orientation o2 = Vector2::getOrientation(edge1.first, edge1.second, edge2.second);
@@ -109,27 +120,30 @@ namespace WLUW
 		 */
 		static Vector2 getPointOfIntersection(Edge edge1, Edge edge2)
 		{
+			// Use doubles to increase precision
 			// Line 1 represented as a1x + b1y = c1
-			float a1 = edge1.second.y - edge1.first.y;
-			float b1 = edge1.first.x - edge1.second.x;
-			float c1 = a1 * (edge1.first.x) + b1 * (edge1.first.y);
+			double a1 = edge1.second.y - edge1.first.y;
+			double b1 = edge1.first.x - edge1.second.x;
+			double c1 = a1 * (edge1.first.x) + b1 * (edge1.first.y);
 
 			// Line 2 represented as a2x + b2y = c2
-			float a2 = edge2.second.y - edge2.first.y;
-			float b2 = edge2.first.x - edge2.second.x;
-			float c2 = a2 * (edge2.first.x) + b2 * (edge2.first.y);
+			double a2 = edge2.second.y - edge2.first.y;
+			double b2 = edge2.first.x - edge2.second.x;
+			double c2 = a2 * (edge2.first.x) + b2 * (edge2.first.y);
 
-			float determinant = a1 * b2 - a2 * b1;
+			double determinant = a1 * b2 - a2 * b1;
 
 			if (determinant == 0) // Check if lines are parallel
 				throw("Lines parallel");
 
 			// Get point of intersection
-			float x = (b2 * c1 - b1 * c2) / determinant;
-			float y = (a1 * c2 - a2 * c1) / determinant;
+			double x = (b2 * c1 - b1 * c2) / determinant;
+			double y = (a1 * c2 - a2 * c1) / determinant;
 
 			return Vector2(x, y);
 		}
+
+		Edge getAABB() { return Edge(Vector2(std::min(this->first.x, this->second.x), std::min(this->first.y, this->second.y)), Vector2(std::max(this->first.x, this->second.x), std::max(this->first.y, this->second.y))); }
 
 		// Overloads
 		// Addition

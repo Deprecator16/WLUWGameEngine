@@ -92,7 +92,8 @@ void WLUW::SampleGame::Game::update(float deltaTime)
 		*/
 
 
-	std::cout << "NEW FRAME ====================================================================================================" << std::endl;
+	if (debugOutput)
+		std::cout << "NEW FRAME ====================================================================================================" << std::endl;
 
 	// Update all objects
 	for (auto& o : objects)

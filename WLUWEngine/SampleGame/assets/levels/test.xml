@@ -1,6 +1,6 @@
 <root>
     <player>
-        <item x="100" y="300"/>
+        <item x="400" y="300"/>
     </player>
     <blocks>
 		// Ground

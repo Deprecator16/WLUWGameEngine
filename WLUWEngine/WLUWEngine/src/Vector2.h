@@ -58,10 +58,11 @@ namespace WLUW
 		{
 			float val = (point2.y - point1.y) * (point3.x - point2.x) - (point2.x - point1.x) * (point3.y - point2.y);
 
-			if (abs(val) < epsilon) // Make sure to compare to an episilon value (Acceptable error), otherwise the algorithm is buggy
+			//if (abs(val) < epsilon / 100.0f) // Make sure to compare to an episilon value (Acceptable error), otherwise the algorithm is buggy
+			if (val == 0.0f)
 				return Orientation::COLLINEAR;
 
-			return (val > 0) ? Orientation::CLOCKWISE : Orientation::COUNTERCLOCKWISE;
+			return (val > 0.0f) ? Orientation::CLOCKWISE : Orientation::COUNTERCLOCKWISE;
 		}
 
 		// Overloads

@@ -103,9 +103,12 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, float deltaTi
 		// Get collisions
 		std::vector<Collision> collisions;
 		for (auto& obj : objectsHit)
+		//for (auto& obj : collidables)
 		{
 			Collision collisionData = Physics::getCollisionData(linkedObj, obj, deltaTime);
 			if (collisionData.collisionType == Collision::CollisionType::NO_COLLISION)
+				continue;
+			if (collisionData.separation.size() > (vel * deltaTime).size())
 				continue;
 			collisions.push_back(collisionData);
 		}
@@ -117,58 +120,25 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, float deltaTi
 		// Sort
 		std::sort(collisions.begin(), collisions.end(), Collision::compare);
 
-		// Remove unnecessary collisions
-		for (unsigned int i = 0; i < collisions.size(); ++i)
+		if (debugOutput)
 		{
-			if (collisions[i].fraction > collisions[0].fraction)
+			std::cout << "COLLISIONS ==================================================" << std::endl;
+			for (auto& collision : collisions)
 			{
-				collisions.erase(collisions.begin() + i);
-				--i;
+				std::cout <<
+					//"[numObjectsHit=" << objectsHit.size() << "], " <<
+					"[numCollisions=" << collisions.size() << "], " <<
+					"[collidierPos=" << collision.otherObject->getHitbox()->getPos() << "], " <<
+					"[point=" << collision.point << "], " <<
+					"[normal=" << collision.normal << "], " <<
+					"[separation=" << collision.separation << "], " <<
+					"[separationSize=" << collision.separation.size() << "], " <<
+					"[fraction=" << collision.fraction << "], " <<
+					"[direction=" << collision.direction << "], " <<
+					"[collisionType=" << collision.collisionType << "], " <<
+					"[vel=" << vel << "]" <<
+					std::endl;
 			}
-		}
-
-		/*
-		// Loop through each collision
-		for (auto& collision : collisions)
-		{
-			/*
-			std::cout <<
-				objectsHit.size() << " " <<
-				"[point = " << collision.point << "], " <<
-				"[normal=" << collision.normal << "], " <<
-				"[separation=" << collision.separation << "], " <<
-				"[fraction=" << collision.fraction << "], " <<
-				"[direction=" << collision.direction << "], " <<
-				"[collisionType=" << collision.collisionType << "], " <<
-				"[vel=" << vel << "]" <<
-				std::endl;
-				
-
-			// Redirect soft object velocity
-			vel = (vel - collisions[0].separation).projectOntoAxis(collision.normal.normal());
-
-			// Trigger OnCollide callbacks
-			collision.object->OnCollide(collision.otherObject, collision);
-			collision.otherObject->OnCollide(collision.object, collision);
-		}
-		*/
-
-		std::cout << "COLLISIONS ==================================================" << std::endl;
-		for (auto& collision : collisions)
-		{
-			std::cout <<
-				"[numObjectsHit=" << objectsHit.size() << "], " <<
-				"[numCollisions=" << collisions.size() << "], " <<
-				"[collidierPos=" << collision.otherObject->getHitbox()->getPos() << "], " <<
-				"[point=" << collision.point << "], " <<
-				"[normal=" << collision.normal << "], " <<
-				"[separation=" << collision.separation << "], " <<
-				"[separationSize=" << collision.separation.size() << "], " <<
-				"[fraction=" << collision.fraction << "], " <<
-				"[direction=" << collision.direction << "], " <<
-				"[collisionType=" << collision.collisionType << "], " <<
-				"[vel=" << vel << "]" <<
-				std::endl;
 		}
 
 		// Redirect soft object velocity
@@ -184,9 +154,10 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, float deltaTi
 
 
 
-		if (Physics::clips(this, collidables))
+		if (debugOutput)
 		{
-			std::cout << "Object clips during solving loop" << std::endl;
+			if (Physics::clips(this, collidables))
+				std::cout << "Object clips during solving loop" << std::endl;
 		}
 		
 		/*
@@ -209,13 +180,14 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, float deltaTi
 			break;
 	}
 
-	if (Physics::clips(this, collidables))
+	if (debugOutput)
 	{
-		std::cout << "Object clips after solving loop" << std::endl;
+		if (Physics::clips(this, collidables))
+			std::cout << "Object clips after solving loop" << std::endl;
 	}
 
-	bool xyEqual = (vel.x == vel.y) || (vel.x == -vel.y);
-	std::cout << "vel after solving loop: " << vel << ", vel.x == vel.y: " << xyEqual << std::endl;
+	if (debugOutput)
+		std::cout << "AFTER SOLVING LOOP: pos=" << pos << ", vel=" << vel <<std::endl;
 }
 
 void WLUW::Hitbox::move(std::vector<WObject*> objects, float deltaTime)
@@ -234,17 +206,19 @@ void WLUW::Hitbox::move(std::vector<WObject*> objects, float deltaTime)
 		}
 	}
 
-	if (Physics::clips(this, collidables))
+	if (debugOutput)
 	{
-		std::cout << "Object clips before movement" << std::endl;
+		if (Physics::clips(this, collidables))
+			std::cout << "Object clips before movement" << std::endl;
 	}
 
 
 	pos = pos + (vel * deltaTime);
 
 
-	if (Physics::clips(this, collidables))
+	if (debugOutput)
 	{
-		std::cout << "Object clips after movement" << std::endl;
+		if (Physics::clips(this, collidables))
+			std::cout << "Object clips after movement" << std::endl;
 	}
 }

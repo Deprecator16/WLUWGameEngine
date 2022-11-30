@@ -200,14 +200,6 @@ namespace WLUW
 
 		void setPos(Vector2 pos) { this->pos = pos; }
 
-
-
-		std::vector<Vector2> getAxes();
-		Vector2 projectPolygon(Vector2 axis);
-
-
-
-
 	protected:
 		ShapeType type;					/* Type of shape */
 		Vector2 pos;					/* Position of shape */
