@@ -356,7 +356,18 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 	//     There's only one contact point with the smallest fracton
 	//     That contact point is with a point and not an edge
 
-	if (contacts.size() > 1)
+	// Check for slant collision
+	bool isSoftPoint = false;
+	for (auto& point : softObject->getHitbox()->getPoints())
+	{
+		if (contacts[0].pointDoingContact == point)
+		{
+			isSoftPoint = true;
+			break;
+		}
+	}
+
+	if (isSoftPoint)
 	{
 		// Project all contact points onto the velocity's normal vector
 		Vector2 velNormal = softObject->getHitbox()->getVel().normal().normalized();
@@ -370,7 +381,7 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 			if (proj > maxProj.second)
 				maxProj = std::make_pair(contact, proj);
 		}
-		
+
 		if (minProj.first.pointOfContact == contacts[0].pointOfContact || maxProj.first.pointOfContact == contacts[0].pointOfContact)
 		{
 			if (debugOutput)
@@ -379,98 +390,13 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 			Vector2 normal = (contacts[1].pointOfContact - contacts[0].pointOfContact).normal().normalized();
 			return Collision(softObject, hardObject, contacts[0].pointOfContact, normal, contacts[0].separation, contacts[0].fraction, getDirectionOfImpact(softObject->getHitbox(), contacts[0].pointOfContact, contacts[0].normal), Collision::CollisionType::EDGE);
 		}
-		// We have a point collision
-		else
-		{
-			if (debugOutput)
-				std::cout << "POINT CONTACT" << std::endl;
-
-			return Collision(softObject, hardObject, contacts[0].pointOfContact, contacts[0].normal, contacts[0].separation, contacts[0].fraction, getDirectionOfImpact(softObject->getHitbox(), contacts[0].pointOfContact, contacts[0].normal), Collision::CollisionType::POINT);
-		}
 	}
 
-	/*
-	Edge edge1, edge2;
-	for (unsigned int i = 0; i < hardObject->getHitbox()->getPoints().size(); ++i)
-	{
-		// Get the two edges that the contact point is an endpoint of
-		if (hardObject->getHitbox()->getPos() + hardObject->getHitbox()->getPoints()[i] == contacts[0].pointOfContact)
-		{
-			edge1 = Edge(
-				hardObject->getHitbox()->getPos() + hardObject->getHitbox()->getPoints()[(i + hardObject->getHitbox()->getPoints().size() - 1) % hardObject->getHitbox()->getPoints().size()],
-				hardObject->getHitbox()->getPos() + hardObject->getHitbox()->getPoints()[i]
-			);
-			edge2 = Edge(
-				hardObject->getHitbox()->getPos() + hardObject->getHitbox()->getPoints()[i],
-				hardObject->getHitbox()->getPos() + hardObject->getHitbox()->getPoints()[(i + 1) % hardObject->getHitbox()->getPoints().size()]
-			);
-
-			break;
-		}
-	}
-
-	// Check if any other contact points are along the two edges above
-	ContactPoint edge1Contact, edge2Contact;
-	for (auto& contact : contacts)
-	{
-		if (edge1Contact.contactType == ContactPoint::ContactType::NO_CONTACT && edge1.onSegment(contact.pointOfContact))
-			edge1Contact = contact;
-		if (edge2Contact.contactType == ContactPoint::ContactType::NO_CONTACT && edge2.onSegment(contact.pointOfContact))
-			edge2Contact = contact;
-	}
-
-	// Only one edge contains a contact point
-	// edge1 has contact
-	if (edge1Contact.contactType != ContactPoint::ContactType::NO_CONTACT && edge2Contact.contactType == ContactPoint::ContactType::NO_CONTACT)
-	{
-		if (debugOutput)
-			std::cout << "FOUR " << contacts[0].pointOfContact << std::endl;
-
-		Vector2 normal = (edge1Contact.pointOfContact - contacts[0].pointOfContact).normal().normalized();
-		return Collision(softObject, hardObject, contacts[0].pointOfContact, normal, contacts[0].separation, contacts[0].fraction, getDirectionOfImpact(softObject->getHitbox(), contacts[0].pointOfContact, normal), Collision::CollisionType::EDGE);
-	}
-	// edge2 has contact
-	if (edge1Contact.contactType == ContactPoint::ContactType::NO_CONTACT && edge2Contact.contactType != ContactPoint::ContactType::NO_CONTACT)
-	{
-		if (debugOutput)
-			std::cout << "FIVE " << contacts[0].pointOfContact << std::endl;
-
-		Vector2 normal = (edge2Contact.pointOfContact - contacts[0].pointOfContact).normal().normalized();
-		return Collision(softObject, hardObject, contacts[0].pointOfContact, normal, contacts[0].separation, contacts[0].fraction, getDirectionOfImpact(softObject->getHitbox(), contacts[0].pointOfContact, normal), Collision::CollisionType::EDGE);
-	}
-
-	// Both edges contain contact points, we have a point collision
-	if (edge1Contact.contactType != ContactPoint::ContactType::NO_CONTACT && edge2Contact.contactType != ContactPoint::ContactType::NO_CONTACT)
-	{
-
-		// Ignore point-to-point collisions
-		for (auto& point : softObject->getHitbox()->getPoints())
-		{
-			if ((contacts[0].pointDoingContact - (softObject->getHitbox()->getPos() + point)).size() < epsilon)
-			{
-				if (debugOutput)
-				{
-					std::cout << "EIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHT" << std::endl;
-					std::cout << "EIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHT" << std::endl;
-					std::cout << "EIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHT" << std::endl;
-					std::cout << "EIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHT" << std::endl;
-					std::cout << "EIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHTEIGHT" << std::endl;
-				}
-				return Collision();
-			}
-		}
-
-		if (debugOutput)
-			std::cout << "SIX " << contacts[0].pointOfContact << ", " << softObject->getHitbox()->getPos() << std::endl;
-
-		return Collision(softObject, hardObject, contacts[0].pointOfContact, contacts[0].normal, contacts[0].separation, contacts[0].fraction, getDirectionOfImpact(softObject->getHitbox(), contacts[0].pointOfContact, contacts[0].normal), Collision::CollisionType::POINT);
-	}
-	*/
-
+	// We have a point collision
 	if (debugOutput)
-		std::cout << "SEVEN" << std::endl;
+		std::cout << "POINT CONTACT" << std::endl;
 
-	return Collision();
+	return Collision(softObject, hardObject, contacts[0].pointOfContact, contacts[0].normal, contacts[0].separation, contacts[0].fraction, getDirectionOfImpact(softObject->getHitbox(), contacts[0].pointOfContact, contacts[0].normal), Collision::CollisionType::POINT);
 }
 
 bool WLUW::Physics::clips(Hitbox* softBox, std::vector<WObject*> objects)
