@@ -94,6 +94,12 @@ void WLUW::Hitbox::handleCollisions(std::vector<WObject*> objects, float deltaTi
 		}
 	}
 
+	if (debugOutput)
+	{
+		if (Physics::clips(this, collidables))
+			std::cout << "Object clips before solving loop" << std::endl;
+	}
+
 	// Find and resolve collisions until no more can be found
 	while (true)
 	{

@@ -74,6 +74,7 @@ std::vector<WLUW::WObject*> WLUW::Physics::shapecastAll(std::vector<WObject*> ob
 std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 end, float fractionBase)
 {
 	std::vector<ContactPoint> contacts;
+	Vector2 castDirection = (end - start).normalized();
 
 	// Loop through all edges in object
 	for (unsigned int i = 0; i < shape->getPoints().size(); ++i)
@@ -84,7 +85,7 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 		));
 
 		// Continue if line is parallel to current edge
-		if (Edge::areParallel(Edge(start, end), edge))
+		if (Edge::areParallel(Edge(start - (castDirection * epsilon), end), edge))
 			continue;
 
 		/*
@@ -100,7 +101,7 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 		*/
 
 		// Check for intersection
-		if (Edge::areIntersecting(Edge(start, end), edge))
+		if (Edge::areIntersecting(Edge(start - (castDirection * epsilon), end), edge))
 		{
 
 			// Find point of intersection of line with edge
@@ -109,7 +110,7 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 			if (edge.onSegment(start))
 				pointOfIntersection = start;
 			else
-				pointOfIntersection = Edge::getPointOfIntersection(Edge(start, end), edge);
+				pointOfIntersection = Edge::getPointOfIntersection(Edge(start - (castDirection * epsilon), end), edge);
 
 			// Determine contact point type
 			ContactPoint::ContactType contactType = ContactPoint::ContactType::EDGE;
@@ -289,7 +290,9 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 	// Check if no contacts were detected
 	if (contacts.size() == 0)
 	{
-		std::cout << "NO CONTACTS" << std::endl;
+		if (debugOutput)
+			std::cout << "NO CONTACTS" << std::endl;
+
 		return Collision();
 	}
 
@@ -328,7 +331,9 @@ Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObje
 	// Check if not enough contacts were detected
 	if (contacts.size() < 2)
 	{
-		std::cout << "NOT ENOUGH CONTACTS" << std::endl;
+		if (debugOutput)
+			std::cout << "NOT ENOUGH CONTACTS" << std::endl;
+
 		return Collision();
 	}
 
