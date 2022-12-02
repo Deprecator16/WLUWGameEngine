@@ -209,7 +209,7 @@ MTV WLUW::Shape::checkCollision(const Shape& a, const Shape& b)
         if (!std::any_of(
             allAxes.begin(),
             allAxes.end(),
-            [=](Vector2 vec) { return (vec.dot(axis) == vec.size() * axis.size()) || (vec.dot(axis) == -vec.size() * axis.size()); }))
+            [=](Vector2 vec) { return vec.dot(axis) == vec.size() * axis.size(); }))
         {
             allAxes.push_back(std::move(axis));
         }
@@ -277,7 +277,7 @@ void WLUW::Shape::calcNormals()
         if (!std::any_of(
             newNormals.begin(),
             newNormals.end(),
-            [=](Vector2 vec) { return (vec.dot(normal) == vec.size() * normal.size()) || (vec.dot(normal) == -vec.size() * normal.size()); })
+            [=](Vector2 vec) { return vec.dot(normal) == vec.size() * normal.size(); })
            )
         {
             newNormals.push_back(std::move(normal));
@@ -401,5 +401,23 @@ Vector2 WLUW::Shape::getCenter()
     center = center / points.size();
 
     return (pos + center);
+}
+
+float WLUW::Shape::getBoundingBoxSize()
+{
+    if (type == ShapeType::CIRCLE)
+        return Vector2(radius * 2, radius * 2).size();
+
+    if (points.size() == 0)
+        return 0;
+
+    Vector2 min = points[0], max = points[0];
+    for (auto& point : points)
+    {
+        min = Vector2(std::min(point.x, min.x), std::min(point.y, min.y));
+        max = Vector2(std::max(point.x, max.x), std::max(point.y, max.y));
+    }
+
+    return (max - min).size();
 }
 

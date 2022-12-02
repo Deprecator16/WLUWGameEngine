@@ -30,6 +30,8 @@ namespace WLUW
 
 			if (a.fraction < b.fraction) return true;
 			if (a.fraction > b.fraction) return false;
+			//if (b.fraction - a.fraction > 0.001f) return true;
+			//if (a.fraction - b.fraction > 0.001f) return false;
 
 			if (a.contactType == ContactType::EDGE && b.contactType == ContactType::POINT) return true;
 			if (a.contactType == ContactType::POINT && b.contactType == ContactType::EDGE) return false;

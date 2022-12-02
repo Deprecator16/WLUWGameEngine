@@ -103,7 +103,6 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 		// Check for intersection
 		if (Edge::areIntersecting(Edge(start - (castDirection * epsilon), end), edge))
 		{
-
 			// Find point of intersection of line with edge
 			Vector2 pointOfIntersection;
 
@@ -284,7 +283,8 @@ Collision::Direction getDirectionOfImpact(Hitbox* box, Vector2 point, Vector2 no
 
 Collision WLUW::Physics::getCollisionData(WObject* softObject, WObject* hardObject, float deltaTime)
 {
-	std::vector<ContactPoint> contacts = getContactPoints(softObject->getHitbox(), hardObject->getHitbox(), softObject->getHitbox()->getVel().normalized(), 500.0f, softObject->getHitbox()->getVel().size() * deltaTime);
+	float hardBoundingBoxSize = hardObject->getHitbox()->getBoundingBoxSize();
+	std::vector<ContactPoint> contacts = getContactPoints(softObject->getHitbox(), hardObject->getHitbox(), softObject->getHitbox()->getVel().normalized(), std::max(hardBoundingBoxSize * 2, 5000.0f), softObject->getHitbox()->getVel().size() * deltaTime);
 	//std::vector<ContactPoint> contacts = getContactPoints(softObject->getHitbox(), hardObject->getHitbox(), softObject->getHitbox()->getVel().normalized(), 500.0f, 500.0f);
 
 	// Check if no contacts were detected
@@ -417,7 +417,7 @@ bool WLUW::Physics::clips(Hitbox* softBox, std::vector<WObject*> objects)
 		if (debugOutput)
 			std::cout << "Object clips in direction: " << mtv.first << " by: " << mtv.second << std::endl;
 
-		//softBox->setPos(softBox->getPos() + (mtv.first * mtv.second));
+		//softBox->setPos(softBox->getPos() - (mtv.first * mtv.second));
 
 		return true;
 	}

@@ -194,6 +194,9 @@ namespace WLUW
 		/**\return The center point of shape */
 		Vector2 getCenter();
 
+		/**\return The size of the shape's bounding box */
+		float getBoundingBoxSize();
+
 		/////////////////////
 		//// Setter Methods
 		/////////////////////
