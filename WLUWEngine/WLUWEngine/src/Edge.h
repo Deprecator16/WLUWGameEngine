@@ -29,6 +29,7 @@ namespace WLUW
 		float size() { return (second - first).size(); }
 		Vector2 midpoint() { return first + ((second - first) / 2.0); }
 		Vector2 normal() const { return (second - first).normal(); }
+		Vector2 lerp(float fraction) { return first + ((second - first) * fraction); }
 
 		/**
 		 * \brief Helper function that returns whether a given point lies on a given edge

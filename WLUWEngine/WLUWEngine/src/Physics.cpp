@@ -71,7 +71,7 @@ std::vector<WLUW::WObject*> WLUW::Physics::shapecastAll(std::vector<WObject*> ob
 	return objectsHit;
 }
 
-std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 end, float fractionBase)
+std::vector<ContactPoint> linecastAll(Shape* shape, Vector2 start, Vector2 end, float fractionBase)
 {
 	std::vector<ContactPoint> contacts;
 	Vector2 castDirection = (end - start).normalized();
@@ -130,9 +130,9 @@ std::vector<ContactPoint> linecastContacts(Shape* shape, Vector2 start, Vector2 
 	return contacts;
 }
 
-ContactPoint linecastContact(Shape* shape, Vector2 start, Vector2 end, float fractionBase)
+ContactPoint linecast(Shape* shape, Vector2 start, Vector2 end, float fractionBase)
 {
-	std::vector<ContactPoint> contacts = linecastContacts(shape, start, end, fractionBase);
+	std::vector<ContactPoint> contacts = linecastAll(shape, start, end, fractionBase);
 	if (contacts.size() == 0)
 		return ContactPoint();
 
@@ -182,7 +182,7 @@ std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape*
 
 		// Get contact result from casting the line
 		//ContactPoint newContact = linecastContact(hardBox, softPoint, softPoint + (direction * distance), distance);
-		ContactPoint newContact = linecastContact(hardBox, softPoint, softPoint + (raycastDirection * raycastDistance), fractionBase);
+		ContactPoint newContact = linecast(hardBox, softPoint, softPoint + (raycastDirection * raycastDistance), fractionBase);
 
 		// Check if no contact was found
 		if (newContact.contactType == ContactPoint::ContactType::NO_CONTACT)
@@ -219,7 +219,7 @@ std::vector<ContactPoint> WLUW::Physics::getContactPoints(Shape* softBox, Shape*
 
 		// Get contact result from casting the line
 		//ContactPoint newContact = linecastContact(softBox, hardPoint, hardPoint - (direction * distance), distance);
-		ContactPoint newContact = linecastContact(softBox, hardPoint, hardPoint - (raycastDirection * raycastDistance), fractionBase);
+		ContactPoint newContact = linecast(softBox, hardPoint, hardPoint - (raycastDirection * raycastDistance), fractionBase);
 
 		// Check if no contact was found
 		if (newContact.contactType == ContactPoint::ContactType::NO_CONTACT)
