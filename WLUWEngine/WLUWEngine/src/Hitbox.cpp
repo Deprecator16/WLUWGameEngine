@@ -218,7 +218,7 @@ void WLUW::Hitbox::move(std::vector<WObject*> objects, float deltaTime)
 			std::cout << "Object clips before movement" << std::endl;
 	}
 
-
+	// Move body
 	pos = pos + (vel * deltaTime);
 
 
