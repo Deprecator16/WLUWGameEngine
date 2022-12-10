@@ -120,24 +120,25 @@ namespace WLUW
 		 */
 		static Vector2 getPointOfIntersection(Edge edge1, Edge edge2)
 		{
+			// Use doubles to increase precision
 			// Line 1 represented as a1x + b1y = c1
-			float a1 = edge1.second.y - edge1.first.y;
-			float b1 = edge1.first.x - edge1.second.x;
-			float c1 = a1 * (edge1.first.x) + b1 * (edge1.first.y);
+			double a1 = edge1.second.y - edge1.first.y;
+			double b1 = edge1.first.x - edge1.second.x;
+			double c1 = a1 * (edge1.first.x) + b1 * (edge1.first.y);
 
 			// Line 2 represented as a2x + b2y = c2
-			float a2 = edge2.second.y - edge2.first.y;
-			float b2 = edge2.first.x - edge2.second.x;
-			float c2 = a2 * (edge2.first.x) + b2 * (edge2.first.y);
+			double a2 = edge2.second.y - edge2.first.y;
+			double b2 = edge2.first.x - edge2.second.x;
+			double c2 = a2 * (edge2.first.x) + b2 * (edge2.first.y);
 
-			float determinant = a1 * b2 - a2 * b1;
+			double determinant = a1 * b2 - a2 * b1;
 
 			if (determinant == 0) // Check if lines are parallel
 				throw("Lines parallel");
 
 			// Get point of intersection
-			float x = (b2 * c1 - b1 * c2) / determinant;
-			float y = (a1 * c2 - a2 * c1) / determinant;
+			double x = (b2 * c1 - b1 * c2) / determinant;
+			double y = (a1 * c2 - a2 * c1) / determinant;
 
 			return Vector2(x, y);
 		}
